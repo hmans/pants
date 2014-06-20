@@ -2,10 +2,19 @@
 @import "compass";
 @import "compass/reset";
 
+%font-default {
+  font: 17px/24px 'Roboto', sans-serif;
+}
+
+
+// set up border-box sizing model
+* { @include box-sizing(inherit); }
+html, body { @include box-sizing(border-box); }
+
 body {
+  @extend %font-default;
   background-color: #fff;
   color: #444;
-  font: 17px/24px 'Roboto', sans-serif;
 }
 
 
@@ -30,4 +39,18 @@ div.post {
 
 div.post-time {
   color: #999;
+}
+
+
+// FORMS
+input, textarea, select {
+  @extend %font-default;
+}
+
+label {
+  display: block;
+}
+
+textarea, input[type="text"] {
+  width: 100%;
 }
