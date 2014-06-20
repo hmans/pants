@@ -6,7 +6,6 @@
   font: 17px/24px 'Roboto', sans-serif;
 }
 
-
 // set up border-box sizing model
 * { @include box-sizing(inherit); }
 html, body { @include box-sizing(border-box); }
@@ -23,6 +22,8 @@ body {
 #main {
   margin-left: auto;
   margin-right: auto;
+  margin-top: 80px;
+  margin-bottom: 400px;
   max-width: 800px;
 }
 
