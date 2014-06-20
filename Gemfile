@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # Core
 gem 'rails', '4.1.1'
 gem 'pg'
+gem 'quiet_assets'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
