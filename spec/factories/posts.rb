@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :post do
     body { Faker::Lorem.paragraphs.join("\n\n") }
-    created_at { rand(300).hours.ago }
+    created_at { rand(300000).minutes.ago }
   end
 end
