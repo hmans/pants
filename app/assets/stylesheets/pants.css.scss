@@ -3,6 +3,8 @@
 @import "compass/reset";
 
 body {
+  background-color: #fff;
+  color: #444;
   font: 17px/24px 'Roboto', sans-serif;
 }
 
@@ -24,4 +26,8 @@ p {
 // POSTS
 div.post {
   margin: 3em 0;
+}
+
+div.post-time {
+  color: #999;
 }

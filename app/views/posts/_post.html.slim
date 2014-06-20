@@ -1,2 +1,4 @@
 = div_for post do
+  .post-time
+    = l post.created_at, format: :short
   = simple_format post.body
