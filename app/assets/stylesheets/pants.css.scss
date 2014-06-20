@@ -55,9 +55,21 @@ em, i {
   color: $color-light;
 }
 
+// HEADINGS
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+h1, h2 {
+  color: #000;
+  border-bottom: 1px solid #000;
+}
+
 // POSTS
 div.post {
-  margin: 3em 0;
+  margin: 1em 0 3em 0;
   position: relative;
 }
 

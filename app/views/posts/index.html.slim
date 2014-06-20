@@ -1,4 +1,6 @@
 - if can?(:create, Post)
   = render 'form', post: Post.new
-  
-= render @posts
+
+- @posts.group_by { |p| p.created_at.to_date }.each do |date, posts|
+  h1 = l date, format: :long
+  = render posts
