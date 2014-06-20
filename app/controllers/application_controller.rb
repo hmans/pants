@@ -8,7 +8,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_site, :current_user
 
   def current_user
-    nil
+    @current_user ||= begin
+      if session[:current_user].present?
+        User.find_by!(domain: session[:current_user])
+      end
+    rescue ActiveRecord::RecordNotFound
+      session[:current_user] = nil
+    end
   end
 
   def current_site
