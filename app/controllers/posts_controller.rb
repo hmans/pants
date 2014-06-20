@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     find_by: :short_sha
 
   def index
-    @posts = @posts.order('created_at DESC')
+    @posts = @posts.fresh.order('created_at DESC')
     respond_with @posts
   end
 

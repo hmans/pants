@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
     foreign_key: 'successor_sha',
     primary_key: 'sha'
 
+  scope :fresh, -> { where(successor_sha: nil) }
+
   def calculate_sha
     Digest::SHA1.hexdigest(body)
   end
