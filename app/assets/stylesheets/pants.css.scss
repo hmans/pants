@@ -1,0 +1,27 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+@import "compass";
+@import "compass/reset";
+
+body {
+  font: 17px/24px 'Roboto', sans-serif;
+}
+
+
+// LAYOUT
+
+#main {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+}
+
+// BASICS
+p {
+  margin: 1em 0;
+}
+
+
+// POSTS
+div.post {
+  margin: 3em 0;
+}
