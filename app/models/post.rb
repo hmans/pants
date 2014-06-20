@@ -11,16 +11,15 @@ class Post < ActiveRecord::Base
     presence: true,
     uniqueness: true
 
-  belongs_to :parent,
+  belongs_to :successor,
     class_name: 'Post',
-    foreign_key: 'parent_sha',
+    foreign_key: 'successor_sha',
     primary_key: 'sha'
 
-  has_many :children,
+  has_one :predecessor,
     class_name: 'Post',
-    foreign_key: 'parent_sha',
+    foreign_key: 'successor_sha',
     primary_key: 'sha'
-
 
   def calculate_sha
     Digest::SHA1.hexdigest(body)

@@ -21,15 +21,15 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.attributes = post_params
+    @successor = @post.dup
+    @successor.attributes = post_params
 
-    if @post.valid? && @post.sha_changed?
-      original_sha = @post.sha_was
-      @post = @post.dup
-      @post.parent_sha = original_sha
-      @post.save
+    if @successor.valid? && @successor.sha != @post.sha
+      @post.update_attributes(successor_sha: @successor.sha)
+      @successor.save
+      @post = @successor
     else
-      @post.save
+      @post.update_attributes(post_params)
     end
 
     respond_with @post, location: :root

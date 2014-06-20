@@ -1,8 +1,7 @@
 = render @post
 
-- if @post.parent.present?
-  p = link_to "parent: #{@post.parent.sha}", @post.parent
+- if @post.successor.present?
+  p = link_to "succeeded by: #{@post.successor.sha}", @post.successor
 
-- if @post.children.any?
-  - @post.children.each do |child|
-    p = link_to "child: #{child.sha}", child
+- if @post.predecessor.present?
+  p = link_to "preceeded by: #{@post.predecessor.sha}", @post.predecessor
