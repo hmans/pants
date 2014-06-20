@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20140620201026) do
   enable_extension "plpgsql"
 
   create_table "posts", force: true do |t|
+    t.string   "sha",        limit: 40
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
