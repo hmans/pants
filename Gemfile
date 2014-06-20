@@ -13,6 +13,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'slim-rails'
 gem 'compass-rails'
+gem 'simple_form'
 
 # API
 gem 'jbuilder', '~> 2.0'
