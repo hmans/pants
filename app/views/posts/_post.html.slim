@@ -3,4 +3,4 @@
     = link_to l(post.created_at, format: :short), post
     - if can?(:edit, post)
       |  - #{link_to 'edit', [:edit, post]}
-  = simple_format post.body
+  == post.body_html

@@ -15,6 +15,7 @@ gem 'turbolinks'
 gem 'slim-rails'
 gem 'compass-rails'
 gem 'simple_form'
+gem 'slodown', github: 'hmans/slodown'
 
 # Authorization/Authentication
 gem 'cancancan'

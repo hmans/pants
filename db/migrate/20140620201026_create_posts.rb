@@ -9,6 +9,7 @@ class CreatePosts < ActiveRecord::Migration
       # Data
       t.string :domain
       t.text :body
+      t.text :body_html
       t.timestamps
     end
   end

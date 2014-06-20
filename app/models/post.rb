@@ -1,5 +1,10 @@
 class Post < ActiveRecord::Base
   before_validation do
+    # Render body to HTML
+    self.body_html = Formatter.new(body).complete.to_s
+
+    # Update SHAs
+    self.created_at ||= Time.now     # for the SHA
     self.sha = calculate_sha
     self.short_sha = sha.first(8)
   end
@@ -28,7 +33,7 @@ class Post < ActiveRecord::Base
   scope :fresh, -> { where(successor_sha: nil) }
 
   def calculate_sha
-    Digest::SHA1.hexdigest(body)
+    Digest::SHA1.hexdigest("pants:#{domain}:#{created_at.iso8601}:#{body}")
   end
 
   def to_param

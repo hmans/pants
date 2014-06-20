@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20140620223408) do
     t.string   "successor_sha", limit: 40
     t.string   "domain"
     t.text     "body"
+    t.text     "body_html"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
