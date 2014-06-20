@@ -29,6 +29,7 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
+    cancancan (1.8.2)
     chunky_png (1.3.1)
     coderay (1.1.0)
     coffee-rails (4.0.1)
@@ -160,6 +161,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cancancan
   coffee-rails (~> 4.0.0)
   compass-rails
   factory_girl_rails

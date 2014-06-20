@@ -15,6 +15,9 @@ gem 'slim-rails'
 gem 'compass-rails'
 gem 'simple_form'
 
+# Authorization/Authentication
+gem 'cancancan'
+
 # API
 gem 'jbuilder', '~> 2.0'
 
