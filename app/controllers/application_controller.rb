@@ -18,8 +18,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_site
-    @current_site ||= begin
-      User.first
-    end
+    @current_site ||= load_current_site
+  end
+
+  def load_current_site
+    User.find_by(domain: request.domain) or raise "No user/site found for #{request.domain}"
   end
 end
