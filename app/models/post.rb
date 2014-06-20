@@ -11,6 +11,10 @@ class Post < ActiveRecord::Base
     presence: true,
     uniqueness: true
 
+  belongs_to :user,
+    foreign_key: 'domain',
+    primary_key: 'domain'
+
   belongs_to :successor,
     class_name: 'Post',
     foreign_key: 'successor_sha',

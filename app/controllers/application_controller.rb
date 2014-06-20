@@ -5,7 +5,15 @@ class ApplicationController < ActionController::Base
 
   respond_to :html
 
+  helper_method :current_site, :current_user
+
   def current_user
     nil
+  end
+
+  def current_site
+    @current_site ||= begin
+      User.first
+    end
   end
 end

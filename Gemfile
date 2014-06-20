@@ -18,6 +18,7 @@ gem 'simple_form'
 
 # Authorization/Authentication
 gem 'cancancan'
+gem 'bcrypt', '~> 3.1.7'
 
 # API
 gem 'jbuilder', '~> 2.0'
@@ -30,9 +31,6 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'ffaker'
 end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
 # gem 'unicorn'

@@ -7,6 +7,7 @@ class CreatePosts < ActiveRecord::Migration
       t.string :successor_sha, limit: 40
 
       # Data
+      t.string :domain
       t.text :body
       t.timestamps
     end

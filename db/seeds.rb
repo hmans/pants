@@ -6,4 +6,5 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-FactoryGirl.create_list(:post, 10)
+hmans = FactoryGirl.create(:user, domain: 'mans.de', display_name: 'Hendrik Mans', password: 'moocow')
+FactoryGirl.create_list(:post, 10, user: hmans)
