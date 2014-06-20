@@ -1,7 +1,12 @@
 = render @post
 
-- if @post.successor.present?
-  p = link_to "succeeded by: #{@post.successor.sha}", @post.successor
+.post-info
+  - if @post.successor.present?
+    p.light
+      ' succeeded by:
+      = link_to "#{@post.successor.sha}", @post.successor
 
-- if @post.predecessor.present?
-  p = link_to "preceeded by: #{@post.predecessor.sha}", @post.predecessor
+  - if @post.predecessor.present?
+    p.light
+      ' preceeded by:
+      = link_to "#{@post.predecessor.sha}", @post.predecessor

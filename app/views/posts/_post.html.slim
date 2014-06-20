@@ -1,6 +1,4 @@
 = div_for post do
-  .post-time
-    = link_to l(post.created_at, format: :short), post
-    - if can?(:edit, post)
-      |  - #{link_to 'edit', [:edit, post]}
+  .post-time.light
+    = link_to l(post.created_at, format: :time), current_page?(post) ? :root : post
   == post.body_html
