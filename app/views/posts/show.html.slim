@@ -1,1 +1,8 @@
 = render @post
+
+- if @post.parent.present?
+  p = link_to "parent: #{@post.parent.sha}", @post.parent
+
+- if @post.children.any?
+  - @post.children.each do |child|
+    p = link_to "child: #{child.sha}", child

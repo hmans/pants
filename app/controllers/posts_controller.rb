@@ -21,8 +21,18 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.update_attributes(post_params)
-    respond_with @post
+    @post.attributes = post_params
+
+    if @post.valid? && @post.sha_changed?
+      original_sha = @post.sha_was
+      @post = @post.dup
+      @post.parent_sha = original_sha
+      @post.save
+    else
+      @post.save
+    end
+
+    respond_with @post, location: :root
   end
 
   def post_params
