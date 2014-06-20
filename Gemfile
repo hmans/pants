@@ -32,6 +32,12 @@ group :test, :development do
   gem 'ffaker'
 end
 
+# Gems that should be installed, but will not be required automatically.
+group :tools do
+  gem 'invoker'
+  gem 'terminal-notifier'
+end
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
