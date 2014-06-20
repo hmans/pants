@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :post,
+    find_by: :short_sha
 
   def index
     @posts = @posts.order('created_at DESC')
