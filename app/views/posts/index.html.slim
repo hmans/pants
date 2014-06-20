@@ -1,1 +1,4 @@
+- if can?(:create, Post)
+  = render 'form', post: Post.new
+  
 = render @posts

@@ -10,6 +10,11 @@ class PostsController < ApplicationController
     respond_with @post
   end
 
+  def create
+    @post.save
+    respond_with @post, location: :root
+  end
+
   def edit
     respond_with @post
   end
