@@ -1,4 +1,6 @@
 = div_for post do
   .post-time
     = l post.created_at, format: :short
+    - if can?(:edit, post)
+      |  - #{link_to 'edit', [:edit, post]}
   = simple_format post.body
