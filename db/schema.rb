@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20140620223408) do
 
   create_table "posts", force: true do |t|
     t.string   "sha",           limit: 40
-    t.string   "short_sha",     limit: 8
+    t.string   "short_sha",     limit: 20
     t.string   "successor_sha", limit: 40
     t.string   "domain"
     t.text     "body"

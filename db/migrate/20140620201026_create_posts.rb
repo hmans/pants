@@ -3,7 +3,7 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |t|
       # SHA
       t.string :sha, limit: 40
-      t.string :short_sha, limit: 8
+      t.string :short_sha, limit: 20
       t.string :successor_sha, limit: 40
 
       # Data
