@@ -14,7 +14,7 @@ class PostsController < ApplicationController
 
   def create
     @post.save
-    respond_with @post, location: :root
+    respond_with @post
   end
 
   def edit
@@ -34,7 +34,7 @@ class PostsController < ApplicationController
       @post.update_attributes(post_params)
     end
 
-    respond_with @post, location: :root
+    respond_with @post
   end
 
   def post_params
