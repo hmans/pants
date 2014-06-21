@@ -22,6 +22,10 @@ class PostsController < ApplicationController
     end
   end
 
+  def new
+    respond_with @post
+  end
+
   def create
     @post.save
     respond_with @post
