@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 gem 'pg'
 gem 'quiet_assets'
+gem 'dotenv-rails'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
