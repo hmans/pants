@@ -77,8 +77,6 @@ GEM
     dotenv (0.11.1)
       dotenv-deployment (~> 0.0.2)
     dotenv-deployment (0.0.2)
-    dotenv-rails (0.11.1)
-      dotenv (= 0.11.1)
     em-proxy (0.1.8)
       eventmachine
     erubis (2.7.0)
@@ -247,7 +245,7 @@ DEPENDENCIES
   capistrano-rails
   coffee-rails (~> 4.0.0)
   compass-rails
-  dotenv-rails
+  dotenv-deployment
   factory_girl_rails
   ffaker
   invoker

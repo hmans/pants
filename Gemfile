@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 gem 'pg'
 gem 'quiet_assets'
-gem 'dotenv-rails'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
@@ -32,6 +31,11 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'
+end
+
+# Production only
+group :production do
+  gem 'dotenv-deployment'
 end
 
 # Gems that should be installed, but will not be required automatically.
