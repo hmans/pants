@@ -23,6 +23,7 @@ class PostsController < ApplicationController
 
   def update
     @successor = @post.dup
+    @successor.created_at = @post.created_at
     @successor.attributes = post_params
 
     if @successor.valid? && @successor.sha != @post.sha
