@@ -22,6 +22,10 @@ class ApplicationController < ActionController::Base
   end
 
   def load_current_site
-    User.find_by(domain: request.domain) or raise "No user/site found for #{request.domain}"
+    if Rails.env.development?
+      User.find_by!(domain: 'hmans.io')
+    else
+      User.find_by(domain: request.domain) or raise "No user/site found for #{request.domain}"
+    end
   end
 end
