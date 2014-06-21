@@ -2,5 +2,5 @@
   = render 'form', post: Post.new
 
 - @posts.group_by { |p| p.created_at.to_date }.each do |date, posts|
-  h1 = l date, format: :long
+  h1 = link_to l(date, format: :long), day_path(year: date.year, month: date.month, day: date.day)
   = render posts

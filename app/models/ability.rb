@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, Post
+    can [:read, :day], Post
 
     if user.present?
       can :create, Post, domain: user.domain

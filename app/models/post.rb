@@ -31,6 +31,8 @@ class Post < ActiveRecord::Base
     primary_key: 'sha'
 
   scope :fresh, -> { where(successor_sha: nil) }
+  scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
+  scope :latest, -> { order('created_at DESC') }
 
   def calculate_sha
     Digest::SHA1.hexdigest("pants:#{domain}:#{created_at.iso8601}:#{body}")

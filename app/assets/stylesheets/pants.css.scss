@@ -57,6 +57,7 @@ em, i {
 
 // HEADINGS
 h1, h2, h3, h4, h5, h6 {
+  @extend %reset-links;
   font-weight: bold;
   margin-top: 2em;
   margin-bottom: 1em;

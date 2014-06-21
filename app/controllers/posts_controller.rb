@@ -1,11 +1,17 @@
 class PostsController < ApplicationController
-  load_resource :post,
+  load_and_authorize_resource :post,
     find_by: :short_sha,
     through: :current_site
 
   def index
-    @posts = @posts.fresh.order('created_at DESC')
+    @posts = @posts.fresh.latest
     respond_with @posts
+  end
+
+  def day
+    date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+    @posts = @posts.fresh.on_date(date).latest
+    render 'index'
   end
 
   def show
