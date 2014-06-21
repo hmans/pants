@@ -4,12 +4,12 @@
   - if @post.successor.present?
     p.light
       ' succeeded by:
-      = link_to "#{@post.successor.sha}", @post.successor
+      = link_to @post.successor.short_sha, @post.successor
 
   - if @post.predecessor.present?
     p.light
       ' preceeded by:
-      = link_to "#{@post.predecessor.sha}", @post.predecessor
+      = link_to @post.predecessor.short_sha, @post.predecessor
 
   - if can?(:edit, @post)
     p.light
