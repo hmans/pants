@@ -28,7 +28,8 @@ class Post < ActiveRecord::Base
   has_one :predecessor,
     class_name: 'Post',
     foreign_key: 'successor_sha',
-    primary_key: 'sha'
+    primary_key: 'sha',
+    dependent: :nullify
 
   scope :fresh, -> { where(successor_sha: nil) }
   scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
