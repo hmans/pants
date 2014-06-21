@@ -160,7 +160,7 @@ GEM
       rspec-expectations (~> 3.0.0)
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
-    rspec-support (3.0.1)
+    rspec-support (3.0.2)
     ruby-oembed (0.8.9)
     rubydns (0.8.4)
       eventmachine (~> 1.0.0)
