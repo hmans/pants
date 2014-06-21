@@ -15,7 +15,11 @@ class PostsController < ApplicationController
   end
 
   def show
-    respond_with @post
+    if @post.successor_sha.present? && cannot?(:manage, current_site)
+      redirect_to @post.successor
+    else
+      respond_with @post
+    end
   end
 
   def create
