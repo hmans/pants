@@ -61,6 +61,17 @@ em, i {
   color: red;
 }
 
+// TEXT FORMATTING
+%text-formatting {
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+  }
+  li {
+    @extend p;
+  }
+}
+
 // HEADINGS
 h1, h2, h3, h4, h5, h6 {
   @extend %reset-links;
@@ -76,6 +87,7 @@ h1, h2 {
 
 // POSTS
 div.post {
+  @extend %text-formatting;
   margin: 1em 0 3em 0;
   position: relative;
 }
