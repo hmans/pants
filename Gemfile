@@ -37,11 +37,12 @@ end
 group :tools do
   gem 'invoker'
   gem 'terminal-notifier'
+
+  # Capistrano
+  gem 'capistrano-rails'
+  gem 'capistrano-chruby'
+  gem 'capistrano-bundler'
 end
 
 # Use unicorn as the app server
 # gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
