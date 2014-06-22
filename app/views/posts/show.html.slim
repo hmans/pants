@@ -1,17 +1,23 @@
 = render @post
 
-- if can?(:manage, current_site)
-  .post-info
+.post-info.light
+  - if @post.tags.any?
+    p
+      ' Tags:
+      - @post.tags.each do |tag|
+        =' link_to "##{tag}", tagged_posts_path(tag: tag)
+
+  - if can?(:manage, current_site)
     - if @post.successor.present?
-      p.light
+      p
         ' succeeded by:
         = link_to @post.successor.short_sha, @post.successor
 
     - if @post.predecessor.present?
-      p.light
+      p
         ' preceeded by:
         = link_to @post.predecessor.short_sha, @post.predecessor
 
-    - if can?(:edit, @post)
-      p.light
-        = link_to 'edit this post', [:edit, @post]
+  - if can?(:edit, @post)
+    p.light
+      = link_to 'edit this post', [:edit, @post]

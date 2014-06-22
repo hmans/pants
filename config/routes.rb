@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   # Resources
   resources :posts
 
+  # Tag archives
+  get 'tag/:tag' => 'posts#index', as: :tagged_posts
+
   # Daily archives
   get ':year-:month-:day' => 'posts#day', as: :day
 

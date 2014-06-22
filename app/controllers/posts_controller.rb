@@ -5,6 +5,11 @@ class PostsController < ApplicationController
 
   def index
     @posts = @posts.fresh.latest
+
+    if params[:tag].present?
+      @posts = @posts.tagged_with(params[:tag].split)
+    end
+
     respond_with @posts
   end
 

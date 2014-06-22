@@ -1,7 +1,12 @@
+require 'html/sanitizer'
+
 class Post < ActiveRecord::Base
   before_validation do
     # Render body to HTML
     self.body_html = Formatter.new(body).complete.to_s
+
+    # Extract and save tags
+    self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html))
 
     # Update SHAs
     self.created_at ||= Time.now     # for the SHA
@@ -34,6 +39,7 @@ class Post < ActiveRecord::Base
   scope :fresh, -> { where(successor_sha: nil) }
   scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
   scope :latest, -> { order('created_at DESC') }
+  scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
 
   def calculate_sha
     Digest::SHA1.hexdigest("pants:#{domain}:#{created_at.iso8601}:#{body}")
