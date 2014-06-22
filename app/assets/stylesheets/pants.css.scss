@@ -5,6 +5,7 @@
 $color-background: #fff;
 $color-text: #444;
 $color-light: #999;
+$color-link: #0076c9;
 
 %font-default {
   font: 17px/24px 'Roboto', sans-serif;
@@ -41,6 +42,10 @@ body {
 }
 
 // BASICS
+a {
+  color: $color-link;
+}
+
 p {
   margin: 1em 0;
 }
