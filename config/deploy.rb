@@ -2,7 +2,9 @@
 lock '3.2.1'
 
 set :application, 'pants'
+set :stages, ["production"]
 set :repo_url, 'git@github.com:hmans/pants.git'
+set :deploy_via, :remote_cache
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
