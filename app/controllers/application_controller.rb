@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_site, :current_user
 
+  before_filter do
+    I18n.locale = current_site.locale || 'en'
+  end
+
   def current_user
     @current_user ||= begin
       if session[:current_user].present?
