@@ -7,7 +7,7 @@ class PostsController < ApplicationController
     @posts = @posts.latest
 
     if params[:tag].present?
-      @posts = @posts.tagged_with(params[:tag].split)
+      @posts = @posts.tagged_with(params[:tag].gsub(/\+/, ' ').split)
     end
 
     respond_with @posts
