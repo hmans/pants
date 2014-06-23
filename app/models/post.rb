@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
     self.body_html = Formatter.new(body).complete.to_s
 
     # Extract and save tags
-    self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html))
+    self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
 
     # Update SHAs
     self.published_at ||= Time.now     # for the SHA
