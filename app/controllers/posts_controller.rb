@@ -1,10 +1,10 @@
 class PostsController < ApplicationController
   load_and_authorize_resource :post,
-    find_by: :short_sha,
+    find_by: :slug,
     through: :current_site
 
   def index
-    @posts = @posts.fresh.latest
+    @posts = @posts.latest
 
     if params[:tag].present?
       @posts = @posts.tagged_with(params[:tag].split)
@@ -15,16 +15,12 @@ class PostsController < ApplicationController
 
   def day
     date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-    @posts = @posts.fresh.on_date(date).latest
+    @posts = @posts.on_date(date).latest
     render 'index'
   end
 
   def show
-    if @post.successor_sha.present? && cannot?(:manage, current_site)
-      redirect_to @post.successor
-    else
-      respond_with @post
-    end
+    respond_with @post
   end
 
   def new
@@ -41,18 +37,7 @@ class PostsController < ApplicationController
   end
 
   def update
-    @successor = @post.dup
-    @successor.created_at = @post.created_at
-    @successor.attributes = post_params
-
-    if @successor.valid? && @successor.sha != @post.sha
-      @post.update_attributes(successor_sha: @successor.sha)
-      @successor.save
-      @post = @successor
-    else
-      @post.update_attributes(post_params)
-    end
-
+    @post.update_attributes(post_params)
     respond_with @post
   end
 

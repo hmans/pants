@@ -7,17 +7,6 @@
       - @post.tags.each do |tag|
         =' link_to "##{tag}", tagged_posts_path(tag: tag)
 
-  - if can?(:manage, current_site)
-    - if @post.successor.present?
-      p
-        ' succeeded by:
-        = link_to @post.successor.short_sha, @post.successor
-
-    - if @post.predecessor.present?
-      p
-        ' preceeded by:
-        = link_to @post.predecessor.short_sha, @post.predecessor
-
   - if can?(:edit, @post)
     p.light
       = link_to 'edit this post', [:edit, @post]

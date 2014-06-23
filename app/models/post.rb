@@ -9,15 +9,22 @@ class Post < ActiveRecord::Base
     self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html))
 
     # Update SHAs
-    self.created_at ||= Time.now     # for the SHA
+    self.published_at ||= Time.now     # for the SHA
     self.sha = calculate_sha
-    self.short_sha = sha.first(8)
+    self.slug ||= generate_slug
+  end
+
+  before_update do
+    # Remember previous SHA
+    if sha_changed? && sha_was.present? && !sha_was.in?(previous_shas)
+      self.previous_shas += [sha_was]
+    end
   end
 
   validates :body,
     presence: true
 
-  validates :sha, :short_sha,
+  validates :sha, :slug,
     presence: true,
     uniqueness: true
 
@@ -25,27 +32,19 @@ class Post < ActiveRecord::Base
     foreign_key: 'domain',
     primary_key: 'domain'
 
-  belongs_to :successor,
-    class_name: 'Post',
-    foreign_key: 'successor_sha',
-    primary_key: 'sha'
-
-  has_one :predecessor,
-    class_name: 'Post',
-    foreign_key: 'successor_sha',
-    primary_key: 'sha',
-    dependent: :nullify
-
-  scope :fresh, -> { where(successor_sha: nil) }
   scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
   scope :latest, -> { order('created_at DESC') }
   scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
 
   def calculate_sha
-    Digest::SHA1.hexdigest("pants:#{domain}:#{created_at.iso8601}:#{body}")
+    Digest::SHA1.hexdigest("pants:#{domain}:#{published_at.try(:iso8601)}:#{body}")
+  end
+
+  def generate_slug
+    rand(36**8).to_s(36)
   end
 
   def to_param
-    short_sha
+    slug
   end
 end

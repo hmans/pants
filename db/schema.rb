@@ -11,23 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140621231330) do
+ActiveRecord::Schema.define(version: 20140623193018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "posts", force: true do |t|
     t.string   "sha",           limit: 40
-    t.string   "short_sha",     limit: 20
-    t.string   "successor_sha", limit: 40
+    t.string   "slug"
     t.string   "domain"
     t.text     "body"
     t.text     "body_html"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "tags",                     default: [], array: true
+    t.text     "previous_shas",            default: [], array: true
+    t.datetime "published_at"
   end
 
+  add_index "posts", ["previous_shas"], name: "index_posts_on_previous_shas", using: :gin
   add_index "posts", ["tags"], name: "index_posts_on_tags", using: :gin
 
   create_table "users", force: true do |t|

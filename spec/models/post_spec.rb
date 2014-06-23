@@ -10,6 +10,31 @@ RSpec.describe Post, :type => :model do
     end
   end
 
+  context 'when body changes' do
+    subject { create(:post, body: 'One') }
+
+    it 'changes its #sha' do
+      expect { subject.update_attributes(body: 'Two') }
+        .to change { subject.sha }
+    end
+
+    it 'stores the previous #sha in #previous_shas' do
+      sha1 = subject.sha
+
+      expect { subject.update_attributes(body: 'Two') }
+        .to change { subject.previous_shas }
+        .from([])
+        .to([sha1])
+
+      sha2 = subject.sha
+
+      expect { subject.update_attributes(body: 'Three') }
+        .to change { subject.previous_shas }
+        .from([sha1])
+        .to([sha1, sha2])
+    end
+  end
+
   context 'when body contains hashtags' do
     subject do
       create(:post, body: 'Hello #world, I feel #fine!')
