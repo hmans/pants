@@ -54,7 +54,10 @@ class Post < ActiveRecord::Base
   end
 
   def generate_slug
-    rand(36**8).to_s(36)
+    chars = ('a'..'z').to_a
+    numbers = (0..9).to_a
+
+    (Array.new(3) { chars.sample } + Array.new(3) { numbers.sample }).join('')
   end
 
   def to_param
