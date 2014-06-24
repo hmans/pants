@@ -1,6 +1,6 @@
 - rows ||= 10
 = simple_form_for post do |f|
-  = f.input :body, label: false, input_html: { rows: rows }
+  = f.input :body, label: false, input_html: { rows: rows }, autofocus: true
   = f.submit
   - if post.persisted?
     |  or #{link_to 'delete', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}?
