@@ -20,8 +20,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    if request.path != post_path(@post)
-      redirect_to @post and return
+    canonical_path = post_path(@post, format: params[:format])
+    if request.path != canonical_path
+      redirect_to canonical_path and return
     end
 
     respond_with @post
