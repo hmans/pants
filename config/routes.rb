@@ -1,14 +1,19 @@
 Rails.application.routes.draw do
-  # Resources
-  resources :posts
+  # Login page
+  match 'login' => 'auth#login', via: [:get, :post]
 
-  # Tag archives
+  # Tag pages
   get 'tag/:tag' => 'posts#index', as: :tagged_posts
 
   # Daily archives
   get ':year-:month-:day' => 'posts#day', as: :day
 
-  # Plain routes
-  match 'login' => 'auth#login', via: [:get, :post]
+  # Primary posts resource
+  resources :posts, path: ''
+
+  # Legacy
+  get '/posts/:id' => 'posts#show'
+
+  # /
   root to: 'posts#index'
 end
