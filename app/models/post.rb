@@ -8,16 +8,29 @@ class Post < ActiveRecord::Base
     # Extract and save tags
     self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
 
-    # Update SHAs
-    self.published_at ||= Time.now     # for the SHA
-    self.sha = calculate_sha
+    # Generate slug
     self.slug ||= generate_slug
+
+    # Set GUID
+    self.guid = "#{domain}/#{slug}"
+
+    # Publish post right away... for now
+    self.published_at ||= Time.now     # for the SHA
+
+    # Update SHAs
+    self.sha = calculate_sha
   end
 
   before_update do
     # Remember previous SHA
     if sha_changed? && sha_was.present? && !sha_was.in?(previous_shas)
       self.previous_shas += [sha_was]
+    end
+  end
+
+  validate(on: :update) do
+    if guid_changed?
+      errors.add(:guid, "can not be changed.")
     end
   end
 
@@ -37,7 +50,7 @@ class Post < ActiveRecord::Base
   scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
 
   def calculate_sha
-    Digest::SHA1.hexdigest("pants:#{domain}:#{published_at.try(:iso8601)}:#{body}")
+    Digest::SHA1.hexdigest("pants:#{guid}:#{body}")
   end
 
   def generate_slug
