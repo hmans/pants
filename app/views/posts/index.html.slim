@@ -1,5 +1,5 @@
 - if can?(:create, Post)
-  = render 'form', post: Post.new
+  = render 'form', post: Post.new, rows: 3
 
 - @posts.group_by { |p| p.created_at.to_date }.each do |date, posts|
   h1 = link_to l(date, format: :long), day_path(year: date.year, month: date.month, day: date.day)

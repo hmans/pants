@@ -45,6 +45,11 @@ class PostsController < ApplicationController
     respond_with @post
   end
 
+  def destroy
+    @post.destroy
+    respond_with @post
+  end
+
   def post_params
     params.require(:post).permit(:body)
   end
