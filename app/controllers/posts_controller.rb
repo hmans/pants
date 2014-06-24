@@ -20,6 +20,10 @@ class PostsController < ApplicationController
   end
 
   def show
+    if request.path != post_path(@post)
+      redirect_to @post and return
+    end
+
     respond_with @post
   end
 
