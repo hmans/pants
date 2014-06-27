@@ -7,6 +7,14 @@ class User < ActiveRecord::Base
     presence: true,
     uniqueness: true
 
+  validates :password,
+    presence: { on: :create },
+    if: :hosted
+
+  validates :password_digest,
+    presence: true,
+    if: :hosted
+
   has_many :posts,
     foreign_key: 'domain',
     primary_key: 'domain'
