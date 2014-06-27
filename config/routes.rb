@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   # Login page
   match 'login' => 'auth#login', via: [:get, :post]
 
+  # Timeline
+  get 'timeline' => 'timeline_entries#index'
+
   # Tag pages
   get 'tag/:tag' => 'posts#index', as: :tagged_posts
 

@@ -1,4 +1,4 @@
 = div_for post do
   .post-time.light
-    = link_to l(post.created_at, format: :time), current_page?(post) ? :root : post
+    = link_to l(post.created_at, format: :time), post.url, title: post.url
   == post.body_html

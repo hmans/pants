@@ -55,6 +55,9 @@ class Post < ActiveRecord::Base
     foreign_key: 'domain',
     primary_key: 'domain'
 
+  has_many :timeline_entries,
+    dependent: :destroy
+
   scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
   scope :latest, -> { order('created_at DESC') }
   scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
@@ -84,6 +87,8 @@ class Post < ActiveRecord::Base
         # TODO: check if GUID/domain/slug match requested URL
         post.save!
       end
+
+      post
     end
   end
 end
