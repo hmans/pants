@@ -63,4 +63,17 @@ class Post < ActiveRecord::Base
   def to_param
     slug
   end
+
+  class << self
+    def fetch_from(url)
+      json = HTTParty.get(url)
+
+      post = where(guid: json['guid']).first_or_initialize
+      if post.new_record? || post.sha.in?(json['previous_shas'])
+        post.attributes = json
+        # TODO: check if GUID/domain/slug match requested URL
+        post.save!
+      end
+    end
+  end
 end
