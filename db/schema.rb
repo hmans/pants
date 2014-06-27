@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627173045) do
+ActiveRecord::Schema.define(version: 20140627181148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +29,23 @@ ActiveRecord::Schema.define(version: 20140627173045) do
     t.datetime "published_at"
     t.string   "guid"
     t.datetime "edited_at"
+    t.string   "url"
   end
 
   add_index "posts", ["guid"], name: "index_posts_on_guid", using: :btree
   add_index "posts", ["previous_shas"], name: "index_posts_on_previous_shas", using: :gin
   add_index "posts", ["tags"], name: "index_posts_on_tags", using: :gin
+
+  create_table "timeline_entries", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.datetime "created_at"
+  end
+
+  add_index "timeline_entries", ["post_id"], name: "index_timeline_entries_on_post_id", using: :btree
+  add_index "timeline_entries", ["user_id", "created_at"], name: "index_timeline_entries_on_user_id_and_created_at", using: :btree
+  add_index "timeline_entries", ["user_id", "post_id"], name: "index_timeline_entries_on_user_id_and_post_id", unique: true, using: :btree
+  add_index "timeline_entries", ["user_id"], name: "index_timeline_entries_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "domain"

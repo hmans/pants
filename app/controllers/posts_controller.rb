@@ -34,6 +34,11 @@ class PostsController < ApplicationController
 
   def create
     @post.save
+
+    if @post.valid?
+      @post.update_attributes(url: post_url(@post))
+    end
+
     respond_with @post
   end
 
@@ -43,6 +48,11 @@ class PostsController < ApplicationController
 
   def update
     @post.update_attributes(post_params)
+
+    if @post.valid?
+      @post.update_attributes(url: post_url(@post))
+    end
+
     respond_with @post
   end
 

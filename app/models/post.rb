@@ -22,6 +22,9 @@ class Post < ActiveRecord::Base
     # Publish post right away... for now
     self.published_at ||= Time.now     # for the SHA
 
+    # Default URL to http://<guid>
+    self.url ||= "http://#{guid}"
+
     # Update SHAs
     self.sha = calculate_sha
   end
@@ -37,6 +40,8 @@ class Post < ActiveRecord::Base
     if guid_changed?
       errors.add(:guid, "can not be changed.")
     end
+
+    # TODO: check that URL matches GUID
   end
 
   validates :body,
