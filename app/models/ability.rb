@@ -3,6 +3,7 @@ class Ability
 
   def initialize(user)
     can [:read, :day], Post
+    can :read, User
 
     if user.present?
       can :manage, Post, domain: user.domain

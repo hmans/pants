@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   # Ping
   post 'ping' => 'pings#create'
 
+  # User
+  resource :user, only: [:show, :edit, :update]
+
   # Timeline
   get 'timeline' => 'timeline_entries#index'
 
