@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_secure_password
+  has_secure_password validations: false
 
   validates :domain, :url,
     presence: true,
@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   class << self
     def fetch_from(url)
-      json = HTTParty.get(url)
+      json = HTTParty.get("#{url}/user", query: { format: 'json' })
 
       # Sanity checks
       full, domain = %r{^https?://(.+)/}.match(url).to_a

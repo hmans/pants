@@ -79,7 +79,7 @@ class Post < ActiveRecord::Base
 
   class << self
     def fetch_from(url)
-      json = HTTParty.get(url)
+      json = HTTParty.get(url, query: { format: 'json' })
 
       # Sanity checks
       full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(url).to_a
@@ -93,6 +93,10 @@ class Post < ActiveRecord::Base
         post.attributes = json
         post.save!
       end
+
+      # Upsert the post's author
+      author_url = post.url.scan(%r{^https?://.+?/}).first
+      User.fetch_from(author_url)
 
       post
     end
