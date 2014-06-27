@@ -140,3 +140,13 @@ label {
 textarea, input[type="text"] {
   width: 100%;
 }
+
+// NAVIGATION
+ul[role="navigation"] {
+  @extend p;
+  @extend %reset-links;
+
+  li:first-child {
+    font-weight: bold;
+  }
+}

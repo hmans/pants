@@ -16,4 +16,7 @@ html
 
   body
     #main
+      ul role="navigation"
+        li = link_to current_site.display_name, :root
+
       = yield
