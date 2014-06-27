@@ -145,9 +145,23 @@ textarea, input[type="text"] {
 ul[role="navigation"] {
   @extend p;
   @extend %reset-links;
+  color: $color-light;
+
+  li {
+    display: inline;
+    margin-right: 10px;
+    &:before {
+      content: "\00B7";
+      margin-right: 10px;
+    }
+  }
 
   li:first-child {
     font-weight: bold;
+    color: $color-text;
+    &:before {
+      display: none;
+    }
   }
 }
 

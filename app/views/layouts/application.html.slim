@@ -18,5 +18,8 @@ html
     #main
       ul role="navigation"
         li = link_to current_site.display_name, :root
+        - if current_user.present?
+          li = link_to "Timeline", :timeline
+          li = link_to "Friends", :friendships
 
       = yield
