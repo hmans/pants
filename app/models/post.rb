@@ -47,7 +47,7 @@ class Post < ActiveRecord::Base
   validates :body,
     presence: true
 
-  validates :sha, :slug,
+  validates :sha, :slug, :url,
     presence: true,
     uniqueness: true
 
