@@ -7,6 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 if Rails.env.development?
-  hmans = FactoryGirl.create(:user, domain: 'pants.dev', display_name: 'Hendrik Mans', password: 'moocow')
-  FactoryGirl.create_list(:post, 10, user: hmans)
+  arnold = FactoryGirl.create(:user, domain: 'arnold.pants.dev', display_name: 'Arnold', password: 'secret')
+  ben = FactoryGirl.create(:user, domain: 'ben.pants.dev', display_name: 'Ben', password: 'secret')
+
+  FactoryGirl.create_list(:post, 10, user: arnold)
+  FactoryGirl.create_list(:post, 10, user: ben)
 end
