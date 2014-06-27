@@ -2,8 +2,13 @@ require 'html/sanitizer'
 
 class Post < ActiveRecord::Base
   before_validation do
-    # Render body to HTML
-    self.body_html = Formatter.new(body).complete.to_s
+    if body_changed?
+      # Render body to HTML
+      self.body_html = Formatter.new(body).complete.to_s
+
+      # Update editing timestamp
+      self.edited_at = Time.now
+    end
 
     # Extract and save tags
     self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
@@ -69,7 +74,7 @@ class Post < ActiveRecord::Base
       json = HTTParty.get(url)
 
       post = where(guid: json['guid']).first_or_initialize
-      if post.new_record? || post.sha.in?(json['previous_shas'])
+      if post.new_record? || post.edited_at < json['edited_at']
         post.attributes = json
         # TODO: check if GUID/domain/slug match requested URL
         post.save!
