@@ -81,10 +81,16 @@ class Post < ActiveRecord::Base
     def fetch_from(url)
       json = HTTParty.get(url)
 
+      # Sanity checks
+      full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(url).to_a
+      if json['guid'] != guid || json['domain'] != domain || json['slug'] != slug
+        raise "Post JSON contained corrupted data."
+      end
+
+      # Upsert post
       post = where(guid: json['guid']).first_or_initialize
       if post.new_record? || post.edited_at < json['edited_at']
         post.attributes = json
-        # TODO: check if GUID/domain/slug match requested URL
         post.save!
       end
 
