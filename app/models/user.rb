@@ -19,4 +19,23 @@ class User < ActiveRecord::Base
   def add_to_timeline(post)
     timeline_entries.where(post_id: post.id).first_or_create!
   end
+
+  class << self
+    def fetch_from(url)
+      json = HTTParty.get(url)
+
+      # Sanity checks
+      full, domain = %r{^https?://(.+)/}.match(url).to_a
+      if json['url'] != full || json['domain'] != domain
+        raise "User JSON contained corrupted data."
+      end
+
+      # Upsert user
+      user = where(domain: json['domain']).first_or_initialize
+      user.attributes = json
+      user.save!
+
+      user
+    end
+  end
 end
