@@ -73,6 +73,11 @@ em, i {
     padding-left: 20px;
   }
 
+  ol {
+    list-style-type: decimal;
+    padding-left: 25px;
+  }
+
   li {
     @extend p;
   }
