@@ -7,7 +7,7 @@ Kramdown::Converter::SlodownHtml.class_eval do
       super
     else
       super.gsub(TagExtractor::REGEX) do
-        "<a href=\"/tag/#{$1.downcase}\">##{$1}</a>"
+        "<a href=\"/tag/#{$1.downcase}\" class=\"hashtag\">##{$1}</a>"
       end
     end
   end
