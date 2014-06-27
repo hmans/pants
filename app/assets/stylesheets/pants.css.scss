@@ -75,6 +75,10 @@ em, i {
   li {
     @extend p;
   }
+
+  img {
+    max-width: 100%;
+  }
 }
 
 // HEADINGS
