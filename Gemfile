@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.0'
 group :test, :development do
   gem 'spring'
   gem 'pry-rails'
+  gem 'awesome_print'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'
