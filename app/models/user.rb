@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
 
+  scope :hosted, -> { where(hosted: true) }
+
   validates :domain, :url,
     presence: true,
     uniqueness: true

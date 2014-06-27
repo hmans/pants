@@ -26,6 +26,6 @@ class ApplicationController < ActionController::Base
   end
 
   def load_current_site
-    User.find_by(domain: request.host) or raise "No user/site found for #{request.host}"
+    User.hosted.find_by(domain: request.host) or raise "No user/site found for #{request.host}"
   end
 end
