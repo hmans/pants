@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Core
-gem 'rails', '4.1.1'
+gem 'rails', '4.1.2'
 gem 'pg'
 gem 'quiet_assets'
 
