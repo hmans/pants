@@ -10,6 +10,7 @@ class Ability
       can :manage, user
 
       can :manage, TimelineEntry, user_id: user.id
+      can :manage, Friendship, user_id: user.id
     end
   end
 end

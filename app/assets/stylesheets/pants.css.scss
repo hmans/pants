@@ -150,3 +150,15 @@ ul[role="navigation"] {
     font-weight: bold;
   }
 }
+
+// FRIENDSHIPS / USERS
+.friendship {
+  @extend p;
+}
+.user-name {
+  display: inline;
+}
+.user-info {
+  @extend %reset-links;
+  color: $color-light;
+}

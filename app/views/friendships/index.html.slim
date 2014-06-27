@@ -1,0 +1,11 @@
+h1 Your Friends
+p Your friends will be notified whenever you post something.
+
+= render @friendships
+
+h2 Add a Friend
+p Enter the URL of your new friend.
+
+= simple_form_for :friend do |f|
+  = f.input :url, label: false
+  = f.submit 'Add Friend'

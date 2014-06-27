@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   # User
   resource :user, only: [:show, :edit, :update]
 
+  # Friendships
+  resources :friendships, path: 'friends'
+
   # Timeline
   get 'timeline' => 'timeline_entries#index'
 

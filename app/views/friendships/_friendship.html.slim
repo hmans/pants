@@ -1,0 +1,6 @@
+- user = friendship.friend
+= div_for friendship do
+  .user-name = link_to user.display_name, user.url
+  .user-info
+    = link_to user.domain, user.url
+    |  [#{link_to 'unfriend', friendship, method: 'delete', data: { confirm: 'Are you sure?' }}]
