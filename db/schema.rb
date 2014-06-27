@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627205626) do
+ActiveRecord::Schema.define(version: 20140627210230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,9 +53,10 @@ ActiveRecord::Schema.define(version: 20140627205626) do
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "locale",          limit: 5, default: "en"
+    t.string   "locale",          limit: 5,  default: "en"
     t.string   "url"
-    t.boolean  "hosted",                    default: false, null: false
+    t.boolean  "hosted",                     default: false, null: false
+    t.string   "gosquared_id",    limit: 20
   end
 
 end
