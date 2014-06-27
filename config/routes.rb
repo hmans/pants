@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   # Login page
   match 'login' => 'auth#login', via: [:get, :post]
 
+  # Ping
+  post 'ping' => 'pings#create'
+
   # Timeline
   get 'timeline' => 'timeline_entries#index'
 
