@@ -32,5 +32,8 @@ module Pants
     config.generators.stylesheets = false
     config.generators.javascripts = false
     config.generators.helper      = false
+
+    # LIVE mode?
+    config.live_mode = ENV['LIVE'].present?
   end
 end
