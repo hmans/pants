@@ -39,7 +39,7 @@ class PostsController < ApplicationController
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
-      PostPinger.new.async.perform(@post.id) if Rails.application.config.live_mode
+      PostPinger.new.async.perform(@post.id)
     end
 
     respond_with @post
@@ -54,7 +54,7 @@ class PostsController < ApplicationController
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
-      PostPinger.new.async.perform(@post.id) if Rails.application.config.live_mode
+      PostPinger.new.async.perform(@post.id)
     end
 
     respond_with @post
