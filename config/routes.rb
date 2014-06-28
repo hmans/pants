@@ -22,10 +22,10 @@ Rails.application.routes.draw do
 
   # Legacy
   get '/posts/:id' => 'posts#show'
-  get '/posts' => 'posts#index', as: false
 
   # Primary posts resource
-  resources :posts, path: ''
+  resources :posts, only: [:index, :create]
+  resources :posts, path: '', except: [:index, :create]
 
   # /
   root to: 'posts#index'
