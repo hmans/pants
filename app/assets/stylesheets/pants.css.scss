@@ -133,6 +133,11 @@ div.post-info {
   @extend %reset-links;
 }
 
+div.post-source {
+  @extend .light;
+  @extend %reset-links;
+}
+
 // FORMS
 input, textarea, select {
   @extend %font-default;

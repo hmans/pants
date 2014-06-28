@@ -1,4 +1,7 @@
 = div_for post do
   .post-time.light
     = link_to l(post.created_at, format: :time), post.url, title: post.url
+  - if post.domain != current_site.domain
+    .post-source = link_to post.guid, post.url
+
   == post.body_html
