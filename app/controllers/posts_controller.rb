@@ -1,4 +1,7 @@
 class PostsController < ApplicationController
+  respond_to :json, only: :show
+  respond_to :atom, only: :index
+
   load_and_authorize_resource :post,
     find_by: :slug,
     through: :current_site
@@ -8,10 +11,6 @@ class PostsController < ApplicationController
 
     if params[:tag].present?
       @posts = @posts.tagged_with(params[:tag].gsub(/\+/, ' ').split.map(&:downcase))
-    end
-
-    respond_with @posts do |format|
-      format.atom { }
     end
   end
 

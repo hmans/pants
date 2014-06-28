@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  respond_to :json, only: :show
+
   before_filter do
     @user = current_site
   end
