@@ -14,6 +14,8 @@ html
     - if Rails.env.production? && current_site.gosquared_id.present?
       = render 'gosquared'
 
+    = auto_discovery_link_tag :atom, posts_url(format: 'atom'), title: "Latest Posts by #{current_site.display_name} (ATOM)"
+
   body
     #main
       ul role="navigation"
