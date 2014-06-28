@@ -10,7 +10,9 @@ class PostsController < ApplicationController
       @posts = @posts.tagged_with(params[:tag].gsub(/\+/, ' ').split.map(&:downcase))
     end
 
-    respond_with @posts
+    respond_with @posts do |format|
+      format.atom { }
+    end
   end
 
   def day

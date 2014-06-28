@@ -20,11 +20,12 @@ Rails.application.routes.draw do
   # Daily archives
   get ':year-:month-:day' => 'posts#day', as: :day
 
-  # Primary posts resource
-  resources :posts, path: ''
-
   # Legacy
   get '/posts/:id' => 'posts#show'
+  get '/posts' => 'posts#index', as: false
+
+  # Primary posts resource
+  resources :posts, path: ''
 
   # /
   root to: 'posts#index'
