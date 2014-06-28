@@ -25,4 +25,5 @@ html
           li = link_to t('.friends'), :friendships
           li = link_to t('.settings'), [:edit, :user]
 
+      = render 'flashes'
       = yield
