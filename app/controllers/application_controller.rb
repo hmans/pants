@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
     I18n.locale = current_site.locale || 'en'
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    @exception = exception
+    render 'error', status: 403
+  end
+
   def current_user
     @current_user ||= begin
       if session[:current_user].present?
