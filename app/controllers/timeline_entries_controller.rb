@@ -3,6 +3,11 @@ class TimelineEntriesController < ApplicationController
     through: :current_site
 
   def index
-    @timeline_entries = @timeline_entries.includes(:post).order('created_at DESC')
+    @timeline_entries = @timeline_entries
+      .from_friend
+      .includes(:post)
+      .order('created_at DESC')
+
+    respond_with @timeline_entries
   end
 end

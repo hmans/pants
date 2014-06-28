@@ -42,7 +42,9 @@ class User < ActiveRecord::Base
   end
 
   def add_to_timeline(post)
-    timeline_entries.where(post_id: post.id).first_or_create!
+    timeline_entries
+      .where(post_id: post.id)
+      .first_or_create!(from_friend: friends.where(domain: post.domain).any?)
   end
 
   def add_friend(friend)

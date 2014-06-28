@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627222454) do
+ActiveRecord::Schema.define(version: 20140628002622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20140627222454) do
     t.integer  "user_id"
     t.integer  "post_id"
     t.datetime "created_at"
+    t.boolean  "from_friend", default: false, null: false
   end
 
   add_index "timeline_entries", ["post_id"], name: "index_timeline_entries_on_post_id", using: :btree

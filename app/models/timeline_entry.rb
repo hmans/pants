@@ -3,4 +3,6 @@ class TimelineEntry < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :post
+
+  scope :from_friend, -> { where(from_friend: true) }
 end
