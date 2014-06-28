@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   validates :password,
     presence: { on: :create },
+    confirmation: { allow_blank: true },
     if: :hosted
 
   validates :password_digest,

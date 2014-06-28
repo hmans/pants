@@ -23,5 +23,6 @@ html
         - if current_user.present?
           li = link_to "Timeline", :timeline
           li = link_to "Friends", :friendships
+          li = link_to "Settings", [:edit, :user]
 
       = yield
