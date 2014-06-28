@@ -1,5 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe Friendship, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Friendship do
+  let(:user) { build_stubbed(:user) }
+
+  it 'is not valid if users are equal' do
+    subject.friend = subject.user = user
+    expect(subject).to_not be_valid
+  end
 end
