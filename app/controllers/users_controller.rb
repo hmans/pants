@@ -9,7 +9,17 @@ class UsersController < ApplicationController
 
   def show
     respond_with @user do |format|
-      format.jpg { redirect_to @user.image.thumb('300x300#').url }
+      format.jpg do
+        job = if @user.image.present?
+          @user.image.thumb('300x300#')
+        else
+          Dragonfly.app.generate(:plain, 1, 1,
+            'format' => 'png',
+            'color' => 'rgba(0,0,0,0)')
+        end
+
+        redirect_to job.url
+      end
     end
   end
 
