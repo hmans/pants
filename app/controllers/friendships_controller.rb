@@ -13,6 +13,10 @@ class FriendshipsController < ApplicationController
     end
 
     respond_with @friendship, location: :friendships
+  rescue StandardError => e
+    Rails.env.development? ?
+      raise :
+      redirect_to(:friendships, alert: e.message)
   end
 
   def destroy
