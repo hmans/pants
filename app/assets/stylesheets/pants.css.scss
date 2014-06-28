@@ -135,7 +135,7 @@ div.post-time {
   position: absolute;
   left: -80px;
   width: 60px;
-  text-align: right;
+  text-align: center;
 }
 
 div.post-info {
@@ -161,6 +161,7 @@ textarea, input[type="text"] {
 }
 
 // NAVIGATION
+
 ul[role="navigation"] {
   @extend p;
   @extend %reset-links;
@@ -182,16 +183,34 @@ ul[role="navigation"] {
       display: none;
     }
   }
+
 }
 
 // FRIENDSHIPS / USERS
-.friendship {
+
+div.friendship {
   @extend p;
 }
-.user-name {
+div.user-name {
   display: inline;
 }
-.user-info {
+div.user-info {
   @extend %reset-links;
   color: $color-light;
+}
+
+// AVATARS
+
+a.avatar {
+  img {
+    width: 50px;
+    height: 50px;
+    @include border-radius(30% 0);
+    @include transition(border-radius 150ms ease-out);
+  }
+}
+a.avatar:hover {
+  img {
+    @include border-radius(0);
+  }
 }
