@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
 
+  dragonfly_accessor :image
+
   scope :hosted, -> { where(hosted: true) }
 
   validates :domain, :url,
@@ -40,6 +42,10 @@ class User < ActiveRecord::Base
 
   before_validation do
     self.url ||= "http://#{domain}/"
+  end
+
+  def external_image_url
+    URI.join(url, '/user.jpg')
   end
 
   def add_to_timeline(post)

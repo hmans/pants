@@ -8,7 +8,9 @@ class UsersController < ApplicationController
   load_and_authorize_resource :user
 
   def show
-    respond_with @user
+    respond_with @user do |format|
+      format.jpg { redirect_to @user.image.thumb('300x300#').url }
+    end
   end
 
   def edit
@@ -21,6 +23,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:display_name, :locale, :password, :password_confirmation)
+    params.require(:user).permit(:display_name, :locale, :password, :password_confirmation,
+      :image, :remove_image)
   end
 end
