@@ -49,6 +49,10 @@ class User < ActiveRecord::Base
     friendships.where(friend_id: friend.id).first_or_create!
   end
 
+  def ping!(body)
+    HTTParty.post(URI.join(url, '/ping'), body: body)
+  end
+
   class << self
     def fetch_from(url)
       unless url =~ %r{^https?://}

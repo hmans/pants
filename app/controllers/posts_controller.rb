@@ -37,6 +37,7 @@ class PostsController < ApplicationController
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
+      PostPinger.new.perform(@post.id)
     end
 
     respond_with @post
@@ -51,6 +52,7 @@ class PostsController < ApplicationController
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
+      PostPinger.new.perform(@post.id)
     end
 
     respond_with @post
