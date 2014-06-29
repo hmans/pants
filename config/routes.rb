@@ -12,8 +12,7 @@ Rails.application.routes.draw do
   resources :friendships, path: 'friends'
 
   # Timeline
-  get 'timeline' => 'timeline_entries#index'
-  get 'timeline/all' => 'timeline_entries#index', all: true
+  get 'timeline(/:mode)' => 'timeline_entries#index', as: :timeline, mode: /all|others|friends/
 
   # Tag pages
   get 'tag/:tag' => 'posts#index', as: :tagged_posts
