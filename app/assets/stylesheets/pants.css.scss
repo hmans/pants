@@ -128,6 +128,7 @@ div.post {
   @extend %text-formatting;
   margin: 1em 0 3em 0;
   position: relative;
+  min-height: 60px;
 }
 
 div.post-time {
