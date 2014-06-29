@@ -1,1 +1,2 @@
-= render timeline_entry.post
+= div_for timeline_entry, class: timeline_entry.from_friend? ? 'from-friend' : 'from-other' do
+  = render timeline_entry.post
