@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   # Timeline
   get 'timeline' => 'timeline_entries#index'
+  get 'timeline/all' => 'timeline_entries#index', all: true
 
   # Tag pages
   get 'tag/:tag' => 'posts#index', as: :tagged_posts

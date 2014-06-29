@@ -4,9 +4,12 @@ class TimelineEntriesController < ApplicationController
 
   def index
     @timeline_entries = @timeline_entries
-      .from_friend
       .includes(:post)
       .order('created_at DESC')
+
+    unless params[:all]
+      @timeline_entries = @timeline_entries.from_friend
+    end
 
     respond_with @timeline_entries
   end
