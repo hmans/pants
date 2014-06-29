@@ -20,6 +20,7 @@ gem 'compass-rails'
 gem 'simple_form'
 gem 'slodown', github: 'hmans/slodown'
 gem 'dragonfly'
+gem 'dragonfly-s3_data_store'
 
 # Authorization/Authentication
 gem 'cancancan'
