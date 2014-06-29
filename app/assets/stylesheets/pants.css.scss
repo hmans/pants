@@ -62,6 +62,10 @@ em, i {
   color: $color-light;
 }
 
+small {
+  font-size: 90%;
+}
+
 .error {
   color: red;
 }
@@ -110,6 +114,24 @@ em, i {
   }
 }
 
+// NAVIGATION LISTS
+ul.navigation {
+  li {
+    display: inline;
+    margin-right: 0.5em;
+    &:before {
+      content: "\00B7";
+      margin-right: 0.5em;
+    }
+  }
+
+  li:first-child {
+    &:before {
+      display: none;
+    }
+  }
+}
+
 // HEADINGS
 h1, h2, h3, h4, h5, h6 {
   @extend %reset-links;
@@ -125,10 +147,13 @@ h1, h2 {
 
 // POSTS
 div.post {
-  @extend %text-formatting;
   margin: 1em 0 3em 0;
   position: relative;
   min-height: 60px;
+}
+
+div.post-body {
+  @extend %text-formatting;
 }
 
 div.post-time {
@@ -143,9 +168,11 @@ div.post-info {
   @extend %reset-links;
 }
 
-div.post-source {
+ul.post-meta {
   @extend .light;
+  @extend small;
   @extend %reset-links;
+  @extend ul.navigation;
 }
 
 div.post-replies {
@@ -171,25 +198,13 @@ textarea, input[type="text"] {
 ul[role="navigation"] {
   @extend p;
   @extend %reset-links;
-  color: $color-light;
-
-  li {
-    display: inline;
-    margin-right: 10px;
-    &:before {
-      content: "\00B7";
-      margin-right: 10px;
-    }
-  }
+  @extend .light;
+  @extend ul.navigation;
 
   li:first-child {
     font-weight: bold;
     color: $color-text;
-    &:before {
-      display: none;
-    }
   }
-
 }
 
 // FRIENDSHIPS / USERS
