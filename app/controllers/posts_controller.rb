@@ -37,8 +37,14 @@ class PostsController < ApplicationController
     @post.save
 
     if @post.valid?
+      # save the post
       @post.update_attributes(url: post_url(@post))
+
+      # send pings for this post
       PostPinger.new.async.perform(@post.id)
+
+      # add post to my own timeline
+      current_site.add_to_timeline(@post)
     end
 
     respond_with @post
