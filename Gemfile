@@ -7,6 +7,7 @@ gem 'quiet_assets'
 gem 'httparty'
 gem 'sucker_punch'
 gem 'puma'
+gem 'rack-cache', :require => 'rack/cache'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
