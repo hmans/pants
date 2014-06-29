@@ -252,3 +252,11 @@ a.avatar:hover {
     @include border-radius(0);
   }
 }
+
+div.avatars {
+  @include clearfix;
+  .avatar {
+    @include float-left;
+    margin: 0 8px 8px 0;
+  }
+}

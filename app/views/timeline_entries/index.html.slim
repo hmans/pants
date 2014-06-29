@@ -6,4 +6,14 @@ ul.navigation.tabs
   li = link_to_unless_current "Others", timeline_path(mode: 'others')
   li = link_to_unless_current "Everyone", timeline_path(mode: 'all')
 
+- if @mode == 'friends'
+  div.avatars
+    - current_site.friends.each do |user|
+      = avatar user
+
+- if @mode == 'others'
+  div.avatars
+    - (current_site.followers - current_site.friends).each do |user|
+      = avatar user
+
 = render @timeline_entries

@@ -7,7 +7,9 @@ class TimelineEntriesController < ApplicationController
       .includes(:post)
       .order('created_at DESC')
 
-    case params[:mode]
+    @mode = params[:mode] || 'friends'
+
+    case @mode
     when 'all'
     when 'others'
       @timeline_entries = @timeline_entries.from_others
