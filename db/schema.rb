@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629140215) do
+ActiveRecord::Schema.define(version: 20140629162248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,11 +66,12 @@ ActiveRecord::Schema.define(version: 20140629140215) do
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "locale",          limit: 5,  default: "en"
+    t.string   "locale",              limit: 5,  default: "en"
     t.string   "url"
-    t.boolean  "hosted",                     default: false, null: false
-    t.string   "gosquared_id",    limit: 20
+    t.boolean  "hosted",                         default: false, null: false
+    t.string   "gosquared_id",        limit: 20
     t.string   "image_uid"
+    t.string   "google_analytics_id", limit: 20
   end
 
   add_index "users", ["domain"], name: "index_users_on_domain", unique: true, using: :btree

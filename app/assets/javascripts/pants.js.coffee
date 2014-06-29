@@ -3,3 +3,4 @@ $(document).bind 'page:load', ->
 
 $(document).on 'page:change', ->
   _gs('track') if (_gs?)
+  ga('send', 'pageview') if (ga?)

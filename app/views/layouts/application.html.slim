@@ -11,8 +11,11 @@ html
     meta name="apple-mobile-web-app-capable" content="yes"
     meta name="apple-mobile-web-app-status-bar-style" content="black"
 
-    - if Rails.env.production? && current_site.gosquared_id.present?
-      = render 'gosquared'
+    - if Rails.env.production?
+      - if current_site.gosquared_id.present?
+        = render 'gosquared'
+      - if current_site.google_analytics_id.present?
+        = render 'ga'
 
     = auto_discovery_link_tag :atom, posts_url(format: 'atom'), title: "Latest Posts by #{current_site.display_name} (ATOM)"
 
