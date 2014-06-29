@@ -61,9 +61,10 @@ class Post < ActiveRecord::Base
   scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
   scope :latest, -> { order('created_at DESC') }
   scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
+  scope :referencing, ->(guid) { where("? = ANY(posts.references)", guid) }
 
   def calculate_sha
-    Digest::SHA1.hexdigest("pants:#{guid}:#{body}")
+    Digest::SHA1.hexdigest("pants:#{guid}:#{referenced_guid}:#{body}")
   end
 
   def generate_slug
@@ -75,6 +76,26 @@ class Post < ActiveRecord::Base
 
   def to_param
     slug
+  end
+
+  concerning :References do
+    included do
+      has_many :replies,
+        class_name: 'Post',
+        foreign_key: 'referenced_guid',
+        primary_key: 'guid'
+
+      belongs_to :reference,
+        class_name: 'Post',
+        foreign_key: 'referenced_guid',
+        primary_key: 'guid'
+    end
+
+    # Make sure referenced GUID is stored without protocol
+    #
+    def referenced_guid=(v)
+      write_attribute(:referenced_guid, v.present? ? v.strip.without_http : nil)
+    end
   end
 
   class << self

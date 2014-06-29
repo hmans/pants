@@ -61,16 +61,12 @@ class User < ActiveRecord::Base
   end
 
   def ping!(body)
-    HTTParty.post(URI.join(url, '/ping'), body: body)
+    UserPinger.new.async.perform(url, body)
   end
 
   class << self
     def fetch_from(url)
-      unless url =~ %r{^https?://}
-        url = "http://#{url}"
-      end
-
-      uri = URI.parse(url)
+      uri = URI.parse(url.with_http)
       json = HTTParty.get(URI.join(uri, '/user').to_s, query: { format: 'json' })
 
       # Sanity checks

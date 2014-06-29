@@ -6,6 +6,8 @@ class PostsController < ApplicationController
     find_by: :slug,
     through: :current_site
 
+  after_filter :fetch_referenced_posts, only: [:create, :update]
+
   def index
     @posts = @posts.latest
 
@@ -30,6 +32,7 @@ class PostsController < ApplicationController
   end
 
   def new
+    @post.referenced_guid = params[:referenced_guid]
     respond_with @post
   end
 
@@ -71,6 +74,17 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:body)
+    params.require(:post).permit(:body, :referenced_guid)
+  end
+
+  def fetch_referenced_posts
+    if @post.referenced_guid.present?
+      # Fetch referenced post
+      PostFetcher.new.async.perform(@post.referenced_guid.with_http)
+
+      # Ping referenced site with new post
+      domain, slug = @post.referenced_guid.split '/'
+      UserPinger.new.async.perform(domain, url: @post.url)
+    end
   end
 end

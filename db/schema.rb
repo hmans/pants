@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140628220407) do
+ActiveRecord::Schema.define(version: 20140629140215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,23 +27,25 @@ ActiveRecord::Schema.define(version: 20140628220407) do
   add_index "friendships", ["user_id"], name: "index_friendships_on_user_id", using: :btree
 
   create_table "posts", force: true do |t|
-    t.string   "sha",           limit: 40
+    t.string   "sha",             limit: 40
     t.string   "slug"
     t.string   "domain"
     t.text     "body"
     t.text     "body_html"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "tags",                     default: [], array: true
-    t.text     "previous_shas",            default: [], array: true
+    t.text     "tags",                       default: [], array: true
+    t.text     "previous_shas",              default: [], array: true
     t.datetime "published_at"
     t.string   "guid"
     t.datetime "edited_at"
     t.string   "url"
+    t.string   "referenced_guid"
   end
 
   add_index "posts", ["guid"], name: "index_posts_on_guid", using: :btree
   add_index "posts", ["previous_shas"], name: "index_posts_on_previous_shas", using: :gin
+  add_index "posts", ["referenced_guid"], name: "index_posts_on_referenced_guid", using: :btree
   add_index "posts", ["tags"], name: "index_posts_on_tags", using: :gin
 
   create_table "timeline_entries", force: true do |t|

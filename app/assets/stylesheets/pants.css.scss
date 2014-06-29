@@ -148,6 +148,11 @@ div.post-source {
   @extend %reset-links;
 }
 
+div.post-replies {
+  margin-top: 80px;
+  padding-left: 150px;
+}
+
 // FORMS
 input, textarea, select {
   @extend %font-default;

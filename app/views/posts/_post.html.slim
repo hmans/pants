@@ -1,8 +1,15 @@
+- hide_reply_references ||= false
 = div_for post do
   .post-time.light
     = link_to image_tag(post.user.external_image_url), post.user.url, class: 'avatar'
     = link_to l(post.created_at, format: :time), post.url, title: post.url
   - if post.domain != current_site.domain
-    .post-source = link_to post.guid, post.url
+    .post-source
+      = link_to post.guid, post.url
+      - if can?(:create, Post)
+        |  &middot; #{link_to 'reply', new_post_path(referenced_guid: post.guid)}
 
   == post.body_html
+
+  - if post.referenced_guid.present? && !hide_reply_references
+    p.light In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
