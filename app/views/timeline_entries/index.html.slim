@@ -1,4 +1,9 @@
 - if can?(:create, Post)
   = render 'posts/form', post: Post.new, rows: 3
 
+ul.navigation.tabs
+  li = link_to_unless_current "Your Friends", timeline_path(mode: nil)
+  li = link_to_unless_current "Others", timeline_path(mode: 'others')
+  li = link_to_unless_current "Everyone", timeline_path(mode: 'all')
+
 = render @timeline_entries

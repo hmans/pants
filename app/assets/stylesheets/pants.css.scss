@@ -116,6 +116,8 @@ small {
 
 // NAVIGATION LISTS
 ul.navigation {
+  @extend p;
+
   li {
     display: inline;
     margin-right: 0.5em;
