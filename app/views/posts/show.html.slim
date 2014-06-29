@@ -1,12 +1,6 @@
 = render @post
 
 .post-info.light
-  - if @post.tags.any?
-    p
-      ' Tags:
-      - @post.tags.each do |tag|
-        =' link_to "##{tag}", tagged_posts_path(tag: tag)
-
   - if can?(:edit, @post)
     p.light
       = link_to 'edit this post', [:edit, @post]
