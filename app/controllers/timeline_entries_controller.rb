@@ -11,7 +11,7 @@ class TimelineEntriesController < ApplicationController
 
     case @mode
     when 'all'
-    when 'others'
+    when 'incoming'
       @timeline_entries = @timeline_entries.from_others
     else  # friends only
       @timeline_entries = @timeline_entries.from_friends

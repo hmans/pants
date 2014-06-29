@@ -3,7 +3,7 @@
 
 ul.navigation.tabs
   li = link_to_unless_current "Your Friends", timeline_path(mode: nil)
-  li = link_to_unless_current "Others", timeline_path(mode: 'others')
+  li = link_to_unless_current "Incoming", timeline_path(mode: 'incoming')
   li = link_to_unless_current "Everyone", timeline_path(mode: 'all')
 
 - if @mode == 'friends'
@@ -11,7 +11,7 @@ ul.navigation.tabs
     - current_site.friends.each do |user|
       = avatar user
 
-- if @mode == 'others'
+- if @mode == 'incoming'
   div.avatars
     - (current_site.followers - current_site.friends).each do |user|
       = avatar user
