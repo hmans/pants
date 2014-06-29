@@ -21,7 +21,7 @@ class PostsController < ApplicationController
     @posts = if @all
       Post.latest.tagged_with(@tags)
     else
-      @posts.tagged_with(@tags)
+      @posts.latest.tagged_with(@tags)
     end
 
     respond_with @posts
