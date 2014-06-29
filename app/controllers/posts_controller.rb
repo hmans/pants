@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   respond_to :json, only: [:show, :index]
-  respond_to :atom, only: :index
+  respond_to :atom, only: [:index, :tagged]
 
   load_and_authorize_resource :post,
     find_by: :slug,
@@ -23,6 +23,8 @@ class PostsController < ApplicationController
     else
       @posts.tagged_with(@tags)
     end
+
+    respond_with @posts
   end
 
   def day
