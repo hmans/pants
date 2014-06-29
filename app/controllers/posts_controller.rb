@@ -7,6 +7,7 @@ class PostsController < ApplicationController
     through: :current_site
 
   after_filter :fetch_referenced_posts, only: [:create, :update]
+  after_filter :push_to_local_followers, only: [:create, :update]
 
   def index
     @posts = @posts.latest
@@ -85,6 +86,8 @@ class PostsController < ApplicationController
     params.require(:post).permit(:body, :referenced_guid)
   end
 
+private
+
   def fetch_referenced_posts
     if @post.referenced_guid.present?
       # Fetch referenced post
@@ -93,6 +96,12 @@ class PostsController < ApplicationController
       # Ping referenced site with new post
       domain, slug = @post.referenced_guid.split '/'
       UserPinger.new.async.perform(domain, url: @post.url)
+    end
+  end
+
+  def push_to_local_followers
+    current_site.followers.hosted.find_each do |follower|
+      follower.add_to_timeline(@post)
     end
   end
 end
