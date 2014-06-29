@@ -11,8 +11,8 @@
     - if can?(:create, Post)
       li = link_to 'reply', new_post_path(referenced_guid: post.guid)
 
-    - if can?(:edit, @post)
-      li = link_to 'edit', [:edit, @post]
+    - if can?(:edit, post)
+      li = link_to 'edit', [:edit, post]
 
     - if post.domain != current_site.domain
       li = link_to post.guid, post.url
