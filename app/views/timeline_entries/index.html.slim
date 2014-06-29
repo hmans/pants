@@ -1,1 +1,4 @@
+- if can?(:create, Post)
+  = render 'posts/form', post: Post.new, rows: 3
+
 = render @timeline_entries
