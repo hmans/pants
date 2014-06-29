@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  respond_to :json, only: :show
+  respond_to :json, only: [:show, :index]
   respond_to :atom, only: :index
 
   load_and_authorize_resource :post,
