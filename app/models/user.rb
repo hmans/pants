@@ -28,17 +28,17 @@ class User < ActiveRecord::Base
   has_many :friendships,
     dependent: :destroy
 
-  has_many :incoming_friendships,
+  has_many :followings,
     class_name: 'Friendship',
     foreign_key: 'friend_id'
 
   has_many :friends,
     through: :friendships,
-    as: :friend
+    source: :friend
 
-  has_many :incoming_friends,
-    through: :friendships,
-    as: :user
+  has_many :followers,
+    through: :followings,
+    source: :user
 
   before_validation do
     self.url ||= "http://#{domain}/"
