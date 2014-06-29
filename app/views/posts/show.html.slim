@@ -1,11 +1,5 @@
 = render @post
 
-.post-info.light
-  - if can?(:edit, @post)
-    p.light
-      = link_to 'edit this post', [:edit, @post]
-
-
 - if @post.replies.any?
   .post-replies
     h2 Replies
