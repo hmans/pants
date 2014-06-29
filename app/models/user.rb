@@ -57,7 +57,11 @@ class User < ActiveRecord::Base
   end
 
   def add_friend(friend)
+    # Upsert friendship
     friendships.where(friend_id: friend.id).first_or_create!
+
+    # Make existing timeline posts visible
+    timeline_entries.joins(:post).where(posts: { domain: friend.domain }).update_all(from_friend: true)
   end
 
   def ping!(body)
