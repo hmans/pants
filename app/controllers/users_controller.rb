@@ -8,7 +8,19 @@ class UsersController < ApplicationController
   load_and_authorize_resource :user
 
   def show
-    respond_with @user
+    respond_with @user do |format|
+      format.jpg do
+        job = if @user.image.present?
+          @user.image.thumb('300x300#')
+        else
+          Dragonfly.app.generate(:plain, 1, 1,
+            'format' => 'png',
+            'color' => 'rgba(0,0,0,0)')
+        end
+
+        redirect_to job.url
+      end
+    end
   end
 
   def edit
@@ -21,6 +33,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:display_name, :locale, :password, :password_confirmation)
+    params.require(:user).permit(:display_name, :locale, :password, :password_confirmation,
+      :image, :remove_image)
   end
 end

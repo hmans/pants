@@ -7,6 +7,7 @@ gem 'quiet_assets'
 gem 'httparty'
 gem 'sucker_punch'
 gem 'puma'
+gem 'rack-cache', :require => 'rack/cache'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
@@ -19,6 +20,8 @@ gem 'slim-rails'
 gem 'compass-rails'
 gem 'simple_form'
 gem 'slodown', github: 'hmans/slodown'
+gem 'dragonfly'
+gem 'dragonfly-s3_data_store'
 
 # Authorization/Authentication
 gem 'cancancan'
@@ -38,6 +41,8 @@ group :test, :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
+
+  gem 'dotenv-rails'
 end
 
 # Production only

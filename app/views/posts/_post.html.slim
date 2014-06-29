@@ -1,5 +1,6 @@
 = div_for post do
   .post-time.light
+    = link_to image_tag(post.user.external_image_url), post.user.url, class: 'avatar'
     = link_to l(post.created_at, format: :time), post.url, title: post.url
   - if post.domain != current_site.domain
     .post-source = link_to post.guid, post.url

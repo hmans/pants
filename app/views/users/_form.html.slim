@@ -2,8 +2,16 @@
   = f.input :display_name
   = f.input :locale, collection: [['English', 'en'], ['German', 'de']], include_blank: false
 
-  h2 New Password?
+  h2 User Image
+  - if user.image.present?
+    p
+      = image_tag user.external_image_url
+      = f.input :remove_image, as: :boolean
 
+
+  = f.input :image, as: :file, label: false
+
+  h2 New Password?
   p If you want to change your password, please enter your new password here.
   = f.input :password
   = f.input :password_confirmation
