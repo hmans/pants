@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   get 'timeline(/:mode)' => 'timeline_entries#index', as: :timeline, mode: /all|others|friends/
 
   # Tag pages
-  get 'tag/:tag' => 'posts#index', as: :tagged_posts
+  get 'tag/:tag' => 'posts#tagged', as: :tagged_posts
+  get 'tag/all/:tag' => 'posts#tagged', as: :all_tagged_posts, all: 1
 
   # Daily archives
   get ':year-:month-:day' => 'posts#day', as: :day

@@ -10,9 +10,17 @@ class PostsController < ApplicationController
 
   def index
     @posts = @posts.latest
+    respond_with @posts
+  end
 
-    if params[:tag].present?
-      @posts = @posts.tagged_with(params[:tag].gsub(/\+/, ' ').split.map(&:downcase))
+  def tagged
+    @tags = params.require(:tag).gsub(/\+/, ' ').split.map(&:downcase)
+    @all = params[:all].present?
+
+    @posts = if @all
+      Post.latest.tagged_with(@tags)
+    else
+      @posts.tagged_with(@tags)
     end
   end
 
