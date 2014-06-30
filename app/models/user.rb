@@ -64,6 +64,13 @@ class User < ActiveRecord::Base
     timeline_entries.joins(:post).where(posts: { domain: friend.domain }).update_all(from_friend: true)
   end
 
+  # Returns a list of locally known users that have posts waiting
+  # in this user's incoming timeline.
+  #
+  def incoming_followers
+    User.where(domain: timeline_entries.from_others.includes(:post).pluck('distinct domain'))
+  end
+
   def ping!(body)
     UserPinger.new.async.perform(url, body)
   end

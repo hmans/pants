@@ -13,7 +13,7 @@ ul.navigation.tabs
 
 - if @mode == 'incoming'
   div.avatars
-    - (current_site.followers - current_site.friends).each do |user|
+    - current_site.incoming_followers.find_each do |user|
       = avatar user
 
 = render @timeline_entries
