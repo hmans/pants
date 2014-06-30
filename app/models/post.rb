@@ -99,6 +99,24 @@ class Post < ActiveRecord::Base
   end
 
   class << self
+    # The following attributes will be copied from post JSON responses
+    # into local Post instances.
+    #
+    ACCESSIBLE_JSON_ATTRIBUTES = %w{
+      guid
+      url
+      published_at
+      edited_at
+      referenced_guid
+      body
+      body_html
+      domain
+      slug
+      sha
+      previous_shas
+      tags
+    }
+
     def fetch_from(url)
       json = HTTParty.get(url, query: { format: 'json' })
 
@@ -111,7 +129,7 @@ class Post < ActiveRecord::Base
       # Upsert post
       post = where(guid: json['guid']).first_or_initialize
       if post.new_record? || post.edited_at < json['edited_at']
-        post.attributes = json
+        post.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
         post.save!
       end
 
