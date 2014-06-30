@@ -69,6 +69,16 @@ class User < ActiveRecord::Base
   end
 
   class << self
+    # The following attributes will be copied from user JSON responses
+    # into local Post instances.
+    #
+    ACCESSIBLE_JSON_ATTRIBUTES = %w{
+      display_name
+      domain
+      locale
+      url
+    }
+
     def fetch_from(url)
       uri = URI.parse(url.with_http)
       json = HTTParty.get(URI.join(uri, '/user').to_s, query: { format: 'json' })
@@ -84,7 +94,7 @@ class User < ActiveRecord::Base
 
       # Upsert user
       user = where(domain: json['domain']).first_or_initialize
-      user.attributes = json
+      user.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
       user.save!
 
       user
