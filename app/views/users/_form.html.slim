@@ -16,4 +16,8 @@
   = f.input :password
   = f.input :password_confirmation
 
-  = f.submit "Save"
+  h2 Bookmarklets
+  p Drag the following bookmarklet to quickly reply to a post on another #pants site.
+  p: a href="javascript:location.href='#{new_post_url}?referenced_guid='+encodeURIComponent(location.href)" Reply on #{current_site.domain}
+
+  = f.submit "Save Settings"
