@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     @exception = exception
+    @page_title = "Error"
     render 'error', status: 403
   end
 
@@ -42,5 +43,16 @@ class ApplicationController < ActionController::Base
     session[:current_user] = nil
     cookies.delete(:login_user, domain: current_site.domain)
     cookies.delete(:login_domain, domain: current_site.domain)
+  end
+
+  concerning :PageTitle do
+    included do
+      attr_writer :page_title
+      helper_method :page_title, :page_title=
+    end
+
+    def page_title
+      @page_title ||= t(".page_title", default: '')
+    end
   end
 end

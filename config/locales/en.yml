@@ -20,6 +20,21 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  auth:
+    login:
+      page_title: "Login"
+  timeline_entries:
+    index:
+      page_title: "Timeline"
+  friendships:
+    index:
+      page_title: "Friends"
+  users:
+    edit:
+      page_title: "Settings"
+  posts:
+    day:
+      page_title: "Posts from %{date}"
   time:
     formats:
       time: '%H:%M'

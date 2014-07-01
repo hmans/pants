@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title = current_site.display_name
+    title = [page_title.presence, current_site.display_name].compact.join(' - ')
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     = stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag "application", 'data-turbolinks-track' => true
