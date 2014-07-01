@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 # Core
-gem 'dotenv-rails'
 gem 'rails', '4.1.2'
 gem 'pg'
 gem 'quiet_assets'
@@ -43,6 +42,8 @@ group :test, :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
+
+  gem 'dotenv-rails'
 end
 
 # Production only
