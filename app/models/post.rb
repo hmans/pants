@@ -78,8 +78,14 @@ class Post < ActiveRecord::Base
     slug
   end
 
-  def to_title
-    Nokogiri::HTML(body_html).text.truncate(80)
+  def to_summary(target = 60)
+    Rails.cache.fetch("post-summary-#{id}-#{updated_at}", expires_in: 1.day) do
+      sentences = Nokogiri::HTML(body_html).text.split(/((?<=[a-z0-9)][.?!])|(?<=[a-z0-9][.?!]"))\s+(?="?[A-Za-z])/).reject {|part| part.blank? }
+      sentences.inject("") do |v, sentence|
+        break v if v.length > target
+        v << " " << sentence
+      end
+    end.html_safe
   end
 
   concerning :References do
