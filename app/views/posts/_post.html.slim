@@ -5,9 +5,13 @@
     = link_to l(post.published_at, format: :time), post.url, title: post.url
 
   .post-body
-    - if post.referenced_post.present? && !hide_reply_references
-      .post-quote
-        == post.referenced_post.body_html
+    - unless hide_reply_references
+      - if post.referenced_guid.present?
+        p.light In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
+
+        - if post.referenced_post.present?
+          .post-quote
+            == post.referenced_post.body_html
 
     == post.body_html
 
@@ -20,6 +24,3 @@
 
     - if post.domain != current_site.domain
       li = link_to post.guid, post.url
-
-    - if post.referenced_guid.present? && !hide_reply_references
-      li In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
