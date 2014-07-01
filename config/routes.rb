@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # Login page
   match 'login' => 'auth#login', via: [:get, :post]
+  delete 'login' => 'auth#logout'
 
   # Ping
   post 'ping' => 'pings#create'

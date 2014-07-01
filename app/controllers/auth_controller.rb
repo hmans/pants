@@ -20,4 +20,9 @@ class AuthController < ApplicationController
       end
     end
   end
+
+  def logout
+    logout_user
+    redirect_to :root, notice: "You've been logged out. See you later!"
+  end
 end

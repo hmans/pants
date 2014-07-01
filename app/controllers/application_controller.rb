@@ -26,9 +26,7 @@ class ApplicationController < ActionController::Base
         user
       end
     rescue ActiveRecord::RecordNotFound
-      session[:current_user] = nil
-      cookies.delete(:login_user, domain: current_site.domain)
-      cookies.delete(:login_domain, domain: current_site.domain)
+      logout_user
     end
   end
 
@@ -38,5 +36,11 @@ class ApplicationController < ActionController::Base
 
   def load_current_site
     User.hosted.find_by(domain: request.host) or raise "No user/site found for #{request.host}"
+  end
+
+  def logout_user
+    session[:current_user] = nil
+    cookies.delete(:login_user, domain: current_site.domain)
+    cookies.delete(:login_domain, domain: current_site.domain)
   end
 end
