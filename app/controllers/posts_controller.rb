@@ -42,6 +42,8 @@ class PostsController < ApplicationController
       redirect_to canonical_path and return
     end
 
+    @page_title = @post.to_title
+
     respond_with @post
   end
 

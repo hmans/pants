@@ -78,6 +78,10 @@ class Post < ActiveRecord::Base
     slug
   end
 
+  def to_title
+    Nokogiri::HTML(body_html).text.truncate(80)
+  end
+
   concerning :References do
     included do
       has_many :replies,
