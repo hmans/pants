@@ -39,6 +39,10 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    appsignal (0.9.0)
+      activesupport (>= 3.0)
+      rack
+      thread_safe
     arel (5.0.1.20140414130214)
     awesome_print (1.2.0)
     bcrypt (3.1.7)
@@ -288,6 +292,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  appsignal
   awesome_print
   bcrypt (~> 3.1.7)
   better_errors

@@ -8,6 +8,7 @@ gem 'httparty'
 gem 'sucker_punch'
 gem 'puma'
 gem 'rack-cache', :require => 'rack/cache'
+gem 'appsignal'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
