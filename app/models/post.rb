@@ -85,7 +85,7 @@ class Post < ActiveRecord::Base
         break v if v.length > target
         v << " " << sentence
       end
-    end.html_safe
+    end.strip.html_safe
   end
 
   concerning :References do
