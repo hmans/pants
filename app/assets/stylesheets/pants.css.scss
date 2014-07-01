@@ -8,7 +8,7 @@ $color-light: #999;
 $color-link: #0076c9;
 
 %font-default {
-  font: 17px/24px 'Roboto', sans-serif;
+  font: 17px/1.5 'Roboto', sans-serif;
 }
 
 %reset-links {
@@ -18,6 +18,19 @@ $color-link: #0076c9;
   }
 }
 
+@mixin on-mobile {
+  @media only screen and (max-width: 799px) {
+    @content;
+  }
+}
+
+@mixin on-desktop {
+  @media only screen and (min-width: 800px) {
+    @content;
+  }
+}
+
+
 // set up border-box sizing model
 * { @include box-sizing(inherit); }
 html, body { @include box-sizing(border-box); }
@@ -26,19 +39,25 @@ body {
   @extend %font-default;
   background-color: $color-background;
   color: $color-text;
+
+  @include on-mobile {
+    font-size: 16px;
+  }
 }
 
 
 // LAYOUT
 
 #main {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 80px;
-  margin-bottom: 400px;
+  margin: 20px auto 20px auto;
   max-width: 800px;
-  padding-left: 80px;
+  padding-left: 20px;
   padding-right: 20px;
+
+  @include on-desktop {
+    padding-left: 80px;
+    margin: 80px auto 100px auto;
+  }
 }
 
 // BASICS
@@ -152,6 +171,10 @@ div.post {
   margin: 1em 0 3em 0;
   position: relative;
   min-height: 60px;
+
+  @include on-mobile {
+    margin-left: 70px;
+  }
 }
 
 div.post-body {
@@ -160,9 +183,10 @@ div.post-body {
 
 div.post-time {
   @extend %reset-links;
+
   position: absolute;
-  left: -80px;
-  width: 60px;
+  left: -70px;
+  width: 50px;
   text-align: center;
 }
 
