@@ -58,8 +58,8 @@ class Post < ActiveRecord::Base
   has_many :timeline_entries,
     dependent: :destroy
 
-  scope :on_date, ->(date) { where(created_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
-  scope :latest, -> { order('created_at DESC') }
+  scope :on_date, ->(date) { where(published_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
+  scope :latest, -> { order('published_at DESC') }
   scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
   scope :referencing, ->(guid) { where("? = ANY(posts.references)", guid) }
 

@@ -1,6 +1,22 @@
 - if can?(:create, Post)
   = render 'form', post: Post.new, rows: 3
 
-- @posts.group_by { |p| p.created_at.to_date }.each do |date, posts|
-  h1 = link_to l(date, format: :long), day_path(year: date.year, month: date.month, day: date.day)
+// get the first post and use it to render the date heading
+h1 = link_to l(@date, format: :long), day_path(year: @date.year, month: @date.month, day: @date.day)
+
+// render all posts from this day
+- posts = @posts.on_date(@date)
+- if posts.any?
   = render posts
+- else
+  p No posts for this day.
+
+// get the next older post to link to the previous day
+p
+  - if post = @posts.where("published_at < ?", @date.at_beginning_of_day.utc).first
+    - date = post.published_at.to_date
+    =' link_to "&laquo; #{l(date, format: :long)}".html_safe, day_path(year: date.year, month: date.month, day: date.day)
+
+  - if post = @posts.where("published_at > ?", @date.at_end_of_day.utc).last
+    - date = post.published_at.to_date
+    =' link_to "#{l(date, format: :long)} &raquo;".html_safe, day_path(year: date.year, month: date.month, day: date.day)

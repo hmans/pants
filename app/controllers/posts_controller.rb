@@ -10,7 +10,9 @@ class PostsController < ApplicationController
   after_filter :push_to_local_followers, only: [:create, :update]
 
   def index
-    @posts = @posts.latest
+    @posts = @posts.latest.includes(:user)
+    @date = @posts.any? ? @posts.first.published_at.to_date : Date.today
+
     respond_with @posts
   end
 
@@ -28,8 +30,8 @@ class PostsController < ApplicationController
   end
 
   def day
-    date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-    @posts = @posts.on_date(date).latest
+    @date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+    @posts = @posts.latest
     render 'index'
   end
 
