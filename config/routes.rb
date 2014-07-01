@@ -31,4 +31,7 @@ Rails.application.routes.draw do
 
   # /
   root to: 'posts#index'
+
+  # catch-all route for 404s
+  match '*splat', to: 'application#render_404', via: [:get, :post, :delete, :put], format: [:html]
 end
