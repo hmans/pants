@@ -7,6 +7,16 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_site, :current_user
 
+  rescue_from ActiveRecord::RecordNotFound, with: :render_404
+
+  before_filter do
+    if current_site.blank?
+      redirect_to 'http://hmans.io/lrn569'
+    elsif current_site.domain != request.host
+      redirect_to(host: current_site.domain, status: 302)
+    end
+  end
+
   before_filter do
     I18n.locale = current_site.locale || 'en'
   end
@@ -16,8 +26,6 @@ class ApplicationController < ActionController::Base
     @page_title = "Error"
     render 'error', status: 403
   end
-
-  rescue_from ActiveRecord::RecordNotFound, with: :render_404
 
   def render_404
     @error = "Not found. I'm sorry."
@@ -44,7 +52,12 @@ class ApplicationController < ActionController::Base
   end
 
   def load_current_site
-    User.hosted.find_by(domain: request.host) or raise "No user/site found for #{request.host}"
+    parts = request.subdomains + [request.domain]
+    while parts.any? && (site = User.hosted.find_by(domain: parts.join('.'))).nil?
+      parts.shift
+    end
+
+    site
   end
 
   def logout_user
