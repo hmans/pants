@@ -3,6 +3,6 @@ h1 Posts tagged with: #{@tags.to_sentence}
 - if @all
   p Displaying all known matching posts.
 - else
-  p Only displaying your own matching posts. #{link_to "Show all", url_for(all: 1)}?
+  p Only displaying matching posts originating from <strong>#{current_site.domain}</strong>. #{link_to "Show all", url_for(all: 1)}?
 
 = render @posts
