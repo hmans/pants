@@ -1,3 +1,4 @@
 = simple_form_for :login do |f|
   = f.input :password, autofocus: true
+  = f.input :remember_me, as: :boolean
   = f.submit "Login"

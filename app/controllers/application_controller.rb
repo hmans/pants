@@ -20,9 +20,15 @@ class ApplicationController < ActionController::Base
     @current_user ||= begin
       if session[:current_user].present?
         User.find_by!(domain: session[:current_user])
+      elsif cookies[:login_user].present? && cookies[:login_domain] == current_site.domain
+        user = User.find_by!(domain: cookies[:login_user])
+        session[:current_user] = user.domain
+        user
       end
     rescue ActiveRecord::RecordNotFound
       session[:current_user] = nil
+      cookies.delete(:login_user, domain: current_site.domain)
+      cookies.delete(:login_domain, domain: current_site.domain)
     end
   end
 
