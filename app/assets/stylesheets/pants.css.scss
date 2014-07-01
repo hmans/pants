@@ -182,6 +182,14 @@ div.post-replies {
   padding-left: 150px;
 }
 
+div.post-quote {
+  background-color: #f8f8f8;
+  padding: 1px 20px;
+  border-left: 10px solid #eee;
+  max-height: 100px;
+  overflow: scroll;
+}
+
 // TIMELINE ENTRIES
 
 div.timeline_entry {

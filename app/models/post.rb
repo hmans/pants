@@ -96,6 +96,13 @@ class Post < ActiveRecord::Base
     def referenced_guid=(v)
       write_attribute(:referenced_guid, v.present? ? v.strip.without_http : nil)
     end
+
+    # Returns the referenced post IF it's available in the local
+    # database.
+    #
+    def referenced_post
+      Post.where(guid: referenced_guid).first if referenced_guid.present?
+    end
   end
 
   class << self

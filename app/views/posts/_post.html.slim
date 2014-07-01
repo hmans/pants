@@ -5,6 +5,10 @@
     = link_to l(post.published_at, format: :time), post.url, title: post.url
 
   .post-body
+    - if post.referenced_post.present? && !hide_reply_references
+      .post-quote
+        == post.referenced_post.body_html
+
     == post.body_html
 
   ul.post-meta
