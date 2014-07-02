@@ -6,14 +6,4 @@ ul.timeline-modes
   = navigation_entry "Incoming", timeline_path(mode: 'incoming')
   = navigation_entry "Everyone", timeline_path(mode: 'all')
 
-- if @mode == 'friends'
-  div.avatars
-    - current_site.friends.each do |user|
-      = avatar user
-
-- if @mode == 'incoming'
-  div.avatars
-    - current_site.incoming_followers.find_each do |user|
-      = avatar user
-
 = render 'more'
