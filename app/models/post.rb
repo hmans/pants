@@ -47,9 +47,13 @@ class Post < ActiveRecord::Base
   validates :body,
     presence: true
 
-  validates :sha, :slug, :url,
+  validates :sha, :url,
     presence: true,
     uniqueness: true
+
+  validates :slug,
+    presence: true,
+    uniqueness: { scope: :domain }
 
   belongs_to :user,
     foreign_key: 'domain',
@@ -134,15 +138,7 @@ class Post < ActiveRecord::Base
       tags
     }
 
-    def fetch_from(url)
-      json = HTTParty.get(url, query: { format: 'json' })
-
-      # Sanity checks
-      full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(url).to_a
-      if json['guid'] != guid || json['domain'] != domain || json['slug'] != slug
-        raise "Post JSON contained corrupted data."
-      end
-
+    def from_json!(json)
       # Upsert post
       post = where(guid: json['guid']).first_or_initialize
       if post.new_record? || post.edited_at < json['edited_at']
@@ -155,6 +151,18 @@ class Post < ActiveRecord::Base
       User.fetch_from(author_url)
 
       post
+    end
+
+    def fetch_from(url)
+      json = HTTParty.get(url, query: { format: 'json' })
+
+      # Sanity checks
+      full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(url).to_a
+      if json['guid'] != guid || json['domain'] != domain || json['slug'] != slug
+        raise "Post JSON contained corrupted data."
+      end
+
+      from_json!(json)
     end
   end
 end

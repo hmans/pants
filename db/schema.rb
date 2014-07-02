@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629162248) do
+ActiveRecord::Schema.define(version: 20140702115301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,9 +72,11 @@ ActiveRecord::Schema.define(version: 20140629162248) do
     t.string   "gosquared_id",        limit: 20
     t.string   "image_uid"
     t.string   "google_analytics_id", limit: 20
+    t.datetime "last_polled_at"
   end
 
   add_index "users", ["domain"], name: "index_users_on_domain", unique: true, using: :btree
   add_index "users", ["hosted", "domain"], name: "index_users_on_hosted_and_domain", using: :btree
+  add_index "users", ["last_polled_at"], name: "index_users_on_last_polled_at", using: :btree
 
 end

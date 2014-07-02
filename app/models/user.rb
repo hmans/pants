@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   dragonfly_accessor :image
 
   scope :hosted, -> { where(hosted: true) }
+  scope :remote, -> { where(hosted: false) }
 
   validates :domain, :url,
     presence: true,
@@ -75,6 +76,43 @@ class User < ActiveRecord::Base
     UserPinger.new.async.perform(url, body)
   end
 
+  concerning :Polling do
+    included do
+      scope :can_be_polled, -> { remote.where("last_polled_at IS NULL OR last_polled_at < ?", 15.minutes.ago) }
+    end
+
+    # Poll this user's posts via HTTP and place their posts in the
+    # timelines of followers (aka incoming friends.)
+    #
+    def poll!
+      # Never poll for hosted users.
+      unless hosted?
+        posts_url = URI.join(url, '/posts.json')
+        posts = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
+
+        posts.map do |json|
+          # Sanity checks
+          if json['domain'] != domain
+            raise "#{posts_url} contained an invalid domain."
+          end
+
+          # upsert post in local database
+          post = Post.from_json!(json)
+
+          # add post to local followers' timelines
+          followers.each do |follower|
+            follower.add_to_timeline(post)
+          end
+
+          # return post object
+          post
+        end
+      end
+    ensure
+      touch(:last_polled_at)
+    end
+  end
+
   class << self
     # The following attributes will be copied from user JSON responses
     # into local Post instances.
@@ -105,6 +143,10 @@ class User < ActiveRecord::Base
       user.save!
 
       user
+    end
+
+    def [](v)
+      find_by(domain: v)
     end
   end
 end
