@@ -47,9 +47,13 @@ class Post < ActiveRecord::Base
   validates :body,
     presence: true
 
-  validates :sha, :slug, :url,
+  validates :sha, :url,
     presence: true,
     uniqueness: true
+
+  validates :slug,
+    presence: true,
+    uniqueness: { scope: :domain }
 
   belongs_to :user,
     foreign_key: 'domain',
