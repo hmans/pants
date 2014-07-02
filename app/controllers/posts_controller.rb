@@ -20,6 +20,16 @@ class PostsController < ApplicationController
           redirect_to canonical_path, status: 301 and return
         end
       end
+
+      format.json do
+        # updated_since parameter
+        if params[:updated_since].present?
+          @posts = @posts.where('edited_at >= ?', Time.at(params[:updated_since].to_i).to_datetime)
+        end
+
+        # always limit posts to a maximum of 100
+        @posts = @posts.limit(100)
+      end
     end
   end
 
