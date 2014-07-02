@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
 
   concerning :Polling do
     included do
-      scope :can_be_polled, -> { where("last_polled_at IS NULL OR last_polled_at < ?", 30.minutes.ago) }
+      scope :can_be_polled, -> { remote.where("last_polled_at IS NULL OR last_polled_at < ?", 15.minutes.ago) }
     end
 
     # Poll this user's posts via HTTP and place their posts in the
