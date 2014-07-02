@@ -1,6 +1,15 @@
 require 'html/sanitizer'
 
 class Post < ActiveRecord::Base
+  # Scopes
+  #
+  scope :on_date, ->(date) { where(published_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
+  scope :latest, -> { order('published_at DESC') }
+  scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
+  scope :referencing, ->(guid) { where("? = ANY(posts.references)", guid) }
+
+  # Validations
+  #
   before_validation do
     if body_changed?
       # Render body to HTML
@@ -62,10 +71,7 @@ class Post < ActiveRecord::Base
   has_many :timeline_entries,
     dependent: :destroy
 
-  scope :on_date, ->(date) { where(published_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
-  scope :latest, -> { order('published_at DESC') }
-  scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
-  scope :referencing, ->(guid) { where("? = ANY(posts.references)", guid) }
+
 
   def calculate_sha
     Digest::SHA1.hexdigest("pants:#{guid}:#{referenced_guid}:#{body}")
@@ -78,18 +84,20 @@ class Post < ActiveRecord::Base
     (Array.new(3) { chars.sample } + Array.new(3) { numbers.sample }).join('')
   end
 
-  def to_param
-    slug
-  end
+  concerning :Representation do
+    def to_param
+      slug
+    end
 
-  def to_summary(target = 60)
-    Rails.cache.fetch("post-summary-#{id}-#{updated_at}", expires_in: 1.day) do
-      sentences = Nokogiri::HTML(body_html).text.split(/((?<=[a-z0-9)][.?!])|(?<=[a-z0-9][.?!]"))\s+(?="?[A-Za-z])/).reject {|part| part.blank? }
-      sentences.inject("") do |v, sentence|
-        break v if v.length > target
-        v << " " << sentence
-      end
-    end.strip.html_safe
+    def to_summary(target = 60)
+      Rails.cache.fetch("post-summary-#{id}-#{updated_at}", expires_in: 1.day) do
+        sentences = Nokogiri::HTML(body_html).text.split(/((?<=[a-z0-9)][.?!])|(?<=[a-z0-9][.?!]"))\s+(?="?[A-Za-z])/).reject {|part| part.blank? }
+        sentences.inject("") do |v, sentence|
+          break v if v.length > target
+          v << " " << sentence
+        end
+      end.strip.html_safe
+    end
   end
 
   concerning :References do

@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  # Add a couple of additional response formats.
+  #
   respond_to :json, only: [:show, :index]
   respond_to :atom, only: [:index, :tagged]
 
@@ -6,6 +8,8 @@ class PostsController < ApplicationController
     find_by: :slug,
     through: :current_site
 
+  # Hook up background processors to specific actions.
+  #
   after_filter :fetch_referenced_posts, only: [:create, :update]
   after_filter :push_to_local_followers, only: [:create, :update]
 
@@ -124,6 +128,7 @@ private
   end
 
   def push_to_local_followers
+    # TODO: move this into background processing.
     current_site.followers.hosted.find_each do |follower|
       follower.add_to_timeline(@post)
     end

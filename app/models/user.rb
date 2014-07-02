@@ -3,9 +3,13 @@ class User < ActiveRecord::Base
 
   dragonfly_accessor :image
 
+  # Scopes
+  #
   scope :hosted, -> { where(hosted: true) }
   scope :remote, -> { where(hosted: false) }
 
+  # Validations
+  #
   validates :domain, :url,
     presence: true,
     uniqueness: true
@@ -19,6 +23,8 @@ class User < ActiveRecord::Base
     presence: true,
     if: :hosted
 
+  # Associations
+  #
   has_many :posts,
     foreign_key: 'domain',
     primary_key: 'domain'

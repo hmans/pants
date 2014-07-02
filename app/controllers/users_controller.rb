@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   respond_to :json, only: :show
 
+  # This is a singleton resource, and the user we're dealing with
+  # is always the current site.
+  #
   before_filter do
     @user = current_site
   end
