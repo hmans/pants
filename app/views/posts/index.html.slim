@@ -12,11 +12,12 @@ h1 = link_to l(@date, format: :long), day_path(year: @date.year, month: @date.mo
   p No posts for this day.
 
 // get the next older post to link to the previous day
-p
-  - if post = @posts.where("published_at < ?", @date.at_beginning_of_day.utc).first
-    - date = post.published_at.to_date
-    =' link_to "&laquo; #{l(date, format: :long)}".html_safe, day_path(year: date.year, month: date.month, day: date.day)
+nav role="pagination"
+  ul
+    - if post = @posts.where("published_at < ?", @date.at_beginning_of_day.utc).first
+      - date = post.published_at.to_date
+      li = link_to "&laquo; #{l(date, format: :long)}".html_safe, day_path(year: date.year, month: date.month, day: date.day)
 
-  - if post = @posts.where("published_at > ?", @date.at_end_of_day.utc).last
-    - date = post.published_at.to_date
-    =' link_to "#{l(date, format: :long)} &raquo;".html_safe, day_path(year: date.year, month: date.month, day: date.day)
+    - if post = @posts.where("published_at > ?", @date.at_end_of_day.utc).last
+      - date = post.published_at.to_date
+      li = link_to "#{l(date, format: :long)} &raquo;".html_safe, day_path(year: date.year, month: date.month, day: date.day)

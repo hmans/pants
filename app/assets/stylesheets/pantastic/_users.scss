@@ -1,0 +1,31 @@
+.avatar {
+  img {
+    @extend %slanted;
+    background-color: #eee;
+  }
+}
+
+.user {
+  @extend %card;
+  @extend %card-body;
+  @extend %reset-links;
+  height: 81px;
+  padding: 10px 10px 10px 90px;
+  position: relative;
+}
+
+.user-image {
+  position: absolute;
+  top: 0; left: 0;
+
+  img {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(#000, 0.05);
+    @include border-radius(2px 0 0 2px);
+  }
+}
+
+.user-info {
+  @extend %light;
+}

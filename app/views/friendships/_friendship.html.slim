@@ -1,6 +1,10 @@
 - user = friendship.friend
 = div_for friendship do
-  .user-name = link_to user.display_name, user.url
-  .user-info
-    = link_to user.domain, user.url
-    |  [#{link_to 'unfriend', friendship, method: 'delete', data: { confirm: 'Are you sure?' }}]
+  = div_for user do
+    = link_to image_tag(user.external_image_url), user.url, class: 'user-image'
+    .user-name
+      = link_to user.display_name, user.url
+    .user-info
+      = link_to user.domain, user.url
+      |  [#{link_to 'unfriend', friendship, method: 'delete', data: { confirm: 'Are you sure?' }}]
+

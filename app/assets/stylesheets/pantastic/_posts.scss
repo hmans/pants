@@ -1,0 +1,77 @@
+article.post {
+  @extend %card;
+  margin: 40px 0;
+
+  position: relative;
+}
+
+.post-body {
+  @extend %card-body;
+  @extend %collapse;
+  @extend %text-formatting;
+  padding: 30px;
+}
+
+.post-reference {
+  @extend %card-body;
+  @extend %collapse;
+  @extend %text-formatting;
+  @extend %small;
+
+  background-color: #eee;
+  padding: 30px;
+
+  max-height: 300px;
+  overflow: auto;
+  position: relative;
+
+  $c: #eee;
+  @include background(linear-gradient(top, darken($c, 5%), $c 3px, $c 280px, darken($c, 5%) 298px, darken($c, 10%)));
+
+  >p:first-child {
+    @extend %light;
+    a { color: $color-text; }
+  }
+}
+
+.post-information {
+  padding-left: 50px;
+
+  @include on-mobile {
+    padding-left: 70px;
+  }
+}
+
+.post-avatar {
+  position: absolute;
+  z-index: 5;
+  top: -10px; left: -10px;
+
+  @include on-mobile {
+    left: 10px;
+  }
+
+  img {
+    width: 60px;
+    height: 60px;
+    @extend %box-shadow;
+  }
+}
+
+ul.post-actions {
+  @extend %card-actions;
+  @extend %reset-links;
+
+  li {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  a {
+    text-transform: uppercase;
+    color: #999;
+  }
+  a:hover {
+    color: inherit;
+  }
+}

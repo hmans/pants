@@ -1,10 +1,10 @@
 - if can?(:create, Post)
-  = render 'posts/form', post: Post.new, rows: 3
+  = render 'posts/miniform', post: Post.new, rows: 3
 
-ul.navigation.tabs
-  li = link_to_unless_current "Your Friends", timeline_path(mode: nil)
-  li = link_to_unless_current "Incoming", timeline_path(mode: 'incoming')
-  li = link_to_unless_current "Everyone", timeline_path(mode: 'all')
+ul.timeline-modes
+  = navigation_entry "Your Friends", timeline_path(mode: nil)
+  = navigation_entry "Incoming", timeline_path(mode: 'incoming')
+  = navigation_entry "Everyone", timeline_path(mode: 'all')
 
 - if @mode == 'friends'
   div.avatars
@@ -16,4 +16,4 @@ ul.navigation.tabs
     - current_site.incoming_followers.find_each do |user|
       = avatar user
 
-= render @timeline_entries
+= render 'more'

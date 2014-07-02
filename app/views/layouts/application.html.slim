@@ -19,15 +19,26 @@ html
 
     = auto_discovery_link_tag :atom, posts_url(format: 'atom'), title: "Latest Posts by #{current_site.display_name} (ATOM)"
 
-  body
-    #main
-      ul role="navigation"
-        li = link_to current_site.display_name, :root
-        - if current_user.present?
-          li = link_to t('.timeline'), :timeline
-          li = link_to t('.friends'), :friendships
-          li = link_to t('.settings'), [:edit, :user]
-          li = link_to t('.logout'), :login, method: :delete, data: { no_turbolink: true }
+  body data-no-transition-cache="true"
+    header role="primary"
+      .site-name
+        span = link_to current_site.display_name, :root
+      .site-domain
+        span = link_to current_site.domain, :root
 
+    nav role="primary"
+      ul
+        = navigation_entry t('.blog'), :root, controller: 'posts'
+        - if current_user.present?
+          = navigation_entry t('.timeline'), :timeline, controller: 'timeline_entries'
+          = navigation_entry t('.friends'), :friendships, controller: 'friendships'
+          = navigation_entry t('.settings'), [:edit, :user], controller: 'users'
+          = navigation_entry t('.logout'), :login, method: :delete, controller: 'auth'
+        - else
+          = navigation_entry t('.login'), :login, controller: 'auth'
+
+
+
+    section#main
       = render 'flashes'
       = yield

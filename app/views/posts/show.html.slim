@@ -1,6 +1,6 @@
 = render @post
 
 - if @post.replies.any?
-  .post-replies
+  section.post-replies
     h2 Replies
     = render @post.replies.order('published_at DESC'), hide_reply_references: true

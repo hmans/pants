@@ -1,0 +1,61 @@
+// set up font styling
+
+form {
+}
+
+input, textarea, select, option {
+  font: $font;
+}
+
+.input {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+%form-field-styling {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 5px 0;
+  outline: none;
+}
+
+.field_with_errors %form-field-styling {
+  border-color: red;
+}
+
+input.string, input[type="text"], input[type="email"], input[type="password"], textarea {
+  @extend %form-field-styling;
+  &:focus {
+    border-color: $color-theme;
+  }
+}
+
+input[type="submit"], button {
+  @extend %button;
+}
+
+input[type="submit"] {
+  @extend %button-colored;
+}
+
+fieldset {
+  @extend %card;
+  @extend %card-body;
+  @extend %collapse;
+  position: relative;
+  margin: 80px 0 40px 0;
+}
+
+label {
+  display: block;
+  color: #999;
+}
+
+legend {
+  @extend %nav-text;
+
+  position: absolute;
+  left: 0;
+  top: -40px;
+}

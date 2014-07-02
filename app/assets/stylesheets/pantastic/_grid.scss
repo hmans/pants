@@ -1,0 +1,10 @@
+%row {
+  @include clearfix;
+  margin-left: -10px;
+}
+
+%column {
+  @include float-left;
+  width: 395px;
+  margin-left: 10px;
+}

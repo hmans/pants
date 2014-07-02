@@ -1,12 +1,17 @@
 - rows ||= 10
 - full ||= false
 = simple_form_for post do |f|
-  = f.input :body, label: false, input_html: { rows: rows }, autofocus: true
   = f.hidden_field :referenced_guid
 
-  - if post.referenced_guid.present?
-    p In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
+  = field_set_tag post.referenced_guid.present? ? "Your Reply" : "Your Post" do
+    = f.input :body, label: false, input_html: { rows: rows }, autofocus: true
 
   = f.submit
   - if post.persisted?
     |  or #{link_to 'delete', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}?
+
+  - if post.referenced_guid.present?
+    p This post is a reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
+    - if post.referenced_post.present?
+      = render post.referenced_post, hide_actions: true
+

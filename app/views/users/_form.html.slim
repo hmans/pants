@@ -1,23 +1,23 @@
 = simple_form_for user, url: '/user' do |f|
-  = f.input :display_name
-  = f.input :locale, collection: [['English', 'en'], ['German', 'de']], include_blank: false
+  = field_set_tag "Basic Settings" do
+    = f.input :display_name
+    = f.input :locale, collection: [['English', 'en'], ['German', 'de']], include_blank: false
 
-  h2 User Image
-  - if user.image.present?
-    p
-      = image_tag user.external_image_url
-      = f.input :remove_image, as: :boolean
+  = field_set_tag "Your Picture" do
+    - if user.image.present?
+      p
+        = image_tag user.external_image_url
+        = f.input :remove_image, as: :boolean
 
+    = f.input :image, as: :file, label: false
 
-  = f.input :image, as: :file, label: false
+  = field_set_tag "New Password" do
+    p If you want to change your password, please enter your new password here.
+    = f.input :password
+    = f.input :password_confirmation
 
-  h2 New Password?
-  p If you want to change your password, please enter your new password here.
-  = f.input :password
-  = f.input :password_confirmation
-
-  h2 Bookmarklets
-  p Drag the following bookmarklet to quickly reply to a post on another #pants site.
-  p: a href="javascript:location.href='#{new_post_url}?referenced_guid='+encodeURIComponent(location.href)" Reply on #{current_site.domain}
+  = field_set_tag "Bookmarklets" do
+    p Drag the following bookmarklet to quickly reply to a post on another #pants site.
+    p: a href="javascript:location.href='#{new_post_url}?referenced_guid='+encodeURIComponent(location.href)" Reply on #{current_site.domain}
 
   = f.submit "Save Settings"

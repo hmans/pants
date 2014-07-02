@@ -1,0 +1,24 @@
+// A bunch of imports we need.
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,400italic,700italic,300);
+@import "compass";
+@import "compass/reset";
+
+// setup
+@import "pantastic/configuration";
+@import "pantastic/mixins";
+@import "pantastic/prototypes";
+
+// general html stuff
+@import "pantastic/basics";
+@import "pantastic/grid";
+@import "pantastic/forms";
+@import "pantastic/flashes";
+@import "pantastic/tabs";
+@import "pantastic/text";
+@import "pantastic/coderay";
+
+// specific pants stuff
+@import "pantastic/posts";
+@import "pantastic/timeline";
+@import "pantastic/users";
+@import "pantastic/friendships";

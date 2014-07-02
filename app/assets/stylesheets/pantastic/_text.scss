@@ -1,0 +1,117 @@
+// The following will apply to the entire site.
+
+p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+a {
+  color: $color-focus;
+}
+
+strong { font-weight: bold; }
+em { font-style: italic; }
+
+.error { color: red }
+
+
+// The following prototype is mixed into elements that display
+// article text.
+
+%text-formatting {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  h1 {
+    font-size: 200%;
+  }
+
+  h2 {
+    font-size: 150%;
+  }
+
+  h3 {
+    font-size: 120%;
+  }
+
+  ul {
+    list-style-type: square;
+    padding-left: 20px;
+  }
+
+  ol {
+    list-style-type: decimal;
+    padding-left: 25px;
+  }
+
+  li {
+    @extend p;
+  }
+
+  a.hashtag {
+    color: $color-text;
+    background-color: #f2f2f2;
+    text-decoration: none;
+    padding-left: 2px;
+    padding-right: 2px;
+    @include border-radius(3px);
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  blockquote {
+    padding-left: 20px;
+    color: $color-light;
+  }
+
+  sup {
+    @extend %small;
+    @extend %reset-links;
+    color: $color-focus;
+    vertical-align: super;
+  }
+
+
+  .footnotes {
+    @extend %small;
+    @extend %light;
+    margin-top: 40px;
+    border-top: 1px dotted #eee;
+    color: #999;
+  }
+
+  a.reversefootnote {
+    text-decoration: none;
+  }
+
+  // CODE
+
+  // coderay code blocks
+  %code {
+    font: 14px Monaco,Consolas,"Lucida Console","Courier New",monotype;
+    color: #555;
+    overflow: auto;
+  }
+
+  code {
+    @extend %code;
+  }
+
+  .CodeRay .code pre {
+    @extend %code;
+    .line-numbers { display: none; }
+    padding: 10px;
+  }
+
+// code blocks without coderay
+  pre>code {
+    @extend .CodeRay;
+    display: block;
+    padding: 10px;
+  }
+}

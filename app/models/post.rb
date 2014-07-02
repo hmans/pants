@@ -123,7 +123,7 @@ class Post < ActiveRecord::Base
     # database.
     #
     def referenced_post
-      Post.where(guid: referenced_guid).first if referenced_guid.present?
+      Post.where(guid: referenced_guid).includes(:user).first if referenced_guid.present?
     end
   end
 
@@ -171,6 +171,10 @@ class Post < ActiveRecord::Base
       end
 
       from_json!(json)
+    end
+
+    def [](v)
+      find_by(guid: v)
     end
   end
 end

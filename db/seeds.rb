@@ -10,6 +10,6 @@ if Rails.env.development?
   andy = FactoryGirl.create(:user, hosted: true, domain: 'andy.pants.dev', display_name: 'Andy', password: 'secret')
   ben = FactoryGirl.create(:user, hosted: true, domain: 'ben.pants.dev', display_name: 'Ben', password: 'secret')
 
-  FactoryGirl.create_list(:post, 10, user: andy)
-  FactoryGirl.create_list(:post, 10, user: ben)
+  FactoryGirl.create_list(:post, 40, user: andy)
+  FactoryGirl.create_list(:post, 20, user: ben)
 end

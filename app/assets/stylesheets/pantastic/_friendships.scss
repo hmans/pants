@@ -1,0 +1,8 @@
+.friendships {
+  @extend %row;
+
+  .user {
+    @extend %column;
+    margin-bottom: 10px;
+  }
+}

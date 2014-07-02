@@ -1,4 +1,6 @@
-= simple_form_for :login, html: { data: { no_turbolink: true }} do |f|
-  = f.input :password, autofocus: true
-  = f.input :remember_me, as: :boolean
+= simple_form_for :login do |f|
+  = field_set_tag 'Login' do
+    = f.input :password, autofocus: true
+    = f.input :remember_me, as: :boolean
+
   = f.submit "Login"

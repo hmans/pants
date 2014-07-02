@@ -1,0 +1,70 @@
+// set up border-box sizing model
+* { @include box-sizing(inherit); }
+html, body { @include box-sizing(border-box); }
+
+
+body {
+  background-color: $color-background;
+  color: $color-text;
+  font: $font;
+  padding-bottom: 100px;
+}
+
+section#main {
+  @extend %container;
+}
+
+
+// HEADER
+
+header[role="primary"] {
+  @extend %reset-links;
+  line-height: 1.9;
+  span {
+    @extend %container;
+  }
+}
+
+.site-name {
+  @extend %box-shadow;
+  font-size: 180%;
+  font-weight: bold;
+  background-color: $color-theme;
+  color: #fff;
+}
+
+.site-domain {
+  @extend %box-shadow;
+  font-size: 120%;
+  background-color: #7986cb;
+  color: rgba(#fff, 0.6);
+}
+
+
+// NAVIGATION
+nav[role="primary"] {
+  @extend %tabs;
+  line-height: 3;
+
+  ul {
+    @extend %container;
+  }
+}
+
+nav[role="pagination"] {
+  li {
+    display: inline;
+  }
+  a {
+    @extend %button;
+  }
+}
+
+// HEADINGS
+
+h1, h2 {
+  @extend %reset-links;
+  font-size: 180%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}

@@ -1,0 +1,107 @@
+%collapse {
+  >*:first-child { margin-top: 0 }
+  >*:last-child  { margin-bottom: 0 }
+  >legend:first-child+* { margin-top: 0 }
+}
+
+%container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+
+  @include on-mobile {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+%small {
+  font-size: 85%;
+}
+
+%light {
+  color: $color-light;
+}
+
+%reset-links {
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+}
+
+%hover-links {
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+%box-shadow {
+  @include box-shadow(rgba(#000, 0.24) 0px 3px 3px);
+}
+
+%box-shadow-minor {
+  @include box-shadow(rgba(#000, 0.24) 0px 2px 2px);
+}
+
+%nav-text {
+  font-size: 120%;
+  text-transform: uppercase;
+  color: $color-light;
+}
+
+%slanted {
+  @include transition(border-radius 100ms ease-out);
+  @include border-radius(30% 0);
+  &:hover {
+    @include border-radius(0);
+  }
+}
+
+%card {
+  background-color: $color-card-background;
+  border: 1px solid $color-card-border;
+  @include border-radius(2px);
+  @extend %box-shadow;
+
+  &>header {
+    @extend %reset-links;
+    @extend %hover-links;
+    @extend %small;
+
+    background-color: mix($color-card-border, $color-card-background, 50%);
+    color: mix($color-card-border, $color-text, 50%);
+    line-height: 30px;
+    padding: 5px 10px;
+  }
+}
+
+%card-body {
+  padding: 20px;
+}
+
+%card-actions {
+  padding: 0 30px 20px 30px;
+}
+
+%button {
+  @extend %box-shadow-minor;
+
+  border: none;
+  background-color: #eee;
+  color: #999;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 85%;
+  line-height: 35px;
+  margin: 0 20px 0 0;
+  padding: 0 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+%button-colored {
+  background-color: $color-focus;
+  color: #fff;
+}
