@@ -138,7 +138,7 @@ class Post < ActiveRecord::Base
       tags
     }
 
-    def from_json(json)
+    def from_json!(json)
       # Upsert post
       post = where(guid: json['guid']).first_or_initialize
       if post.new_record? || post.edited_at < json['edited_at']
@@ -162,7 +162,7 @@ class Post < ActiveRecord::Base
         raise "Post JSON contained corrupted data."
       end
 
-      from_json(json)
+      from_json!(json)
     end
   end
 end
