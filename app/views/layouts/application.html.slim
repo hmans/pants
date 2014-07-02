@@ -27,7 +27,7 @@ html
           li = link_to t('.timeline'), :timeline
           li = link_to t('.friends'), :friendships
           li = link_to t('.settings'), [:edit, :user]
-          li = link_to t('.logout'), :login, method: :delete
+          li = link_to t('.logout'), :login, method: :delete, data: { no_turbolink: true }
 
       = render 'flashes'
       = yield
