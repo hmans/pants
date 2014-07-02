@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   dragonfly_accessor :image
 
   scope :hosted, -> { where(hosted: true) }
+  scope :remote, -> { where(hosted: false) }
 
   validates :domain, :url,
     presence: true,
