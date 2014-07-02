@@ -13,14 +13,14 @@ class ApplicationController < ActionController::Base
       rescue_from CanCan::AccessDenied do |exception|
         @error = exception.message
         @page_title = "Error"
-        render 'error', status: 403
+        render 'error', status: 403, formats: [:html]
       end
     end
 
     def render_404
       @error = "Not found. I'm sorry."
       @page_title = "Not Found"
-      render 'error', status: 404
+      render 'error', status: 404, formats: [:html]
     end
   end
 
