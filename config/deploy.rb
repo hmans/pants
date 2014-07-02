@@ -1,4 +1,5 @@
-require 'appsignal/capistrano'
+require 'appsignal/capistrano' rescue LoadError
+
 require 'dotenv'
 Dotenv.load
 
