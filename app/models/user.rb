@@ -107,5 +107,9 @@ class User < ActiveRecord::Base
 
       user
     end
+
+    def [](v)
+      find_by(domain: v)
+    end
   end
 end
