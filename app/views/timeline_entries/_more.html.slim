@@ -1,5 +1,5 @@
 - if @timeline_entries.any?
   = render @timeline_entries
-  p#timeline-more-posts = link_to "Load more posts...", url_for(before: @timeline_entries.last.id), remote: true
+  p#timeline-more-posts = link_to "Load more posts...", url_for(params.merge(before: @timeline_entries.last.id)), remote: true
 - else
   p You've reached the end. Good night.
