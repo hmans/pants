@@ -20,10 +20,11 @@ Rails.application.routes.draw do
   get 'tag/all/:tag' => 'posts#tagged', as: :all_tagged_posts, all: 1
 
   # Daily archives
-  get ':year-:month-:day' => 'posts#day', as: :day
+  get ':year/:month/:day' => 'posts#day', as: :day
 
   # Legacy
   get '/posts/:id' => 'posts#show'
+  get ':year-:month-:day' => redirect("/%{year}/%{month}/%{day}")
 
   # Primary posts resource
   resources :posts, only: [:index, :create]
