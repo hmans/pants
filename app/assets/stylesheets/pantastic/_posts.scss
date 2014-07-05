@@ -35,7 +35,28 @@ article.post {
   >p:first-child {
     @extend %light;
     @extend %reset-links;
-    // a { color: $color-text; }
+  }
+
+  &:before, &:after {
+    @extend .fa;
+    position: absolute;
+    font-size: 30px;
+    color: #ddd;
+    @include on-mobile {
+      display: none;
+    }
+  }
+
+  &:before {
+    content: "\f10d";
+    left: 15px;
+    top: 60px;
+  }
+
+  &:after {
+    content: "\f10e";
+    right: 15px;
+    bottom: 15px;
   }
 
   @include on-desktop {

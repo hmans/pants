@@ -11,6 +11,5 @@
  * file per style scope.
  *
  *= require pantastic
- *= require font-awesome
  *= require_self
  */
