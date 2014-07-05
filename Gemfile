@@ -56,10 +56,15 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'
-  gem 'webmock'
 
   # .env loading
   gem 'dotenv-rails'
+end
+
+# Testing only.
+#
+group :test do
+  gem 'webmock'
 end
 
 # Production only
