@@ -4,7 +4,7 @@ class TimelineEntriesController < ApplicationController
 
   respond_to :js, only: [:index]
 
-  def index
+  before_filter(only: [:index, :incoming]) do
     @timeline_entries = @timeline_entries
       .includes(:post)
       .order('created_at DESC')
@@ -14,17 +14,19 @@ class TimelineEntriesController < ApplicationController
     if params[:before].present?
       @timeline_entries = @timeline_entries.where('id < ?', params[:before])
     end
+  end
 
-    @mode = params[:mode] || 'friends'
-
-    case @mode
-    when 'all'
-    when 'incoming'
-      @timeline_entries = @timeline_entries.from_others
-    else  # friends only
-      @timeline_entries = @timeline_entries.from_friends
-    end
+  def index
+    @timeline_entries = @timeline_entries.from_friends
 
     respond_with @timeline_entries
+  end
+
+  def incoming
+    @timeline_entries = @timeline_entries.from_others
+
+    respond_with @timeline_entries do |format|
+      format.html { render 'index' }
+    end
   end
 end

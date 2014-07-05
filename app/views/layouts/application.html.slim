@@ -30,7 +30,7 @@ html
       ul
         = navigation_entry t('.blog'), :root, controller: 'posts'
         - if current_user.present?
-          = navigation_entry t('.timeline'), :timeline, controller: 'timeline_entries'
+          = navigation_entry t('.network'), :network, controller: 'timeline_entries'
           = navigation_entry t('.friends'), :friendships, controller: 'friendships'
           = navigation_entry t('.settings'), [:edit, :user], controller: 'users'
           = navigation_entry t('.logout'), :login, method: :delete, controller: 'auth'

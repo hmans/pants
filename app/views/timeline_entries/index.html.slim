@@ -2,8 +2,7 @@
   = render 'posts/miniform', post: Post.new, rows: 3
 
 ul.timeline-modes
-  = navigation_entry "Your Friends", timeline_path(mode: nil)
-  = navigation_entry "Incoming", timeline_path(mode: 'incoming')
-  = navigation_entry "Everyone", timeline_path(mode: 'all')
+  = navigation_entry "Your Friends", network_path
+  = navigation_entry "Incoming", incoming_network_path
 
 = render 'more'

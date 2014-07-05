@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   resources :friendships, path: 'friends'
 
   # Timeline
-  get 'timeline(/:mode)' => 'timeline_entries#index', as: :timeline, mode: /all|incoming|friends/
+  get 'network' => 'timeline_entries#index', as: :network
+  get 'network/incoming' => 'timeline_entries#incoming', as: :incoming_network
 
   # Tag pages
   get 'tag/:tag' => 'posts#tagged', as: :tagged_posts
@@ -25,6 +26,9 @@ Rails.application.routes.draw do
   # Legacy
   get '/posts/:id' => 'posts#show'
   get ':year-:month-:day' => redirect("/%{year}/%{month}/%{day}")
+  get '/timeline' => redirect("/network")
+  get '/timeline/incoming' => redirect("/network/incoming")
+  get '/timeline/all' => redirect("/network/incoming")
 
   # Primary posts resource
   resources :posts, only: [:index, :create]
