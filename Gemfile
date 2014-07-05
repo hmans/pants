@@ -35,6 +35,8 @@ gem 'jbuilder', '~> 2.0'
 # Development
 group :test, :development do
   gem 'spring'
+  gem "spring-commands-rspec"
+
   gem 'pry-rails'
   gem 'awesome_print'
   gem 'rspec-rails'
