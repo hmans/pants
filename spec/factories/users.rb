@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :user do
-    domain "MyString"
-    display_name "MyString"
-    password_digest "MyString"
+    domain       { Faker::Internet.domain_name }
+    display_name { Faker::Name.name }
+    password     { SecureRandom.hex }
   end
 end
