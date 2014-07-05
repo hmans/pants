@@ -1,9 +1,9 @@
 class UserPoller
-  include SuckerPunch::Job
+  include BackgroundJob
   include FistOfFury::Recurrent
 
   def perform
-    ActiveRecord::Base.connection_pool.with_connection do
+    with_database do
       users_to_poll.each do |user|
         begin
           user.poll!

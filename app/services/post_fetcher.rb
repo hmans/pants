@@ -11,7 +11,7 @@
 # of local followers of the post's author.
 #
 class PostFetcher
-  include SuckerPunch::Job
+  include BackgroundJob
 
   def perform(url, opts = {})
     url = expand_url(url)
@@ -49,7 +49,7 @@ class PostFetcher
   end
 
   def upsert_post(json)
-    ActiveRecord::Base.connection_pool.with_connection do
+    with_database do
       Post.from_json!(json)
     end
   end

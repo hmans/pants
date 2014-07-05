@@ -1,8 +1,8 @@
 class PostPinger
-  include SuckerPunch::Job
+  include BackgroundJob
 
   def perform(post)
-    ActiveRecord::Base.connection_pool.with_connection do
+    with_database do
       post.user.friends.find_each do |friend|
         friend.ping!(url: post.url)
       end
