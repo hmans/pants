@@ -1,8 +1,8 @@
-- if can?(:create, Post)
-  = render 'posts/miniform', post: Post.new, rows: 3
-
 ul.timeline-modes
   = navigation_entry "Your Friends", network_path
   = navigation_entry "Incoming", incoming_network_path
+
+- if can?(:create, Post)
+  = render 'posts/miniform', post: Post.new, rows: 3
 
 = render 'more'

@@ -3,7 +3,7 @@
 = simple_form_for post do |f|
   = f.hidden_field :referenced_guid
 
-  = field_set_tag post.referenced_guid.present? ? "Your Reply" : "Your Post" do
+  = field_set_tag do
     = f.input :body, label: false, input_html: { rows: rows }, autofocus: true
 
   = f.submit

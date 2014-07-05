@@ -1,5 +1,5 @@
 - if can?(:create, Post)
-  = render 'form', post: Post.new, rows: 3
+  = render 'miniform', post: Post.new, rows: 3
 
 // get the first post and use it to render the date heading
 h1 = link_to l(@date, format: :long), day_path(date: @date)

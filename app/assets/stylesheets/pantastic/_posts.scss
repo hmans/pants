@@ -9,7 +9,11 @@ article.post {
   @extend %card-body;
   @extend %collapse;
   @extend %text-formatting;
-  padding: 30px;
+  padding: 10px 30px 30px 30px;
+
+  @include on-desktop {
+    padding-left: 60px;
+  }
 }
 
 .post-reference {
@@ -18,24 +22,38 @@ article.post {
   @extend %text-formatting;
   @extend %small;
 
-  background-color: #eee;
   padding: 30px;
 
   max-height: 300px;
   overflow: auto;
   position: relative;
 
-  $c: #eee;
-  @include background(linear-gradient(top, darken($c, 5%), $c 3px, $c 280px, darken($c, 5%) 298px, darken($c, 10%)));
+  $c: #f8f8f8;
+  background-color: $c;
+  @include background(linear-gradient(top, $c, $c 280px, darken($c, 5%) 298px, darken($c, 10%)));
 
   >p:first-child {
     @extend %light;
-    a { color: $color-text; }
+    @extend %reset-links;
+    // a { color: $color-text; }
+  }
+
+  @include on-desktop {
+    padding-left: 60px;
+  }
+
+  &+.post-body {
+    padding-top: 30px;
   }
 }
 
 .post-information {
   padding-left: 50px;
+
+  li {
+    display: inline;
+    margin-right: 20px;
+  }
 
   @include on-mobile {
     padding-left: 70px;
@@ -73,5 +91,9 @@ ul.post-actions {
   }
   a:hover {
     color: inherit;
+  }
+
+  @include on-desktop {
+    padding-left: 60px;
   }
 }

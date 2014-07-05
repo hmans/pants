@@ -38,11 +38,11 @@
 }
 
 %box-shadow {
-  @include box-shadow(rgba(#000, 0.24) 0px 3px 3px);
+  @include box-shadow(rgba(#000, 0.1) 0px 3px 3px);
 }
 
 %box-shadow-minor {
-  @include box-shadow(rgba(#000, 0.24) 0px 2px 2px);
+  @include box-shadow(rgba(#000, 0.1) 0px 2px 2px);
 }
 
 %nav-text {
@@ -61,16 +61,13 @@
 
 %card {
   background-color: $color-card-background;
-  border: 1px solid $color-card-border;
   @include border-radius(2px);
   @extend %box-shadow;
 
   &>header {
     @extend %reset-links;
-    @extend %hover-links;
     @extend %small;
 
-    background-color: mix($color-card-border, $color-card-background, 50%);
     color: mix($color-card-border, $color-text, 50%);
     line-height: 30px;
     padding: 5px 10px;

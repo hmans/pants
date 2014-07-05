@@ -44,7 +44,7 @@ fieldset {
   @extend %card-body;
   @extend %collapse;
   position: relative;
-  margin: 80px 0 40px 0;
+  margin: 20px 0;
 }
 
 label {
@@ -54,8 +54,10 @@ label {
 
 legend {
   @extend %nav-text;
+  position: relative;
+  top: 30px;
 
-  position: absolute;
-  left: 0;
-  top: -40px;
+  &+* {
+    padding-top: 30px;
+  }
 }

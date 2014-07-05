@@ -1,4 +1,7 @@
 ul.timeline-modes {
   @extend %tabs;
-  margin: 50px 0 20px 0;
+}
+
+p#timeline-more-posts a {
+  @extend %button;
 }

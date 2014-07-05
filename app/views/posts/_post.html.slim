@@ -1,11 +1,14 @@
 - hide_actions ||= false
 = content_tag_for(:article, post) do
   header
-    .post-information
-      =' link_to post.url.without_http, post.url
-      - unless post.published_at.today?
-        ' &middot; #{l post.published_at.to_date, format: :long}
-      ' &middot; #{l post.published_at, format: :time}
+    ul.post-information
+      li = link_to fa_icon('file-text-o', text: post.url.without_http), post.url
+      li
+        =' fa_icon('clock-o')
+        - unless post.published_at.today?
+          =' l post.published_at.to_date, format: :long
+          ' &middot;
+        = l post.published_at, format: :time
     .post-avatar
       = avatar post.user
 

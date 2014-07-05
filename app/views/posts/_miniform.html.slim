@@ -1,4 +1,4 @@
 = simple_form_for post do |f|
-  = field_set_tag "Write a new post" do
-    = f.input :body, label: false, input_html: { rows: 3 }, autofocus: true
-  = f.submit
+  = field_set_tag do
+    = f.input :body, label: false, input_html: { rows: 3 }, autofocus: true, placeholder: "What's up?"
+  = f.submit "Publish"

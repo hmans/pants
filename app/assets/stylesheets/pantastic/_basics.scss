@@ -14,12 +14,20 @@ section#main {
   @extend %container;
 }
 
+// FONTAWESOME
+
+i.fa {
+  margin-right: 0.3em;
+}
+
 
 // HEADER
 
 header[role="primary"] {
   @extend %reset-links;
   line-height: 1.9;
+  background-color: $color-theme;
+
   span {
     @extend %container;
   }
@@ -29,15 +37,14 @@ header[role="primary"] {
   @extend %box-shadow;
   font-size: 180%;
   font-weight: bold;
-  background-color: $color-theme;
   color: #fff;
 }
 
 .site-domain {
   @extend %box-shadow;
   font-size: 120%;
-  background-color: #7986cb;
-  color: rgba(#fff, 0.6);
+  background-color: rgba(#fff, 0.3);
+  color: rgba(#fff, 0.5);
 }
 
 

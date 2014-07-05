@@ -17,6 +17,7 @@ gem 'slim-rails'
 gem 'compass-rails'
 gem 'simple_form'
 gem 'slodown', github: 'hmans/slodown'
+gem 'font-awesome-rails'
 
 # Binary asset handling
 gem 'dragonfly'

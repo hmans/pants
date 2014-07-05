@@ -89,7 +89,7 @@ class PostsController < ApplicationController
       current_site.add_to_timeline(@post)
     end
 
-    respond_with @post
+    respond_with @post, location: :network
   end
 
   def edit
