@@ -161,18 +161,6 @@ class Post < ActiveRecord::Base
       post
     end
 
-    def fetch_from(url)
-      json = HTTParty.get(url, query: { format: 'json' })
-
-      # Sanity checks
-      full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(url).to_a
-      if json['guid'] != guid || json['domain'] != domain || json['slug'] != slug
-        raise "Post JSON contained corrupted data."
-      end
-
-      from_json!(json)
-    end
-
     def [](v)
       find_by(guid: v)
     end

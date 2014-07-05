@@ -57,23 +57,4 @@ RSpec.describe Post, :type => :model do
       expect(subject.tags).to eq(['hello', 'world', 'awesome'])
     end
   end
-
-  describe '.fetch_from' do
-    it 'performs a HTTP request to fetch the referenced URL'
-    it 'always adds the json format parameter'
-    it "checks the post's GUID against the given URL"
-    it "checks the post's domain against the given URL"
-    it "checks the post's slug against the given URL"
-    it "doesn't check the post JSON's URL against the given URL"  # since the post may move from HTTP to HTTPS
-
-    context "when the JSON's GUID is not in the database" do
-      it "creates a new Post"
-    end
-
-    context "when the JSON's GUID is already in the database" do
-      it "updates the existing Post"
-    end
-
-    it "only only allows certain fields to be copied"
-  end
 end

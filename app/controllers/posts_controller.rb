@@ -81,7 +81,7 @@ class PostsController < ApplicationController
       @post.update_attributes(url: post_url(@post))
 
       # send pings for this post
-      PostPinger.new.async.perform(@post.id)
+      PostPinger.new.async.perform(@post)
 
       # add post to my own timeline
       current_site.add_to_timeline(@post)
@@ -99,7 +99,7 @@ class PostsController < ApplicationController
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
-      PostPinger.new.async.perform(@post.id)
+      PostPinger.new.async.perform(@post)
     end
 
     respond_with @post
@@ -110,11 +110,11 @@ class PostsController < ApplicationController
     respond_with @post
   end
 
+private
+
   def post_params
     params.require(:post).permit(:body, :referenced_guid)
   end
-
-private
 
   def fetch_referenced_posts
     if @post.referenced_guid.present?
@@ -128,9 +128,6 @@ private
   end
 
   def push_to_local_followers
-    # TODO: move this into background processing.
-    current_site.followers.hosted.find_each do |follower|
-      follower.add_to_timeline(@post)
-    end
+    TimelineManager.new.async.add_post_to_local_timelines(@post)
   end
 end
