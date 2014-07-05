@@ -1,1 +1,1 @@
-pants: rails s -p $PORT
+pants: bin/rails s -p $PORT
