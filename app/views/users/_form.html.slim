@@ -6,7 +6,7 @@
   = field_set_tag "Your Picture" do
     - if user.image.present?
       p
-        = image_tag user.external_image_url
+        = image_tag user.image.thumb('200x200#').url
         = f.input :remove_image, as: :boolean
 
     = f.input :image, as: :file, label: false

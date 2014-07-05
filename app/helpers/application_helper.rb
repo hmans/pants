@@ -1,6 +1,10 @@
 module ApplicationHelper
   def avatar(user)
-    link_to(image_tag(user.external_image_url), user.url, class: 'avatar')
+    link_to(user.url, class: 'avatar') do
+      if user.local_image.present?
+        image_tag(user.local_image.thumb('300x300#').url)
+      end
+    end
   end
 
   def navigation_entry(title, url, opts = {})

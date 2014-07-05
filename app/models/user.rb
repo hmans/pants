@@ -52,7 +52,11 @@ class User < ActiveRecord::Base
   end
 
   def external_image_url
-    URI.join(url, '/user.jpg')
+    URI.join(url, '/user.jpg').to_s
+  end
+
+  def local_image
+    hosted? ? image : Dragonfly.app.fetch_url(external_image_url)
   end
 
   def add_to_timeline(post)

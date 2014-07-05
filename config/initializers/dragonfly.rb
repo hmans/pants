@@ -1,7 +1,11 @@
 require 'dragonfly'
 
-# Configure
 Dragonfly.app.configure do
+  # Allow all URLs to be fetched.
+  fetch_url_whitelist [
+    /.*/
+  ]
+
   plugin :imagemagick
 
   protect_from_dos_attacks true
@@ -31,7 +35,5 @@ Dragonfly.logger = Rails.logger
 Rails.application.middleware.use Dragonfly::Middleware
 
 # Add model functionality
-if defined?(ActiveRecord::Base)
-  ActiveRecord::Base.extend Dragonfly::Model
-  ActiveRecord::Base.extend Dragonfly::Model::Validations
-end
+ActiveRecord::Base.extend Dragonfly::Model
+ActiveRecord::Base.extend Dragonfly::Model::Validations
