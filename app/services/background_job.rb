@@ -1,6 +1,5 @@
 class BackgroundJob
   include SuckerPunch::Job
-  include FistOfFury::Recurrent
 
   def initialize(*args)
     @time_created = Time.now
@@ -8,7 +7,7 @@ class BackgroundJob
   end
 
   def perform(obj, method, *args)
-    with_appsignal(obj, method) do
+    with_appsignal(obj.class, method) do
       with_database do
         obj.send(method, *args)
       end
@@ -19,12 +18,12 @@ class BackgroundJob
     ActiveRecord::Base.connection_pool.with_connection(&blk)
   end
 
-  def with_appsignal(obj, method, &blk)
+  def with_appsignal(klass, method, &blk)
     Appsignal::Transaction.create(SecureRandom.uuid, ENV.to_hash)
 
     ActiveSupport::Notifications.instrument('perform_job.sucker_punch',
-      :class => obj.class.to_s,
-      :method => method,
+      :class      => klass.to_s,
+      :method     => method.to_s,
       :queue_time => (Time.now - @time_created).to_f
     ) do
       yield
