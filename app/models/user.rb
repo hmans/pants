@@ -132,7 +132,7 @@ class User < ActiveRecord::Base
 
     def fetch_from(url)
       uri = URI.parse(url.with_http)
-      json = HTTParty.get(URI.join(uri, '/user').to_s, query: { format: 'json' })
+      json = HTTParty.get(URI.join(uri, '/user.json').to_s)
 
       # Sanity checks
       if json['domain'] != uri.host
