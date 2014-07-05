@@ -104,6 +104,8 @@ GEM
       fog
     em-proxy (0.1.8)
       eventmachine
+    emoji (1.0.1)
+      json
     erubis (2.7.0)
     eventmachine (1.0.3)
     excon (0.37.0)
@@ -328,6 +330,7 @@ DEPENDENCIES
   dotenv-rails
   dragonfly
   dragonfly-s3_data_store
+  emoji
   factory_girl_rails
   ffaker
   fist_of_fury (~> 0.2.0)
