@@ -24,9 +24,6 @@ class TimelineEntriesController < ApplicationController
 
   def incoming
     @timeline_entries = @timeline_entries.from_others
-
-    respond_with @timeline_entries do |format|
-      format.html { render 'index' }
-    end
+    render 'index'
   end
 end
