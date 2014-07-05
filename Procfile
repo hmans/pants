@@ -1,1 +1,1 @@
-pants: bin/rails s -p $PORT
+pants: passenger start --port $PORT
