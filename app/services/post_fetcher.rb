@@ -11,8 +11,6 @@
 # of local followers of the post's author.
 #
 class PostFetcher
-  include BackgroundJob
-
   def perform(url, opts = {})
     url = expand_url(url)
     json = fetch_json(url)
@@ -49,9 +47,7 @@ class PostFetcher
   end
 
   def upsert_post(json)
-    with_database do
-      Post.from_json!(json)
-    end
+    Post.from_json!(json)
   end
 
   def add_to_local_timelines(post)

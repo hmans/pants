@@ -83,7 +83,7 @@ class PostsController < ApplicationController
       @post.update_attributes(url: post_url(@post))
 
       # send pings for this post
-      PostPinger.new.async.perform(@post)
+      BackgroundJob.async(PostPinger.new, :ping!, @post)
 
       # add post to my own timeline
       current_site.add_to_timeline(@post)
@@ -101,7 +101,7 @@ class PostsController < ApplicationController
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
-      PostPinger.new.async.perform(@post)
+      BackgroundJob.async(PostPinger.new, :ping!, @post)
     end
 
     respond_with @post
@@ -121,15 +121,15 @@ private
   def fetch_referenced_posts
     if @post.referenced_guid.present?
       # Fetch referenced post
-      PostFetcher.new.async.perform(@post.referenced_guid.with_http)
+      BackgroundJob.async(PostFetcher.new, :perform, @post.referenced_guid.with_http)
 
       # Ping referenced site with new post
       domain, slug = @post.referenced_guid.split '/'
-      UserPinger.new.async.perform(domain, url: @post.url)
+      BackgroundJob.async(UserPinger.new, :ping!, domain, url: @post.url)
     end
   end
 
   def push_to_local_followers
-    TimelineManager.new.async.add_post_to_local_timelines(@post)
+    BackgroundJob.async(TimelineManager.new, :add_post_to_local_timelines, @post)
   end
 end

@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
   end
 
   def ping!(body)
-    UserPinger.new.async.perform(url, body)
+    BackgroundJob.async(UserPinger.new, :ping!, url, body)
   end
 
   concerning :Polling do
