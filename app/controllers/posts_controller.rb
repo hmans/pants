@@ -65,7 +65,9 @@ class PostsController < ApplicationController
 
     @page_title = @post.to_summary
 
-    respond_with @post
+    respond_with @post do |format|
+      format.md { render text: @post.body }
+    end
   end
 
   def new
