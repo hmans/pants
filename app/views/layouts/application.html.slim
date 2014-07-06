@@ -23,7 +23,10 @@ html
   body data-no-transition-cache="true"
     header role="primary"
       .site-name
-        span = link_to current_site.display_name, :root
+        span
+          - if current_site.image.present?
+            = link_to image_tag(current_site.image.thumb('300x300#').url), :root, class: 'site-image'
+          = link_to current_site.display_name, :root
       .site-domain
         span = link_to current_site.domain, :root
 

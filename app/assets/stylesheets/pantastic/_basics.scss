@@ -30,6 +30,7 @@ header[role="primary"] {
 
   span {
     @extend %container;
+    position: relative;
   }
 }
 
@@ -38,6 +39,19 @@ header[role="primary"] {
   font-size: 180%;
   font-weight: bold;
   color: #fff;
+
+  .site-image {
+    position: absolute;
+    right: 0;
+    top: 10px;
+    img {
+      @extend %slanted;
+      @extend %box-shadow;
+      border: 1px solid rgba(#000, 0.3);
+      width: 70px;
+      height: 70px;
+    }
+  }
 }
 
 .site-domain {
