@@ -59,6 +59,10 @@ class User < ActiveRecord::Base
     hosted? ? image : Dragonfly.app.fetch_url(external_image_url)
   end
 
+  def local_thumbnail
+    local_image.try(:thumb, '300x300#')
+  end
+
   def add_to_timeline(post)
     from_friend = (post.user == self) || friends.where(domain: post.domain).any?
 

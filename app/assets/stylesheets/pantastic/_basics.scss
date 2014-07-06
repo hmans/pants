@@ -12,6 +12,7 @@ body {
 
 section#main {
   @extend %container;
+  @extend %collapse;
 }
 
 // FONTAWESOME
@@ -24,48 +25,46 @@ i.fa {
 // HEADER
 
 header[role="primary"] {
-  @extend %reset-links;
-  line-height: 1.9;
-  background-color: $color-theme;
+  margin-bottom: 30px;
 
   span {
     @extend %container;
+    @extend %reset-links;
     position: relative;
   }
-}
 
-.site-name {
-  @extend %box-shadow;
-  font-size: 180%;
-  font-weight: bold;
-  color: #fff;
+  .site-name {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 40px;
+    padding: 20px 0 5px 0;
+    text-transform: uppercase;
+  }
+
+  .site-domain {
+    @extend %light;
+    font-size: 20px;
+    line-height: 25px;
+  }
 
   .site-image {
-    position: absolute;
-    right: 0;
-    top: 10px;
     img {
       @extend %slanted;
-      @extend %box-shadow;
-      border: 1px solid rgba(#000, 0.3);
-      width: 70px;
-      height: 70px;
+      position: absolute;
+      right: 0;
+      width: 60px;
+      height: 60px;
     }
   }
 }
 
-.site-domain {
-  @extend %box-shadow;
-  font-size: 120%;
-  background-color: rgba(#fff, 0.3);
-  color: rgba(#fff, 0.5);
-}
 
 
 // NAVIGATION
 nav[role="primary"] {
   @extend %tabs;
   line-height: 3;
+  margin-bottom: 20px;
 
   ul {
     @extend %container;
@@ -88,4 +87,11 @@ h1, h2 {
   font-size: 180%;
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+
+// NOTES
+
+.note {
+  @extend %note;
 }

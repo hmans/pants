@@ -6,12 +6,13 @@
   = field_set_tag do
     = f.input :body, label: false, input_html: { rows: rows }, autofocus: true
 
-  = f.submit
-  - if post.persisted?
-    |  or #{link_to 'delete', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}?
+  .form-actions
+    = f.submit
+    - if post.persisted?
+      |  or #{link_to 'delete', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}?
 
   - if post.referenced_guid.present?
-    p This post is a reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
+    .note This post is a reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
     - if post.referenced_post.present?
       = render post.referenced_post, hide_actions: true
 

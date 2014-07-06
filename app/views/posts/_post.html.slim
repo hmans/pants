@@ -1,23 +1,25 @@
 - hide_actions ||= false
 = content_tag_for(:article, post) do
   header
-    ul.post-information
-      li = link_to fa_icon('file-text-o', text: post.url.without_http), post.url
-      li
-        =' fa_icon('clock-o')
-        - unless post.published_at.today?
-          =' l post.published_at.to_date, format: :long
-          ' &middot;
-        = l post.published_at, format: :time
     .post-avatar
       = avatar post.user
+    ul.post-information
+      li.post-author
+        = link_to post.user.display_name, post.user.url
+      li.post-time
+        - unless post.published_at.today?
+          =' link_to l(post.published_at.to_date, format: :long), day_path(date: post.published_at)
+          ' &middot;
+        = l post.published_at, format: :time
+      li.post-permalink
+        = link_to post.url.without_http, post.url
 
   // show referenced post if available
   - if post.referenced_guid.present? && (@post.blank? || @post == post)
     .post-reference
-      p In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
-
+      .post-reference-info In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
       - if post.referenced_post.present?
+        .post-reference-body
           == post.referenced_post.body_html
 
   // show actual post body
@@ -27,6 +29,6 @@
   - if current_user.present? && !hide_actions
     ul.post-actions
       - if can?(:edit, post)
-        li = link_to 'edit', [:edit, post]
+        li.post-edit-link = link_to 'edit', [:edit, post]
       - if can?(:create, Post)
-        li = link_to 'reply', new_post_path(referenced_guid: post.guid)
+        li.post-reply-link = link_to 'reply', new_post_path(referenced_guid: post.guid)

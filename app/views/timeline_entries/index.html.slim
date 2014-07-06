@@ -1,8 +1,10 @@
-ul.timeline-modes
-  = navigation_entry "Your Friends", network_path
-  = navigation_entry "Incoming", incoming_network_path
+- if can? :create, Post
+  = render 'posts/miniform', post: Post.new
 
-- if can?(:create, Post)
-  = render 'posts/miniform', post: Post.new, rows: 3
+- incoming_users = current_site.timeline_entries.from_others.joins(:post).count('DISTINCT posts.domain')
+- if incoming_users > 0
+  .incoming-notice You have #{link_to "incoming posts", :incoming_network} from
+                   #{incoming_users} #{incoming_users == 1 ? "user who's" : "users who're"}
+                   currently not on your friends list.
 
 = render 'more'

@@ -18,6 +18,7 @@ gem 'compass-rails'
 gem 'simple_form'
 gem 'slodown', github: 'hmans/slodown'
 gem 'font-awesome-rails'
+gem 'kaminari'
 
 # Binary asset handling
 gem 'dragonfly'

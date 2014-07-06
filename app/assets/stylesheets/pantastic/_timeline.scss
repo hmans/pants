@@ -2,6 +2,10 @@ ul.timeline-modes {
   @extend %tabs;
 }
 
-p#timeline-more-posts a {
+p#more-posts a {
   @extend %button;
+}
+
+.incoming-notice {
+  @extend %note;
 }

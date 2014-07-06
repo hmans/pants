@@ -1,73 +1,64 @@
 article.post {
-  @extend %card;
-  margin: 40px 0;
-
+  margin: 40px 0 70px 0;
   position: relative;
 }
 
 .post-body {
-  @extend %card-body;
   @extend %collapse;
   @extend %text-formatting;
-  padding: 10px 30px 30px 30px;
-
-  @include on-desktop {
-    padding-left: 60px;
-  }
 }
 
 .post-reference {
-  @extend %card-body;
+  margin-bottom: 25px;
+  position: relative;
+
+  &:before {
+    @extend .fa;
+    content: "\f10d";
+    position: absolute;
+    left: -13px;
+    top: 35px;
+    color: #ccc;
+    font-size: 20px;
+    z-index: 1;
+
+    visibility: hidden;
+    @include on-desktop {
+      visibility: visible;
+    }
+  }
+}
+
+.post-reference-info {
+  @extend p;
+  @extend %light;
+}
+
+.post-reference-body {
   @extend %collapse;
   @extend %text-formatting;
   @extend %small;
 
-  padding: 30px;
-
-  max-height: 300px;
+  max-height: 240px;
   overflow: auto;
   position: relative;
+  padding: 15px 20px;
 
+  // background
   $c: #f8f8f8;
   background-color: $c;
-  @include background(linear-gradient(top, $c, $c 280px, darken($c, 5%) 298px, darken($c, 10%)));
-
-  >p:first-child {
-    @extend %light;
-    @extend %reset-links;
-    // a { color: $color-text; }
-  }
-
-  @include on-desktop {
-    padding-left: 60px;
-  }
-
-  &+.post-body {
-    padding-top: 30px;
-  }
+  @include background(linear-gradient(top, $c, $c 220px, darken($c, 5%) 238px, darken($c, 10%)));
 }
 
-.post-information {
-  padding-left: 50px;
-
-  li {
-    display: inline;
-    margin-right: 20px;
-  }
-
-  @include on-mobile {
-    padding-left: 70px;
-  }
+article.post>header {
+  @include clearfix;
+  margin-bottom: 1em;
 }
 
 .post-avatar {
-  position: absolute;
-  z-index: 5;
-  top: -10px; left: -10px;
-
-  @include on-mobile {
-    left: 10px;
-  }
+  @include float-left;
+  width: 60px;
+  margin-right: 20px;
 
   img {
     width: 60px;
@@ -76,9 +67,42 @@ article.post {
   }
 }
 
-ul.post-actions {
-  @extend %card-actions;
+.post-information {
   @extend %reset-links;
+  @extend %light;
+  @extend %small;
+  li { line-height: 30px; }
+  a:hover { color: $color-text; }
+}
+
+.post-author {
+  @include float-left;
+  margin-right: 20px;
+}
+
+.post-author, .post-permalink, .post-time {
+  &:before {
+    @extend .fa;
+    width: 20px;
+    color: #bbb;
+  }
+}
+
+.post-author:before {
+  content: "\f007";
+}
+
+.post-permalink:before {
+  content: "\f0f6";
+}
+
+.post-time:before {
+  content: "\f017";
+}
+
+ul.post-actions {
+  @extend %reset-links;
+  margin-top: 20px;
 
   li {
     display: inline;
@@ -92,8 +116,20 @@ ul.post-actions {
   a:hover {
     color: inherit;
   }
+}
 
-  @include on-desktop {
-    padding-left: 60px;
+li.post-reply-link a, li.post-edit-link a {
+  &:before {
+    @extend .fa;
+    width: 25px;
+    opacity: 0.5;
   }
+}
+
+li.post-reply-link a {
+  @extend .fa-reply;
+}
+
+li.post-edit-link a {
+  @extend .fa-edit;
 }

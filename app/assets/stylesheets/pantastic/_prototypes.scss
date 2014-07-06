@@ -52,38 +52,28 @@
 }
 
 %slanted {
+  @include border-radius(10px 0);
+}
+
+%slanted-animated {
+  @extend %slanted;
   @include transition(border-radius 100ms ease-out);
-  @include border-radius(30% 0);
   &:hover {
     @include border-radius(0);
   }
 }
 
-%card {
-  background-color: $color-card-background;
-  @include border-radius(2px);
-  @extend %box-shadow;
-
-  &>header {
-    @extend %reset-links;
-    @extend %small;
-
-    color: mix($color-card-border, $color-text, 50%);
-    line-height: 30px;
-    padding: 5px 10px;
-  }
-}
-
-%card-body {
+%note {
+  @extend p;
+  @extend %slanted;
+  @extend %box-shadow-minor;
+  background-color: #f8f8f8;
   padding: 20px;
-}
-
-%card-actions {
-  padding: 0 30px 20px 30px;
 }
 
 %button {
   @extend %box-shadow-minor;
+  @extend %slanted-animated;
 
   border: none;
   background-color: #eee;
@@ -101,4 +91,8 @@
 %button-colored {
   background-color: $color-focus;
   color: #fff;
+}
+
+%full-width {
+  max-width: 100%;
 }

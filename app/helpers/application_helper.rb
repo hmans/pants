@@ -1,8 +1,12 @@
 module ApplicationHelper
-  def avatar(user)
-    link_to(user.url, class: 'avatar') do
-      if user.local_image.present?
-        image_tag(user.local_image.thumb('300x300#').url)
+  def avatar(user, opts = {})
+    opts = {
+      class: 'avatar'
+    }.merge(opts)
+
+    link_to(user.url, opts) do
+      if user.local_thumbnail.present?
+        image_tag(user.local_thumbnail.url)
       end
     end
   end

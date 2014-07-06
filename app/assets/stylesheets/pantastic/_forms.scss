@@ -8,6 +8,7 @@ input, textarea, select, option {
 }
 
 .input {
+  max-width: 500px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -18,6 +19,9 @@ input, textarea, select, option {
   border-bottom: 2px solid #ccc;
   padding: 5px 0;
   outline: none;
+
+  background-color: #f8f8f8;
+  padding: 5px 8px;
 }
 
 .field_with_errors %form-field-styling {
@@ -40,11 +44,8 @@ input[type="submit"] {
 }
 
 fieldset {
-  @extend %card;
-  @extend %card-body;
   @extend %collapse;
-  position: relative;
-  margin: 20px 0;
+  margin-bottom: 50px;
 }
 
 label {
@@ -53,11 +54,22 @@ label {
 }
 
 legend {
-  @extend %nav-text;
-  position: relative;
-  top: 30px;
-
+  font-weight: bold;
   &+* {
     padding-top: 30px;
+  }
+}
+
+.form-actions {
+  margin-bottom: 50px;
+}
+
+// FORM OVERRIDES
+.input.post_body {
+  @extend %full-width;
+}
+form.new_post, form.edit_post {
+  fieldset {
+    margin: 0;
   }
 }

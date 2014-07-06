@@ -1,5 +1,4 @@
-- if @timeline_entries.any?
-  = render @timeline_entries
-  p#timeline-more-posts = link_to "Load more posts", url_for(params.merge(before: @timeline_entries.last.id)), remote: true
-- else
-  p You've reached the end. Good night.
+- entries = @timeline_entries.page(params[:page]).per(10)
+= render entries
+p#more-posts
+  = link_to_next_page entries, "Load more posts", remote: true

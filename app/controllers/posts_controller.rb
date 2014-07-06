@@ -3,6 +3,7 @@ class PostsController < ApplicationController
   #
   respond_to :json, only: [:show, :index]
   respond_to :atom, only: [:index, :tagged]
+  respond_to :js, only: [:index]
 
   load_and_authorize_resource :post,
     find_by: :slug,
@@ -15,16 +16,8 @@ class PostsController < ApplicationController
 
   def index
     @posts = @posts.latest.includes(:user)
-    @date = @posts.any? ? @posts.first.published_at.to_date : Date.today
 
     respond_with @posts do |format|
-      format.html do
-        canonical_path = root_path
-        if request.path != canonical_path
-          redirect_to canonical_path, status: 301 and return
-        end
-      end
-
       format.json do
         # updated_since parameter
         if params[:updated_since].present?

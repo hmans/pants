@@ -1,1 +1,1 @@
-pants: passenger start --port $PORT
+pants: bundle exec rails server -p $PORT
