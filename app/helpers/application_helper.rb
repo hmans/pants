@@ -19,15 +19,4 @@ module ApplicationHelper
       link_to(title, url, opts)
     end
   end
-
-  def day_path(opts = {})
-    if date = opts.delete(:date)
-      opts = opts.merge(
-        year:  sprintf('%04d', date.year),
-        month: sprintf('%02d', date.month),
-        day:   sprintf('%02d', date.day)
-      )
-    end
-    super(opts)
-  end
 end
