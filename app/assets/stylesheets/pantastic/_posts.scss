@@ -116,6 +116,8 @@ article.post>header {
 
   max-height: 240px;
   overflow: auto;
+  // natural scrolling for ios devices
+  -webkit-overflow-scrolling: touch;
   position: relative;
   padding: 15px 20px;
 
