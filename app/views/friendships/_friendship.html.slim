@@ -2,7 +2,7 @@
 = div_for friendship do
   = div_for user do
     = link_to user.url, class: 'user-image' do
-      = image_tag(user.local_image.url) if user.local_image.present?
+      = image_tag(user.local_image.thumb('300x300#').url) if user.local_image.present?
     .user-name
       = link_to user.display_name, user.url
     .user-info
