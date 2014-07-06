@@ -10,7 +10,7 @@
         - unless post.published_at.today?
           =' link_to l(post.published_at.to_date, format: :long), day_path(date: post.published_at)
           ' &middot;
-        = l post.published_at, format: :time
+        = link_to l(post.published_at, format: :time), post.url
       li.post-permalink
         = link_to post.url.without_http, post.url
 
