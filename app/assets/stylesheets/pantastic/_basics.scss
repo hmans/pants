@@ -7,7 +7,10 @@ body {
   background-color: $color-background;
   color: $color-text;
   font: $font;
-  padding-bottom: 100px;
+
+  @include on-desktop {
+    padding-bottom: 100px;
+  }
 }
 
 section#main {
@@ -56,6 +59,21 @@ header[role="primary"] {
       height: 60px;
     }
   }
+}
+
+
+// FOOTER
+
+footer[role="primary"] {
+  @extend %container;
+  @extend %light;
+  @extend %small;
+  @extend %reset-links;
+
+  margin-top: 100px;
+  border-top: 1px solid rgba($color-light, 0.5);
+
+  a:hover { color: $color-text; }
 }
 
 
