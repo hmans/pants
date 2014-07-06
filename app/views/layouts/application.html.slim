@@ -50,4 +50,4 @@ html
       p <strong>#{link_to current_site.display_name, :root}</strong> is running on
         <strong>#{link_to "#pants", "https://github.com/hmans/pants"}</strong>, the distributed social blogging network... thing.
       - if ENV['PANTS_VERSION']
-        p Version: #{link_to ENV['PANTS_VERSION'], 'https://github.com/hmans/pants'}
+        p Version: #{link_to ENV['PANTS_VERSION'], "https://github.com/hmans/pants/commits/#{ENV['PANTS_VERSION']}"}
