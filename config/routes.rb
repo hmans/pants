@@ -21,7 +21,8 @@ Rails.application.routes.draw do
   get 'tag/all/:tag' => 'posts#tagged', as: :all_tagged_posts, all: 1
 
   # Daily archives
-  get ':year/:month/:day' => 'posts#day', as: :day
+  get ':year/:month/:day' => 'posts#day', as: :day,
+    constraints: { year: /\d.+/, month: /\d.+/, day: /\d.+/ }
 
   # Legacy
   get '/posts/:id' => 'posts#show'
