@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   # Daily archives
   get ':year/:month/:day' => 'posts#day', as: :day,
-    constraints: { year: /\d.+/, month: /\d.+/, day: /\d.+/ }
+    constraints: { year: /\d+/, month: /\d+/, day: /\d+/ }
 
   # Legacy
   get '/posts/:id' => 'posts#show'
