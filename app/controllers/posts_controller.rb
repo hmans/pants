@@ -45,9 +45,10 @@ class PostsController < ApplicationController
 
   def day
     @date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-    @posts = @posts.latest
+    @posts = @posts.latest.on_date(@date)
     @page_title = t('.page_title', date: l(@date, format: :long))
-    render 'index'
+
+    respond_with @posts
   end
 
   def show
