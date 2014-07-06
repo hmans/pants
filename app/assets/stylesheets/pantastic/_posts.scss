@@ -5,7 +5,7 @@ article.post {
 
 article.post>header {
   @include clearfix;
-  margin-bottom: 1em;
+  margin-bottom: 10px;
 }
 
 // POST AVATAR
@@ -34,7 +34,7 @@ article.post>header {
   font-weight: bold;
 }
 
-.post-author, .post-permalink, .post-time {
+.post-author, .post-permalink, .post-referenced-url, .post-time {
   &:before {
     @extend .fa;
     width: 20px;
@@ -50,16 +50,17 @@ article.post>header {
   content: "\f0f6";
 }
 
+.post-referenced-url:before {
+  content: "\f112";
+}
+
 .post-time:before {
   content: "\f017";
 }
 
 @media only screen and (min-width: 1000px) {
   article.post>header {
-    margin-bottom: 5px;
-  }
-  .post-reference-info {
-    margin-top: 5px;
+    margin-bottom: 15px;
   }
   .post-avatar {
     position: absolute;
@@ -91,7 +92,7 @@ article.post>header {
     content: "\f10d";
     position: absolute;
     left: -3px;
-    top: 32px;
+    top: -8px;
     color: #ccc;
     font-size: 20px;
     z-index: 1;
