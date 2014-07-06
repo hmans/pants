@@ -7,7 +7,8 @@
       li.post-author
         = link_to post.user.display_name, post.user.url
       li.post-time
-        =' link_to l(post.published_at.to_date, format: :short), day_path(date: post.published_at)
+        =' link_to l(post.published_at.to_date, format: :short),
+           day_url(year: post.published_at.year, month: post.published_at.month, day: post.published_at.day, host: post.user.domain)
         ' &middot;
         = link_to l(post.published_at, format: :time), post.url
       - if post.referenced_guid.present?
