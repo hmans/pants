@@ -3,10 +3,84 @@ article.post {
   position: relative;
 }
 
+article.post>header {
+  @include clearfix;
+  margin-bottom: 1em;
+}
+
+// POST AVATAR
+
+.post-avatar {
+  @include float-left;
+  width: 60px;
+  margin-right: 20px;
+}
+
+
+// POST INFORMATION
+
+.post-information {
+  @extend %reset-links;
+  @extend %light;
+  @extend %small;
+  li { line-height: 30px; }
+  a:hover { color: $color-text; }
+}
+
+.post-author {
+  @include float-left;
+  margin-right: 20px;
+  color: $color-text;
+  font-weight: bold;
+}
+
+.post-author, .post-permalink, .post-time {
+  &:before {
+    @extend .fa;
+    width: 20px;
+    color: #bbb;
+  }
+}
+
+.post-author:before {
+  content: "\f007";
+}
+
+.post-permalink:before {
+  content: "\f0f6";
+}
+
+.post-time:before {
+  content: "\f017";
+}
+
+@media only screen and (min-width: 1000px) {
+  article.post>header {
+    margin-bottom: 5px;
+  }
+  .post-reference-info {
+    margin-top: 5px;
+  }
+  .post-avatar {
+    position: absolute;
+    left: -80px;
+  }
+  ul.post-information li {
+    display: inline;
+    margin-right: 20px;
+    line-height: 20px;
+  }
+}
+
+
+// POST BODY
+
 .post-body {
   @extend %collapse;
   @extend %text-formatting;
 }
+
+// POST REFERENCE
 
 .post-reference {
   margin-bottom: 25px;
@@ -16,8 +90,8 @@ article.post {
     @extend .fa;
     content: "\f10d";
     position: absolute;
-    left: -13px;
-    top: 35px;
+    left: -3px;
+    top: 32px;
     color: #ccc;
     font-size: 20px;
     z-index: 1;
@@ -50,55 +124,8 @@ article.post {
   @include background(linear-gradient(top, $c, $c 220px, darken($c, 5%) 238px, darken($c, 10%)));
 }
 
-article.post>header {
-  @include clearfix;
-  margin-bottom: 1em;
-}
 
-.post-avatar {
-  @include float-left;
-  width: 60px;
-  margin-right: 20px;
-
-  img {
-    width: 60px;
-    height: 60px;
-    @extend %box-shadow;
-  }
-}
-
-.post-information {
-  @extend %reset-links;
-  @extend %light;
-  @extend %small;
-  li { line-height: 30px; }
-  a:hover { color: $color-text; }
-}
-
-.post-author {
-  @include float-left;
-  margin-right: 20px;
-}
-
-.post-author, .post-permalink, .post-time {
-  &:before {
-    @extend .fa;
-    width: 20px;
-    color: #bbb;
-  }
-}
-
-.post-author:before {
-  content: "\f007";
-}
-
-.post-permalink:before {
-  content: "\f0f6";
-}
-
-.post-time:before {
-  content: "\f017";
-}
+// POST ACTIONS
 
 ul.post-actions {
   @extend %reset-links;
