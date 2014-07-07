@@ -118,6 +118,10 @@ header.with-flair {
   font-size: 40px;
   font-weight: bold;
   text-shadow: rgba(#000, 0.25) 0px 3px 3px;
+
+  @include on-mobile {
+    font-size: 30px;
+  }
 }
 
 .header-site-domain {
