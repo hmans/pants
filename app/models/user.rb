@@ -102,26 +102,29 @@ class User < ActiveRecord::Base
       # Never poll for hosted users.
       unless hosted?
         posts_url = URI.join(url, '/posts.json')
-        posts = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
+        posts_json = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
 
-        posts.reverse.map do |json|
+        # upsert posts in the database
+        posts = posts_json.reverse.map do |json|
           # Sanity checks
           if json['domain'] != domain
             raise "#{posts_url} contained an invalid domain."
           end
 
           # upsert post in local database
-          post = Post.from_json!(json)
-
-          # add post to local followers' timelines
-          # TODO: there's no need to run this loop for every single post -- fix this!
-          followings.where('created_at <= ?', post.edited_at).includes(:user).each do |friendship|
-            friendship.user.add_to_timeline(post)
-          end
-
-          # return post object
-          post
+          Post.from_json!(json)
         end
+
+        # add posts to local followers' timelines
+        followings.includes(:user).each do |friendship|
+          posts.each do |post|
+            if friendship.created_at <= post.edited_at
+              friendship.user.add_to_timeline(post)
+            end
+          end
+        end
+
+        posts
       end
     ensure
       touch(:last_polled_at)
