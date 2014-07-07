@@ -114,8 +114,9 @@ class User < ActiveRecord::Base
           post = Post.from_json!(json)
 
           # add post to local followers' timelines
-          followers.each do |follower|
-            follower.add_to_timeline(post)
+          # TODO: there's no need to run this loop for every single post -- fix this!
+          followings.where('created_at <= ?', post.edited_at).includes(:user).each do |friendship|
+            friendship.user.add_to_timeline(post)
           end
 
           # return post object
