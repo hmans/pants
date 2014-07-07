@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707155904) do
+ActiveRecord::Schema.define(version: 20140707183206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,16 +26,19 @@ ActiveRecord::Schema.define(version: 20140707155904) do
   add_index "friendships", ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true, using: :btree
   add_index "friendships", ["user_id"], name: "index_friendships_on_user_id", using: :btree
 
+  create_table "post_shas", force: true do |t|
+    t.integer  "post_id"
+    t.string   "sha",        limit: 40
+    t.datetime "created_at"
+  end
+
   create_table "posts", force: true do |t|
-    t.string   "sha",             limit: 40
     t.string   "slug"
     t.string   "domain"
     t.text     "body"
     t.text     "body_html"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "tags",                       default: [], array: true
-    t.text     "previous_shas",              default: [], array: true
     t.datetime "published_at"
     t.string   "guid"
     t.datetime "edited_at"
@@ -44,9 +47,26 @@ ActiveRecord::Schema.define(version: 20140707155904) do
   end
 
   add_index "posts", ["guid"], name: "index_posts_on_guid", unique: true, using: :btree
-  add_index "posts", ["previous_shas"], name: "index_posts_on_previous_shas", using: :gin
   add_index "posts", ["referenced_guid"], name: "index_posts_on_referenced_guid", using: :btree
-  add_index "posts", ["tags"], name: "index_posts_on_tags", using: :gin
+
+  create_table "taggings", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+
+  create_table "tags", force: true do |t|
+    t.string  "name"
+    t.integer "taggings_count", default: 0
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "timeline_entries", force: true do |t|
     t.integer  "user_id"

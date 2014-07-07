@@ -5,7 +5,6 @@ class Post < ActiveRecord::Base
   #
   scope :on_date, ->(date) { where(published_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
   scope :latest, -> { order('published_at DESC') }
-  scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
   scope :referencing, ->(guid) { where("? = ANY(posts.references)", guid) }
 
   # Validations
@@ -22,7 +21,7 @@ class Post < ActiveRecord::Base
     end
 
     # Extract and save tags
-    self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
+    self.tag_list.add TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
 
     # Generate slug
     self.slug ||= generate_slug
@@ -40,14 +39,7 @@ class Post < ActiveRecord::Base
     self.url ||= "http://#{guid}"
 
     # Update SHAs
-    self.sha = calculate_sha
-  end
-
-  before_update do
-    # Remember previous SHA
-    if sha_changed? && sha_was.present? && !sha_was.in?(previous_shas)
-      self.previous_shas += [sha_was]
-    end
+    self.shas.build sha: calculate_sha unless self.shas.find_by(sha: calculate_sha)
   end
 
   validate(on: :update) do
@@ -61,13 +53,15 @@ class Post < ActiveRecord::Base
   validates :body,
     presence: true
 
-  validates :guid, :sha, :url,
+  validates :guid, :url,
     presence: true,
     uniqueness: true
 
   validates :slug,
     presence: true,
     uniqueness: { scope: :domain }
+
+  acts_as_taggable
 
   belongs_to :user,
     foreign_key: 'domain',
@@ -76,10 +70,21 @@ class Post < ActiveRecord::Base
   has_many :timeline_entries,
     dependent: :destroy
 
+  has_many :shas,
+    class_name: PostSha,
+    autosave: true,
+    dependent: :destroy
 
+  def sha
+    self.shas.last().try(:sha)
+  end
 
   def calculate_sha
     Digest::SHA1.hexdigest("pants:#{guid}:#{referenced_guid}:#{body}")
+  end
+
+  def previous_shas
+    self.shas.order(id: :asc).all.slice(0...-1).map(&:sha)
   end
 
   def generate_slug

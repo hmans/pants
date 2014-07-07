@@ -41,7 +41,7 @@ RSpec.describe Post, :type => :model do
     end
 
     it 'extracts those hashtags into the #tags attribute' do
-      expect(subject.tags).to eq(['world', 'fine'])
+      expect(subject.tags.map(&:name)).to eq(['world', 'fine'])
     end
 
 
@@ -54,7 +54,18 @@ RSpec.describe Post, :type => :model do
     end
 
     it "doesn't convert the hashtag into a HTML heading" do
-      expect(subject.tags).to eq(['hello', 'world', 'awesome'])
+      expect(subject.tags.map(&:name)).to eq(['hello', 'world', 'awesome'])
+    end
+  end
+
+  context 'getting posts tagged with a tag' do
+    subject do
+      create(:post, body: 'just a post with a #unicorn tag')
+    end
+
+    it 'returns the wanted post' do
+      subject.reload
+      expect(Post.tagged_with('unicorn')).to eq([subject])
     end
   end
 
