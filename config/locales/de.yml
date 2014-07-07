@@ -1,6 +1,6 @@
 de:
   layouts:
     application:
-      timeline: 'Timeline'
+      network: 'Netzwerk'
       friends: 'Freunde'
       settings: 'Einstellungen'

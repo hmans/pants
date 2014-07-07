@@ -1,0 +1,5 @@
+- posts = @posts.page(params[:page]).per(10)
+= render posts
+
+p#more-posts
+  = link_to_next_page posts, "Load more posts", remote: true

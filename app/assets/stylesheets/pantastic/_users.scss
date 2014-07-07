@@ -1,35 +1,53 @@
 .avatar {
   img {
-    @extend %slanted;
+    @extend %slanted-animated;
+    @extend %box-shadow;
+
     background-color: #eee;
+    width: 60px;
+    height: 60px;
   }
 }
 
+
 .user {
-  @extend %card;
-  @extend %card-body;
   @extend %reset-links;
-  height: 81px;
-  padding: 10px 10px 10px 90px;
+  height: 60px;
+  padding: 0 0 0 80px;
   position: relative;
+
+  a.unfriend-link { visibility: hidden }
+
+  &:hover {
+    a.unfriend-link { visibility: visible }
+  }
 }
 
 .user-image {
+  @extend .avatar;
   position: absolute;
   top: 0; left: 0;
+}
 
-  img {
-    width: 80px;
-    height: 80px;
-    background-color: rgba(#000, 0.05);
-    @include border-radius(2px 0 0 2px);
+.user-name, .user-info {
+  line-height: 30px;
+
+  &:before {
+    @extend .fa;
+    width: 20px;
+    color: #ddd;
   }
 }
 
+.user-name {
+  @extend .fa-user;
+}
+
 .user-info {
+  @extend .fa-globe;
   @extend %light;
 }
 
-.avatars {
-  img { width: 50px; height: 50px; margin: 0 10px 10px 0; }
+.bookmarklets {
+  a { @extend %button; }
 }

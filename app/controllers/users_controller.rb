@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def show
     respond_with @user do |format|
+      format.css { }
       format.jpg do
         job = if @user.image.present?
           @user.image.thumb('300x300#')

@@ -1,10 +1,12 @@
 - user = friendship.friend
 = div_for friendship do
   = div_for user do
-    = link_to image_tag(user.external_image_url), user.url, class: 'user-image'
+    = avatar user, class: 'user-image'
+    / = link_to user.url, class: 'user-image' do
+    /   = image_tag(user.local_thumbnail.url) if user.local_image.present?
     .user-name
       = link_to user.display_name, user.url
     .user-info
-      = link_to user.domain, user.url
-      |  [#{link_to 'unfriend', friendship, method: 'delete', data: { confirm: 'Are you sure?' }}]
+      =' link_to user.domain, user.url
+      = link_to fa_icon('trash-o'), friendship, method: 'delete', data: { confirm: 'Are you sure?' }, class: 'unfriend-link'
 

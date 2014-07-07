@@ -1,8 +1,5 @@
 .flash {
-  @extend %nav-text;
-  padding: 10px;
-  line-height: 1;
-  margin: 10px 0;
+  @extend %note;
 }
 
 .flash.notice {

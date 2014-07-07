@@ -1,66 +1,138 @@
 article.post {
-  @extend %card;
-  margin: 40px 0;
-
+  margin: 40px 0 70px 0;
   position: relative;
 }
 
-.post-body {
-  @extend %card-body;
-  @extend %collapse;
-  @extend %text-formatting;
-  padding: 30px;
+article.post>header {
+  @include clearfix;
+  margin-bottom: 10px;
 }
 
+// POST AVATAR
+
+.post-avatar {
+  @include float-left;
+  width: 60px;
+  margin-right: 20px;
+}
+
+
+// POST INFORMATION
+
+.post-information {
+  @extend %reset-links;
+  @extend %light;
+  @extend %small;
+  li { line-height: 30px; }
+  a:hover { color: $color-text; }
+}
+
+.post-author {
+  @include float-left;
+  margin-right: 20px;
+  color: $color-text;
+  font-weight: bold;
+}
+
+.post-author, .post-permalink, .post-referenced-url, .post-time {
+  &:before {
+    @extend .fa;
+    width: 20px;
+    color: #bbb;
+  }
+}
+
+.post-author:before {
+  content: "\f007";
+}
+
+.post-permalink:before {
+  content: "\f0f6";
+}
+
+.post-referenced-url:before {
+  content: "\f112";
+}
+
+.post-time:before {
+  content: "\f017";
+}
+
+@media only screen and (min-width: 1000px) {
+  article.post>header {
+    margin-bottom: 15px;
+  }
+  .post-avatar {
+    position: absolute;
+    left: -80px;
+  }
+  ul.post-information li {
+    display: inline;
+    margin-right: 20px;
+    line-height: 20px;
+  }
+}
+
+
+// POST BODY
+
+.post-body {
+  @extend %collapse;
+  @extend %text-formatting;
+}
+
+// POST REFERENCE
+
 .post-reference {
-  @extend %card-body;
+  margin-bottom: 25px;
+  position: relative;
+
+  &:before {
+    @extend .fa;
+    content: "\f10d";
+    position: absolute;
+    left: -3px;
+    top: -8px;
+    color: #ccc;
+    font-size: 20px;
+    z-index: 1;
+
+    visibility: hidden;
+    @include on-desktop {
+      visibility: visible;
+    }
+  }
+}
+
+.post-reference-info {
+  @extend p;
+  @extend %light;
+}
+
+.post-reference-body {
   @extend %collapse;
   @extend %text-formatting;
   @extend %small;
 
-  background-color: #eee;
-  padding: 30px;
-
-  max-height: 300px;
+  max-height: 240px;
   overflow: auto;
+  // natural scrolling for ios devices
+  -webkit-overflow-scrolling: touch;
   position: relative;
+  padding: 15px 20px;
 
-  $c: #eee;
-  @include background(linear-gradient(top, darken($c, 5%), $c 3px, $c 280px, darken($c, 5%) 298px, darken($c, 10%)));
-
-  >p:first-child {
-    @extend %light;
-    a { color: $color-text; }
-  }
+  // background
+  $c: #f8f8f8;
+  background-color: $c;
+  @include background(linear-gradient(top, $c, $c 220px, darken($c, 5%) 238px, darken($c, 10%)));
 }
 
-.post-information {
-  padding-left: 50px;
 
-  @include on-mobile {
-    padding-left: 70px;
-  }
-}
-
-.post-avatar {
-  position: absolute;
-  z-index: 5;
-  top: -10px; left: -10px;
-
-  @include on-mobile {
-    left: 10px;
-  }
-
-  img {
-    width: 60px;
-    height: 60px;
-    @extend %box-shadow;
-  }
-}
+// POST ACTIONS
 
 ul.post-actions {
-  @extend %card-actions;
   @extend %reset-links;
+  margin-top: 20px;
 
   li {
     display: inline;
@@ -74,4 +146,20 @@ ul.post-actions {
   a:hover {
     color: inherit;
   }
+}
+
+li.post-reply-link a, li.post-edit-link a {
+  &:before {
+    @extend .fa;
+    width: 25px;
+    opacity: 0.5;
+  }
+}
+
+li.post-reply-link a {
+  @extend .fa-reply;
+}
+
+li.post-edit-link a {
+  @extend .fa-edit;
 }

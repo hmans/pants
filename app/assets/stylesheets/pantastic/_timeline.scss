@@ -1,4 +1,11 @@
 ul.timeline-modes {
   @extend %tabs;
-  margin: 50px 0 20px 0;
+}
+
+p#more-posts a {
+  @extend %button;
+}
+
+.incoming-notice {
+  @extend %note;
 }

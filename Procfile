@@ -1,1 +1,1 @@
-pants: bin/rails s -p $PORT
+pants: bundle exec rails server -p $PORT

@@ -56,7 +56,7 @@ class Post < ActiveRecord::Base
   validates :body,
     presence: true
 
-  validates :sha, :url,
+  validates :guid, :sha, :url,
     presence: true,
     uniqueness: true
 

@@ -7,44 +7,82 @@ body {
   background-color: $color-background;
   color: $color-text;
   font: $font;
-  padding-bottom: 100px;
+
+  @include on-desktop {
+    padding-bottom: 100px;
+  }
 }
 
 section#main {
   @extend %container;
+  @extend %collapse;
+}
+
+// FONTAWESOME
+
+i.fa {
+  margin-right: 0.3em;
 }
 
 
 // HEADER
 
 header[role="primary"] {
-  @extend %reset-links;
-  line-height: 1.9;
+  margin-bottom: 30px;
+
   span {
     @extend %container;
+    @extend %reset-links;
+    position: relative;
+  }
+
+  .site-name {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 40px;
+    padding: 20px 0 5px 0;
+    text-transform: uppercase;
+  }
+
+  .site-domain {
+    @extend %light;
+    font-size: 20px;
+    line-height: 25px;
+  }
+
+  .site-image {
+    img {
+      @extend %slanted;
+      position: absolute;
+      right: 0;
+      width: 60px;
+      height: 60px;
+    }
   }
 }
 
-.site-name {
-  @extend %box-shadow;
-  font-size: 180%;
-  font-weight: bold;
-  background-color: $color-theme;
-  color: #fff;
+
+// FOOTER
+
+footer[role="primary"] {
+  @extend %container;
+  @extend %light;
+  @extend %small;
+  @extend %reset-links;
+
+  margin-top: 100px;
+  border-top: 1px solid rgba($color-light, 0.5);
+
+  a:hover { color: $color-text; }
 }
 
-.site-domain {
-  @extend %box-shadow;
-  font-size: 120%;
-  background-color: #7986cb;
-  color: rgba(#fff, 0.6);
-}
 
 
 // NAVIGATION
 nav[role="primary"] {
   @extend %tabs;
   line-height: 3;
+  margin-bottom: 20px;
 
   ul {
     @extend %container;
@@ -67,4 +105,11 @@ h1, h2 {
   font-size: 180%;
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+
+// NOTES
+
+.note {
+  @extend %note;
 }

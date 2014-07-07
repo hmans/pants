@@ -1,21 +1,25 @@
 - hide_actions ||= false
 = content_tag_for(:article, post) do
   header
-    .post-information
-      =' link_to post.url.without_http, post.url
-      - unless post.published_at.today?
-        ' &middot; #{l post.published_at.to_date, format: :long}
-      ' &middot; #{l post.published_at, format: :time}
     .post-avatar
       = avatar post.user
+    ul.post-information
+      li.post-author
+        = link_to post.user.display_name, post.user.url
+      li.post-time
+        =' link_to l(post.published_at.to_date, format: :short),
+           day_url(year: post.published_at.year, month: post.published_at.month, day: post.published_at.day, host: post.user.domain)
+        ' &middot;
+        = link_to l(post.published_at, format: :time), post.url
+      - if post.referenced_guid.present?
+        li.post-referenced-url
+          = link_to post.referenced_guid.without_http, post.referenced_guid.with_http
 
   // show referenced post if available
-  - if post.referenced_guid.present? && (@post.blank? || @post == post)
+  - if post.referenced_post.present? && (@post.blank? || @post == post)
     .post-reference
-      p In reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
-
-      - if post.referenced_post.present?
-          == post.referenced_post.body_html
+      .post-reference-body
+        == post.referenced_post.body_html
 
   // show actual post body
   .post-body
@@ -24,6 +28,6 @@
   - if current_user.present? && !hide_actions
     ul.post-actions
       - if can?(:edit, post)
-        li = link_to 'edit', [:edit, post]
+        li.post-edit-link = link_to 'edit', [:edit, post]
       - if can?(:create, Post)
-        li = link_to 'reply', new_post_path(referenced_guid: post.guid)
+        li.post-reply-link = link_to 'reply', new_post_path(referenced_guid: post.guid)
