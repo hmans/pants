@@ -14,9 +14,6 @@ class Post < ActiveRecord::Base
     if body_changed?
       # Render body to HTML
       self.body_html = Formatter.new(body).complete.to_s
-
-      # Update editing timestamp
-      self.edited_at = Time.now
     end
 
     # Extract and save tags
@@ -30,6 +27,9 @@ class Post < ActiveRecord::Base
 
     # Publish post right away... for now
     self.published_at ||= Time.now     # for the SHA
+
+    # Default editing timestamp to publishing timestamp
+    self.edited_at ||= published_at
 
     # Default URL to http://<guid>
     self.url ||= "http://#{guid}"

@@ -92,6 +92,7 @@ class PostsController < ApplicationController
 
   def update
     @post.update_attributes(post_params)
+    @post.edited_at = Time.now
 
     if @post.valid?
       @post.update_attributes(url: post_url(@post))
