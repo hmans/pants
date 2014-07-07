@@ -28,6 +28,12 @@ em { font-style: italic; }
     background-color: mix($color-text, $color-background, 10%);
     padding: 3px 15px;
     color: $color-text;
+
+    // reset styling of hashtags
+    a.hashtag {
+      background-color: transparent;
+      padding: 0;
+    }
   }
 
   h1 {
