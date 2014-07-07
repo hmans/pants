@@ -104,7 +104,7 @@ class User < ActiveRecord::Base
         posts_url = URI.join(url, '/posts.json')
         posts = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
 
-        posts.map do |json|
+        posts.reverse.map do |json|
           # Sanity checks
           if json['domain'] != domain
             raise "#{posts_url} contained an invalid domain."
