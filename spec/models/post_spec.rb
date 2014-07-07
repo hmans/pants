@@ -57,4 +57,15 @@ RSpec.describe Post, :type => :model do
       expect(subject.tags.map(&:name)).to eq(['hello', 'world', 'awesome'])
     end
   end
+
+  context 'getting posts tagged with a tag' do
+    subject do
+      create(:post, body: 'just a post with a #unicorn tag')
+    end
+
+    it 'returns the wanted post' do
+      subject.reload
+      expect(Post.tagged_with('unicorn')).to eq([subject])
+    end
+  end
 end
