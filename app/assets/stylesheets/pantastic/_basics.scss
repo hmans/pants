@@ -102,7 +102,10 @@ nav[role="pagination"] {
 
 h1, h2 {
   @extend %reset-links;
-  font-size: 180%;
+  @extend %nav-text;
+  color: $color-text;
+  font-size: 150%;
+  font-weight: bold;
   margin-top: 40px;
   margin-bottom: 40px;
 }

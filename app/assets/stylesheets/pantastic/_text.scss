@@ -21,20 +21,24 @@ em { font-style: italic; }
 %text-formatting {
   h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
-    margin-top: 1.5em;
-    margin-bottom: 1em;
+    font-size: inherit;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    display: table;
+    background-color: mix($color-text, $color-background, 10%);
+    padding: 3px 15px;
+    color: $color-text;
   }
 
   h1 {
-    font-size: 200%;
-  }
-
-  h2 {
     font-size: 150%;
   }
 
-  h3 {
+  h2 {
     font-size: 120%;
+  }
+
+  h3 {
   }
 
   ul {
