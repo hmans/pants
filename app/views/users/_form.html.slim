@@ -8,8 +8,14 @@
       p
         = image_tag user.image.thumb('200x200#').url
         = f.input :remove_image, as: :boolean
-
     = f.input :image, as: :file, label: false
+
+  = field_set_tag "Your Flair" do
+    - if user.flair.present?
+      p
+        = image_tag user.flair.thumb('600x200#').url
+        = f.input :remove_flair, as: :boolean
+    = f.input :flair, as: :file, label: false
 
   = field_set_tag "New Password" do
     p If you want to change your password, please enter your new password here.

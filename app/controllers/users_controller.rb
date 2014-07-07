@@ -36,8 +36,10 @@ class UsersController < ApplicationController
     respond_with @user, location: :root
   end
 
+private
+
   def user_params
     params.require(:user).permit(:display_name, :locale, :password, :password_confirmation,
-      :image, :remove_image)
+      :image, :remove_image, :flair, :remove_flair)
   end
 end
