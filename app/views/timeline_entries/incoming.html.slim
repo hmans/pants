@@ -1,4 +1,4 @@
 .note These posts have been pushed to you from users who have added you as a friend.
-      How about adding them back?
+      How about adding them back? You can also #{link_to "hide all of these posts", incoming_network_path(until: @timeline_entries.first.created_at.to_i), method: 'delete', data: { confirm: "Are you sure?" }}.
 
 = render 'more'

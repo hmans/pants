@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   # Timeline
   get 'network' => 'timeline_entries#index', as: :network
+  delete 'network/incoming' => 'timeline_entries#hide_all_incoming'
+  delete 'network/:id' => 'timeline_entries#destroy', as: :timeline_entry
   get 'network/incoming' => 'timeline_entries#incoming', as: :incoming_network
 
   # Tag pages

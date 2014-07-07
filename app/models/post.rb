@@ -153,10 +153,14 @@ class Post < ActiveRecord::Base
 
     def from_json!(json)
       # Upsert post
-      post = where(guid: json['guid']).first_or_initialize
-      if post.new_record? || post.edited_at < json['edited_at']
-        post.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
-        post.save!
+      post = transaction do
+        post = where(guid: json['guid']).first_or_initialize
+        if post.new_record? || post.edited_at < json['edited_at']
+          post.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
+          post.save!
+        end
+
+        post
       end
 
       # Upsert the post's author

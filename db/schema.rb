@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20140707183206) do
     t.string   "referenced_guid"
   end
 
-  add_index "posts", ["guid"], name: "index_posts_on_guid", using: :btree
+  add_index "posts", ["guid"], name: "index_posts_on_guid", unique: true, using: :btree
   add_index "posts", ["referenced_guid"], name: "index_posts_on_referenced_guid", using: :btree
 
   create_table "taggings", force: true do |t|
@@ -73,10 +73,11 @@ ActiveRecord::Schema.define(version: 20140707183206) do
     t.integer  "post_id"
     t.datetime "created_at"
     t.boolean  "from_friend", default: false, null: false
+    t.boolean  "hidden",      default: false, null: false
   end
 
   add_index "timeline_entries", ["post_id"], name: "index_timeline_entries_on_post_id", using: :btree
-  add_index "timeline_entries", ["user_id", "created_at"], name: "index_timeline_entries_on_user_id_and_created_at", using: :btree
+  add_index "timeline_entries", ["user_id", "hidden", "created_at"], name: "index_timeline_entries_on_user_id_and_hidden_and_created_at", using: :btree
   add_index "timeline_entries", ["user_id", "post_id"], name: "index_timeline_entries_on_user_id_and_post_id", unique: true, using: :btree
   add_index "timeline_entries", ["user_id"], name: "index_timeline_entries_on_user_id", using: :btree
 

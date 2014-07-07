@@ -12,6 +12,7 @@ class FriendshipsController < ApplicationController
       @friendship = current_site.add_friend(user)
     end
 
+    flash[:notice] = "#{user.domain} has been added to your friends."
     respond_with @friendship, location: :friendships
   rescue StandardError => e
     Rails.env.development? ?
@@ -21,6 +22,7 @@ class FriendshipsController < ApplicationController
 
   def destroy
     @friendship.destroy
+    flash[:notice] = "#{@friendship.friend.domain} has been removed from your friends."
     respond_with @friendship
   end
 end

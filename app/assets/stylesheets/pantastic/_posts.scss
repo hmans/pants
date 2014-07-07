@@ -137,6 +137,12 @@ ul.post-actions {
   li {
     display: inline;
     margin-right: 20px;
+
+    a:before {
+      @extend .fa;
+      width: 25px;
+      opacity: 0.5;
+    }
   }
 
   a {
@@ -148,18 +154,18 @@ ul.post-actions {
   }
 }
 
-li.post-reply-link a, li.post-edit-link a {
-  &:before {
-    @extend .fa;
-    width: 25px;
-    opacity: 0.5;
-  }
-}
-
 li.post-reply-link a {
   @extend .fa-reply;
 }
 
 li.post-edit-link a {
   @extend .fa-edit;
+}
+
+li.post-hide-link a {
+  @extend .fa-ban;
+}
+
+li.post-add-friend-link a {
+  @extend .fa-heart;
 }
