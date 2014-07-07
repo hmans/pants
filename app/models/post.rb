@@ -107,7 +107,7 @@ class Post < ActiveRecord::Base
     end
 
     def to_title
-      to_nokogiri.css('h1, h2').first.try(:text) || to_sentences.first
+      (to_nokogiri.css('h1, h2').first.try(:text) || to_sentences.first).try(:strip)
     end
   end
 
