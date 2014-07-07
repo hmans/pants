@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707161059) do
+ActiveRecord::Schema.define(version: 20140707183206) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "friendships", force: true do |t|
     t.integer  "user_id"
@@ -30,15 +33,12 @@ ActiveRecord::Schema.define(version: 20140707161059) do
   end
 
   create_table "posts", force: true do |t|
-    t.string   "pgsha",           limit: 40
     t.string   "slug"
     t.string   "domain"
     t.text     "body"
     t.text     "body_html"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "pgtags"
-    t.text     "previous_shas"
     t.datetime "published_at"
     t.string   "guid"
     t.datetime "edited_at"
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 20140707161059) do
   end
 
   add_index "posts", ["guid"], name: "index_posts_on_guid", using: :btree
-  add_index "posts", ["previous_shas"], name: "index_posts_on_previous_shas", length: {"previous_shas"=>1}, using: :btree
   add_index "posts", ["referenced_guid"], name: "index_posts_on_referenced_guid", using: :btree
 
   create_table "taggings", force: true do |t|
