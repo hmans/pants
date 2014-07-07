@@ -84,5 +84,13 @@ RSpec.describe Post, :type => :model do
         expect(subject.to_title).to eq("Lorem to the Ipsum.")
       end
     end
+
+    context "when the body contains quote blocks" do
+      let(:body) { "> Unexpected.\n\nExpected." }
+
+      it "ignores the blockquote before processing" do
+        expect(subject.to_title).to eq("Expected.")
+      end
+    end
   end
 end

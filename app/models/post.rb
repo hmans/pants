@@ -93,8 +93,12 @@ class Post < ActiveRecord::Base
       to_nokogiri.text.split(/((?<=[a-z0-9)][.?!])|(?<=[a-z0-9][.?!]"))\s+(?="?[A-Za-z])/).reject {|part| part.blank? }
     end
 
-    def to_nokogiri
-      Nokogiri::HTML(body_html)
+    def to_nokogiri(stripped = true)
+      Nokogiri::HTML(body_html).tap do |n|
+        if stripped
+          n.css('blockquote').remove
+        end
+      end
     end
 
     def to_summary(target = 60)
