@@ -57,7 +57,7 @@ class PostsController < ApplicationController
       redirect_to canonical_path, status: 301 and return
     end
 
-    @page_title = @post.to_summary
+    @page_title = @post.to_title
 
     respond_with @post do |format|
       format.md { render text: @post.body }

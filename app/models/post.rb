@@ -89,14 +89,25 @@ class Post < ActiveRecord::Base
       slug
     end
 
+    def to_sentences
+      to_nokogiri.text.split(/((?<=[a-z0-9)][.?!])|(?<=[a-z0-9][.?!]"))\s+(?="?[A-Za-z])/).reject {|part| part.blank? }
+    end
+
+    def to_nokogiri
+      Nokogiri::HTML(body_html)
+    end
+
     def to_summary(target = 60)
       Rails.cache.fetch("post-summary-#{id}-#{updated_at}", expires_in: 1.day) do
-        sentences = Nokogiri::HTML(body_html).text.split(/((?<=[a-z0-9)][.?!])|(?<=[a-z0-9][.?!]"))\s+(?="?[A-Za-z])/).reject {|part| part.blank? }
-        sentences.inject("") do |v, sentence|
+        to_sentences.inject("") do |v, sentence|
           break v if v.length > target
           v << " " << sentence
         end
       end.strip.html_safe
+    end
+
+    def to_title
+      to_nokogiri.css('h1, h2').first.try(:text) || to_sentences.first
     end
   end
 

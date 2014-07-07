@@ -1,6 +1,6 @@
 feed.entry(post, id: "tag:#{post.domain},2005:#{post.slug}") do |entry|
   entry.url     post.url
-  entry.title   post.to_summary(40)
+  entry.title   post.to_title
 
   # content
   entry.content post.body_html, type: 'html'

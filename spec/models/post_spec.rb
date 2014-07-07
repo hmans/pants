@@ -57,4 +57,32 @@ RSpec.describe Post, :type => :model do
       expect(subject.tags).to eq(['hello', 'world', 'awesome'])
     end
   end
+
+  describe '#to_title' do
+    subject { create(:post, body: body) }
+
+    context "when the rendered body contains a heading" do
+      let(:body) { "# A heading! It's awesome.\n\nSome more text.\n\n## Another heading!\n\nEven more text." }
+
+      it "returns the text value of the heading" do
+        expect(subject.to_title).to eq("A heading! It’s awesome.")
+      end
+
+      context "when the heading contains HTML tags" do
+        let(:body) { "# A **heading**!\n\nSome more text.\n\n## Another heading!\n\nEven more text." }
+
+        it "returns the text value without any of the HTML tags" do
+          expect(subject.to_title).to eq("A heading!")
+        end
+      end
+    end
+
+    context "when the rendered body contains no heading element" do
+      let(:body) { "Lorem to the Ipsum. Shmorem to the Shmipsum." }
+
+      it "returns the first full sentence of the body" do
+        expect(subject.to_title).to eq("Lorem to the Ipsum.")
+      end
+    end
+  end
 end
