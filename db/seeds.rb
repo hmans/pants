@@ -12,4 +12,6 @@ if Rails.env.development?
 
   FactoryGirl.create_list(:post, 40, user: andy)
   FactoryGirl.create_list(:post, 20, user: ben)
+
+  andy.add_friend(ben)
 end
