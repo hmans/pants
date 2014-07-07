@@ -12,8 +12,13 @@ class Post < ActiveRecord::Base
   #
   before_validation do
     if body_changed?
+      # Resolve hashtag links
+      body_with_hashtags = body.gsub(TagExtractor::REGEX) do
+        "<a href=\"#{user.try(:url)}/tag/#{$1.downcase}\" class=\"hashtag\">##{$1}</a>"
+      end
+
       # Render body to HTML
-      self.body_html = Formatter.new(body).complete.to_s
+      self.body_html = Formatter.new(body_with_hashtags).complete.to_s
     end
 
     # Extract and save tags

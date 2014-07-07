@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     source: :user
 
   before_validation do
-    self.url ||= "http://#{domain}/"
+    self.url ||= domain.try(:with_http)
   end
 
   def external_image_url
