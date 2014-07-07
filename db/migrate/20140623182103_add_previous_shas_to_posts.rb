@@ -1,6 +1,6 @@
 class AddPreviousShasToPosts < ActiveRecord::Migration
   def change
-    add_column :posts, :previous_shas, :text, array: true, default: []
-    add_index  :posts, :previous_shas, using: 'gin'
+    add_column :posts, :previous_shas, :text
+    add_index  :posts, :previous_shas, length: 1
   end
 end

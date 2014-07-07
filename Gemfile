@@ -6,6 +6,7 @@ gem 'pg'
 gem 'quiet_assets'
 gem 'puma'
 gem 'rack-cache', :require => 'rack/cache'
+gem 'acts-as-taggable-on'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'

@@ -39,6 +39,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    acts-as-taggable-on (3.2.6)
+      activerecord (>= 3, < 5)
     addressable (2.3.6)
     appsignal (0.9.1)
       activesupport (>= 3.0)
@@ -316,6 +318,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts-as-taggable-on
   appsignal
   awesome_print
   bcrypt (~> 3.1.7)

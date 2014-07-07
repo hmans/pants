@@ -14,6 +14,20 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
+# MySQL (Version 5.5 and up for Emoji support) are supported.
+#
+# Install the mysql2 driver:
+#   gem install mysql2
+#
+# Then:
+#   - set adapter to mysql2
+#   - set encoding to utf8
+#   - edit Gemfile
+#     - replace "gem 'pg'" with "gem 'mysql2'"
+#   - rake db:schema:load
+#   - if you want emoji support (i know you want it!)
+#     - set database.yml encoding to utf8mb4
+#
 default: &default
   adapter: postgresql
   encoding: unicode
