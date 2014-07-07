@@ -31,3 +31,5 @@
         li.post-edit-link = link_to 'edit', [:edit, post]
       - if can?(:create, Post)
         li.post-reply-link = link_to 'reply', new_post_path(referenced_guid: post.guid)
+      - if content_for?(:extra_post_actions)
+        = yield :extra_post_actions

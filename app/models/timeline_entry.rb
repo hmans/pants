@@ -6,4 +6,6 @@ class TimelineEntry < ActiveRecord::Base
 
   scope :from_friends, -> { where(from_friend: true) }
   scope :from_others,  -> { where(from_friend: false) }
+  scope :hidden,       -> { where(hidden: true) }
+  scope :visible,      -> { where(hidden: false) }
 end

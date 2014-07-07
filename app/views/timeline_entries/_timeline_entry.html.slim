@@ -1,2 +1,9 @@
 = div_for timeline_entry, class: timeline_entry.from_friend? ? 'from-friend' : 'from-other' do
+
+  - if action_name == 'incoming'
+    - content_for :extra_post_actions, flush: true do
+      li.post-hide-link = link_to 'HIDE', timeline_entry, method: 'delete', remote: true
+      li.post-add-friend-link = link_to 'ADD FRIEND', friendships_path(friend: { url: timeline_entry.post.user.domain}), method: 'post'
+
   = render timeline_entry.post
+

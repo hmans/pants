@@ -3,5 +3,5 @@ section.friendships
 
 = simple_form_for :friend do |f|
   = field_set_tag "Add New Friend" do
-    = f.input :url, label: "URL of user to add as friend:"
+    = f.input :url, label: "URL of user to add as friend:", input_html: { value: params[:url] }
   = f.submit 'Add Friend'
