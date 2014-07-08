@@ -18,6 +18,15 @@ section#main {
   @extend %collapse;
 }
 
+// MISC TWEAKS
+
+// images should never be wider than their containing element
+img {
+  max-width: 100%;
+}
+
+
+
 // FONTAWESOME
 
 i.fa {
