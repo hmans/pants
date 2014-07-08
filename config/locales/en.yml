@@ -25,7 +25,9 @@ en:
       page_title: "Login"
   timeline_entries:
     index:
-      page_title: "Timeline"
+      page_title: "Network"
+    incoming:
+      page_title: "Incoming"
   friendships:
     index:
       page_title: "Friends"
