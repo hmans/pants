@@ -26,7 +26,7 @@ en:
   timeline_entries:
     index:
       page_title: "Network"
-    index:
+    incoming:
       page_title: "Incoming"
   friendships:
     index:
