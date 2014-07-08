@@ -1,0 +1,11 @@
+header role="primary" class=((current_site.flair_uid.present? || current_site.image_uid.present?) ? 'with-flair' : nil)
+  .header-container
+    / - if current_site.flair_uid.present?
+    /   = image_tag current_site.local_cropped_flair.url, class: 'header-flair'
+    - if current_site.image_uid.present?
+      = link_to image_tag(current_site.local_thumbnail.url), :root, class: 'header-site-image'
+    .header-site-info
+      .header-site-name
+        = link_to current_site.display_name, :root
+      .header-site-domain
+        = link_to current_site.domain, :root

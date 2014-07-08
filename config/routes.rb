@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   # User
   resource :user, only: [:show, :edit, :update]
+  get 'user-flair' => 'users#flair', format: 'jpg'
 
   # Friendships
   resources :friendships, path: 'friends'

@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
 
-  dragonfly_accessor :image
-
   # Scopes
   #
   scope :hosted, -> { where(hosted: true) }
@@ -51,16 +49,35 @@ class User < ActiveRecord::Base
     self.url ||= domain.try(:with_http)
   end
 
-  def external_image_url
-    URI.join(url, '/user.jpg').to_s
-  end
+  concerning :Images do
+    included do
+      dragonfly_accessor :image
+      dragonfly_accessor :flair
+    end
 
-  def local_image
-    hosted? ? image : Dragonfly.app.fetch_url(external_image_url)
-  end
+    def external_image_url
+      URI.join(url, '/user.jpg').to_s
+    end
 
-  def local_thumbnail
-    local_image.try(:thumb, '300x300#')
+    def external_flair_url
+      URI.join(url, '/user-flair.jpg').to_s
+    end
+
+    def local_image
+      hosted? ? image : Dragonfly.app.fetch_url(external_image_url)
+    end
+
+    def local_flair
+      hosted? ? flair : Dragonfly.app.fetch_url(external_flair_url)
+    end
+
+    def local_thumbnail
+      local_image.try(:thumb, '300x300#')
+    end
+
+    def local_cropped_flair
+      local_flair.try(:thumb, '800x250#')
+    end
   end
 
   def add_to_timeline(post)

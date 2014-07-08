@@ -54,7 +54,7 @@ label {
 }
 
 legend {
-  font-weight: bold;
+  @extend h3;
   &+* {
     padding-top: 30px;
   }

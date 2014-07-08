@@ -25,42 +25,6 @@ i.fa {
 }
 
 
-// HEADER
-
-header[role="primary"] {
-  margin-bottom: 30px;
-
-  span {
-    @extend %container;
-    @extend %reset-links;
-    position: relative;
-  }
-
-  .site-name {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: 40px;
-    padding: 20px 0 5px 0;
-    text-transform: uppercase;
-  }
-
-  .site-domain {
-    @extend %light;
-    font-size: 20px;
-    line-height: 25px;
-  }
-
-  .site-image {
-    img {
-      @extend %slanted;
-      position: absolute;
-      right: 0;
-      width: 60px;
-      height: 60px;
-    }
-  }
-}
-
 
 // FOOTER
 
@@ -96,18 +60,6 @@ nav[role="pagination"] {
   a {
     @extend %button;
   }
-}
-
-// HEADINGS
-
-h1, h2 {
-  @extend %reset-links;
-  @extend %nav-text;
-  color: $color-text;
-  font-size: 150%;
-  font-weight: bold;
-  margin-top: 40px;
-  margin-bottom: 40px;
 }
 
 
