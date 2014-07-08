@@ -27,14 +27,16 @@ em { font-style: italic; }
   color: $color-text;
 }
 
+h1, h2, h3, h4, h5, h5 {
+  font-weight: bold;
+}
+
 h1 {
   font-size: 150%;
-  font-weight: bold;
 }
 
 h2 {
   font-size: 120%;
-  font-weight: bold;
 }
 
 
