@@ -59,16 +59,24 @@ class User < ActiveRecord::Base
       URI.join(url, '/user.jpg').to_s
     end
 
+    def external_flair_url
+      URI.join(url, '/user-flair.jpg').to_s
+    end
+
     def local_image
       hosted? ? image : Dragonfly.app.fetch_url(external_image_url)
+    end
+
+    def local_flair
+      hosted? ? flair : Dragonfly.app.fetch_url(external_flair_url)
     end
 
     def local_thumbnail
       local_image.try(:thumb, '300x300#')
     end
 
-    def cropped_flair
-      flair.try(:thumb, '800x250#')
+    def local_cropped_flair
+      local_flair.try(:thumb, '800x250#')
     end
   end
 

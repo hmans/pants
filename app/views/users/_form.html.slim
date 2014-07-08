@@ -13,7 +13,7 @@
   = field_set_tag "Your Flair" do
     - if user.flair.present?
       p
-        = image_tag user.flair.thumb('600x200#').url
+        = image_tag user.local_cropped_flair.url
         = f.input :remove_flair, as: :boolean
     = f.input :flair, as: :file, label: false
 

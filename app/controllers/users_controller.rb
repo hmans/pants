@@ -36,6 +36,22 @@ class UsersController < ApplicationController
     respond_with @user, location: :root
   end
 
+  def flair
+    respond_to do |format|
+      format.jpg do
+        job = if @user.flair.present?
+          @user.local_cropped_flair
+        else
+          Dragonfly.app.generate(:plain, 1, 1,
+            'format' => 'png',
+            'color' => 'rgba(0,0,0,0)')
+        end
+
+        redirect_to job.url
+      end
+    end
+  end
+
 private
 
   def user_params
