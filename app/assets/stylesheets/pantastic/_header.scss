@@ -4,6 +4,13 @@ header[role="primary"] {
   height: 85px;
   margin-bottom: 30px;
   width: 100%;
+  overflow: hidden;
+
+  @include background(
+    linear-gradient(top, rgba(#fff, 0.2), rgba(#fff, 0.8)),
+    url('/user-flair.jpg'));
+
+  background-size: cover;
 
   @include on-mobile {
     margin-bottom: 0;
@@ -16,6 +23,8 @@ header[role="primary"] {
   background-color: $color-theme;
   height: 100%;
   position: relative;
+
+  @include box-shadow(rgba(#000, 0.8) 0 0 10px);
 
   @include on-mobile {
     margin-left: 0;
