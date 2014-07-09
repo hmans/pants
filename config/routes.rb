@@ -27,6 +27,12 @@ Rails.application.routes.draw do
   get ':year/:month/:day' => 'posts#day', as: :day,
     constraints: { year: /\d+/, month: /\d+/, day: /\d+/ }
 
+  # Server Administration
+  get 'server' => 'server#dashboard'
+  namespace :server do
+    resources :users
+  end
+
   # Legacy
   get '/posts/:id' => 'posts#show'
   get ':year-:month-:day' => redirect("/%{year}/%{month}/%{day}")

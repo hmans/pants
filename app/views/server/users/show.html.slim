@@ -1,0 +1,7 @@
+- if flash[:random_password].present?
+  .note
+    p A password has been generated for the new user.
+      <strong>Please make a note of it now; it will only be displayed once.</strong>
+
+    p: strong: code = flash[:random_password]
+

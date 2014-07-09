@@ -5,9 +5,7 @@ module ApplicationHelper
     }.merge(opts)
 
     link_to(user.url, opts) do
-      if user.local_thumbnail.present?
-        image_tag(user.local_thumbnail.url)
-      end
+      image_tag(user.local_thumbnail.present? ? user.local_thumbnail.url : '1x1.png')
     end
   end
 

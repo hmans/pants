@@ -1,0 +1,6 @@
+h1 Statistics
+ul.stats
+  li = pluralize(User.hosted.count, "hosted users")
+  li = pluralize(User.remote.count, "remote users")
+  li = pluralize(Post.count, "posts")
+  li = pluralize(TimelineEntry.count, "timeline entries")

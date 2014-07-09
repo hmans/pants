@@ -10,11 +10,21 @@
 }
 
 
+.users {
+  margin: 40px 0;
+  @extend %row;
+
+  .user {
+    @extend %column;
+  }
+}
+
 .user {
   @extend %reset-links;
   height: 60px;
   padding: 0 0 0 80px;
   position: relative;
+  margin-bottom: 10px;
 
   a.unfriend-link { visibility: hidden }
 
@@ -31,6 +41,8 @@
 
 .user-name, .user-info {
   line-height: 30px;
+  white-space: nowrap;
+  overflow: hidden;
 
   &:before {
     @extend .fa;

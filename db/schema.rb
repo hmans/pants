@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707220023) do
+ActiveRecord::Schema.define(version: 20140709105913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20140707220023) do
     t.string   "google_analytics_id", limit: 20
     t.datetime "last_polled_at"
     t.string   "flair_uid"
+    t.boolean  "admin",                          default: false, null: false
   end
 
   add_index "users", ["domain"], name: "index_users_on_domain", unique: true, using: :btree

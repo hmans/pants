@@ -1,0 +1,7 @@
+h2 = pluralize @users.hosted.count, "Hosted Users"
+.users
+  = render partial: 'users/user', collection: @users.hosted
+
+h2 = pluralize @users.remote.count, "Remote Users"
+.users
+  = render partial: 'users/user', collection: @users.remote

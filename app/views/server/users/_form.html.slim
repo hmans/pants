@@ -1,0 +1,5 @@
+= simple_form_for [:server, @user] do |f|
+  = field_set_tag do
+    = f.input :domain
+  ul.actions
+    = f.submit

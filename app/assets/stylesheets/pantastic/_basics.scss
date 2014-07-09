@@ -62,6 +62,11 @@ nav[role="primary"] {
   }
 }
 
+nav[role="secondary"] {
+  // for now...
+  @extend nav[role="primary"];
+}
+
 nav[role="pagination"] {
   li {
     display: inline;
@@ -76,4 +81,23 @@ nav[role="pagination"] {
 
 .note {
   @extend %note;
+}
+
+
+// ACTIONS
+
+ul.actions {
+  @extend p;
+
+  li {
+    display: inline;
+    >a:first-child { @extend %button }
+  }
+}
+
+
+// STATS
+
+ul.stats {
+  font-size: 150%;
 }

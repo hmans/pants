@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
     source: :user
 
   before_validation do
+    self.display_name ||= domain
     self.url ||= domain.try(:with_http)
   end
 

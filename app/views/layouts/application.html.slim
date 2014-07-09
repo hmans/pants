@@ -21,26 +21,11 @@ html
 
   body data-no-transition-cache="true"
     = render 'header'
-
-    nav role="primary"
-      ul
-        = navigation_entry t('.blog'), :root, controller: 'posts'
-        - if current_user.present?
-          = navigation_entry t('.network'), :network, controller: 'timeline_entries'
-          = navigation_entry t('.friends'), :friendships, controller: 'friendships'
-          = navigation_entry t('.settings'), [:edit, :user], controller: 'users'
-          = navigation_entry fa_icon('sign-out'), :login, method: :delete, controller: 'auth'
-        - else
-          = navigation_entry t('.login'), :login, controller: 'auth'
-
-
+    = render 'navigation'
 
     section#main
       = render 'flashes'
       = yield
 
-    footer role="primary"
-      p <strong>#{link_to current_site.display_name, :root}</strong> is running on
-        <strong>#{link_to "#pants", "https://github.com/hmans/pants"}</strong>, the distributed social blogging network... thing.
-      - if ENV['PANTS_VERSION']
-        p Version: #{link_to ENV['PANTS_VERSION'], "https://github.com/hmans/pants/commits/#{ENV['PANTS_VERSION']}"}
+    = render 'footer'
+

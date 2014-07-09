@@ -21,14 +21,11 @@ em { font-style: italic; }
   font-weight: bold;
   margin-top: 30px;
   margin-bottom: 15px;
-  display: table;
-  background-color: mix($color-text, $color-background, 10%);
-  padding: 3px 15px;
   color: $color-text;
 }
 
 h1, h2, h3, h4, h5, h5 {
-  font-weight: bold;
+  @extend %heading;
 }
 
 h1 {
@@ -46,12 +43,19 @@ h2 {
 %text-formatting {
   h1, h2, h3, h4, h5, h6 {
     @extend %heading;
+    display: table;
+    background-color: mix($color-text, $color-background, 10%);
+    padding: 3px 15px;
 
     // reset styling of hashtags
     a.hashtag {
       background-color: transparent;
       padding: 0;
     }
+  }
+
+  h1 {
+    text-transform: uppercase;
   }
 
   ul {

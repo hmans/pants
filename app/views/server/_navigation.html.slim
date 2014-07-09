@@ -1,0 +1,7 @@
+= render 'application/navigation'
+
+- if can?(:manage, :server)
+  nav role="secondary"
+    ul
+      li = link_to 'Manage Users', :server_users
+      li = link_to 'New User', :new_server_user
