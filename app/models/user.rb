@@ -169,7 +169,7 @@ class User < ActiveRecord::Base
         raise "User JSON didn't match expected host."
       end
 
-      if json['url'] != URI.join(uri, '/').to_s
+      if json['url'].without_http != URI.join(uri, '/').to_s.without_http
         raise "User JSON didn't match expected URL."
       end
 
