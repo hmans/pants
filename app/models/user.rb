@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
     #
     def poll!
       # Never poll for hosted users.
-      unless hosted?
+      unless hosted? || followings.empty?
         posts_url = URI.join(url, '/posts.json')
         posts_json = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
 

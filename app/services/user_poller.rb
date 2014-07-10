@@ -20,6 +20,6 @@ class UserPoller
   private
 
   def users_to_poll
-    User.joins(:followings).can_be_polled.order('Random()').first(5)
+    User.can_be_polled.order('Random()').first(5)
   end
 end
