@@ -11,6 +11,8 @@ html
     meta name="apple-mobile-web-app-capable" content="yes"
     meta name="apple-mobile-web-app-status-bar-style" content="black"
 
+    = yield :header if content_for?(:header)
+
     - if Rails.env.production?
       - if current_site.gosquared_id.present?
         = render 'gosquared'
