@@ -2,6 +2,8 @@ class UserPoller
   include BackgroundJob
   include FistOfFury::Recurrent
 
+  recurs { minutely }
+
   def perform
     with_appsignal do
       with_database do
