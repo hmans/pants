@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
   end
 
   def ping!(body)
-    UserPinger.new.async.perform(url, body)
+    UserPinger.perform_async(url, body)
   end
 
   concerning :Polling do
@@ -150,39 +150,9 @@ class User < ActiveRecord::Base
   end
 
   class << self
-    # The following attributes will be copied from user JSON responses
-    # into local Post instances.
-    #
-    ACCESSIBLE_JSON_ATTRIBUTES = %w{
-      display_name
-      domain
-      locale
-      url
-    }
-
-    def fetch_from(url)
-      uri = URI.parse(url.with_http)
-      json = HTTParty.get(URI.join(uri, '/user.json').to_s)
-
-      # Sanity checks
-      if json['domain'] != uri.host
-        raise "User JSON didn't match expected host."
-      end
-
-      if json['url'].without_http != URI.join(uri, '/').to_s.without_http
-        raise "User JSON didn't match expected URL."
-      end
-
-      # Upsert user
-      user = where(domain: json['domain']).first_or_initialize
-      user.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
-      user.save!
-
-      user
-    end
-
-    def [](v)
-      find_by(domain: v)
+    def [](url)
+      host = URI.parse(url).host
+      find_by(domain: host)
     end
   end
 end

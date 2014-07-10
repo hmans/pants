@@ -178,10 +178,6 @@ class Post < ActiveRecord::Base
         post
       end
 
-      # Upsert the post's author
-      author_url = post.url.scan(%r{^https?://.+?/}).first
-      User.fetch_from(author_url)
-
       post
     end
 

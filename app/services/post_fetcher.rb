@@ -14,18 +14,25 @@ class PostFetcher
   include BackgroundJob
 
   def perform(url, opts = {})
-    url = expand_url(url)
-    json = fetch_json(url)
+    with_appsignal do
+      Rails.logger.info "Fetching post: #{url}"
+      url = expand_url(url)
+      json = fetch_json(url)
 
-    if json_sane?(json, url)
-      post = upsert_post(json)
-      add_to_local_timelines(post)
+      if json_sane?(json, url)
+        # fetch/update user first
+        UserFetcher.perform(URI.parse(url).host)
 
-      if opts[:recipient].present?
-        opts[:recipient].add_to_timeline(post)
+        # deal with post
+        post = upsert_post(json)
+        add_to_local_timelines(post)
+
+        if opts[:recipient].present?
+          opts[:recipient].add_to_timeline(post)
+        end
+
+        post
       end
-
-      post
     end
   end
 

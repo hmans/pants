@@ -8,7 +8,7 @@ class FriendshipsController < ApplicationController
   end
 
   def create
-    if user = User.fetch_from(params.require(:friend).require(:url))
+    if user = UserFetcher.perform(params.require(:friend).require(:url))
       @friendship = current_site.add_friend(user)
     end
 
