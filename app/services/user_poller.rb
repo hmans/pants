@@ -5,7 +5,11 @@ class UserPoller
   def perform
     with_appsignal do
       with_database do
+        Rails.logger.info "UserPoller running..."
+
         users_to_poll.each do |user|
+          Rails.logger.info "Polling #{user.domain}"
+
           begin
             UserFetcher.perform(user.url)
             user.poll!
@@ -13,6 +17,8 @@ class UserPoller
             Rails.logger.error "Error while polling #{user.domain}: #{e.message}"
           end
         end
+
+        Rails.logger.info "UserPoller done."
       end
     end
   end
