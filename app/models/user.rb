@@ -136,7 +136,7 @@ class User < ActiveRecord::Base
     # for asynchroneously invoking UserPinger.
     #
     def ping!(body)
-      UserPinger.perform_async(url, body)
+      UserPinger.new(url, body).ping!
     end
   end
 

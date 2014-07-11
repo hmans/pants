@@ -6,6 +6,7 @@ gem 'pg'
 gem 'quiet_assets'
 gem 'puma'
 gem 'rack-cache', :require => 'rack/cache'
+gem 'timers'
 
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
@@ -33,10 +34,6 @@ gem 'jbuilder', '~> 2.0'
 
 # HTTP interactions
 gem 'httparty'
-
-# Background tasks
-gem 'sucker_punch'
-gem 'fist_of_fury', '~> 0.2.0'
 
 # Monitoring
 gem 'appsignal'
