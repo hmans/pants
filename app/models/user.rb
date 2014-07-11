@@ -197,7 +197,7 @@ class User < ActiveRecord::Base
 
   class << self
     def [](url)
-      host = URI.parse(url).host
+      host = URI.parse(url.with_http).host
       find_by(domain: host)
     end
   end
