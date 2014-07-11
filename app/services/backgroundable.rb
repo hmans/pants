@@ -1,6 +1,7 @@
 module Backgroundable
   class BackgroundJob
-    def initialize
+    def initialize(opts = {})
+      @opts = opts
       @time_created = Time.now
     end
 
@@ -30,8 +31,8 @@ module Backgroundable
           Appsignal::Transaction.create(SecureRandom.uuid, ENV.to_hash)
 
           ActiveSupport::Notifications.instrument('perform_job.backgroundable',
-            :class      => self.class.to_s,
-            :method     => 'perform',
+            :class      => (@opts[:klass] || self.class).to_s,
+            :method     => (@opts[:method] || 'run').to_s,
             :queue_time => (Time.now - @time_created).to_f
           ) do
             yield
@@ -48,12 +49,6 @@ module Backgroundable
         yield
       end
     end
-
-    class << self
-      def run(*args, &blk)
-        new.run(*args, &blk)
-      end
-    end
   end
 
   class BackgroundProxy
@@ -62,8 +57,12 @@ module Backgroundable
     end
 
     def method_missing(method, *args, &blk)
-      BackgroundJob.run do
-        @obj.send(method, *args, &blk)
+      if @obj.respond_to?(method)
+        BackgroundJob.new(klass: @obj.class, method: method).run do
+          @obj.send(method, *args, &blk)
+        end
+      else
+        super
       end
     end
   end
