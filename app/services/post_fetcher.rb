@@ -25,7 +25,7 @@ class PostFetcher
 
         # deal with post
         post = upsert_post(json)
-        add_to_local_timelines(post)
+        PostPusher.new.push_to_local_timelines(post)
 
         if opts[:recipient].present?
           opts[:recipient].add_to_timeline(post)
@@ -59,9 +59,5 @@ class PostFetcher
     with_database do
       Post.from_json!(json)
     end
-  end
-
-  def add_to_local_timelines(post)
-    TimelineManager.new.add_post_to_local_timelines(post)
   end
 end

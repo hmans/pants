@@ -21,33 +21,83 @@ class User < ActiveRecord::Base
     presence: true,
     if: :hosted
 
-  # Associations
-  #
-  has_many :posts,
-    foreign_key: 'domain',
-    primary_key: 'domain'
-
-  has_many :timeline_entries,
-    dependent: :destroy
-
-  has_many :friendships,
-    dependent: :destroy
-
-  has_many :followings,
-    class_name: 'Friendship',
-    foreign_key: 'friend_id'
-
-  has_many :friends,
-    through: :friendships,
-    source: :friend
-
-  has_many :followers,
-    through: :followings,
-    source: :user
-
   before_validation do
     self.display_name ||= domain
     self.url ||= domain.try(:with_http)
+  end
+
+  # Users can have posts. Which is kind of convenient considering we're dealing
+  # with a distributed social _blogging_ platform.
+  #
+  concerning :Posts do
+    included do
+      has_many :posts,
+        foreign_key: 'domain',
+        primary_key: 'domain'
+    end
+  end
+
+  # Users also have timelines, which are mostly just listings of posts that
+  # are filled when the user is being pinged, or someone the user is subscribing
+  # to publishes a new post.
+  #
+  concerning :Timelines do
+    included do
+      has_many :timeline_entries,
+        dependent: :destroy
+    end
+
+    def add_to_timeline(post)
+      from_friend = (post.user == self) || friends.where(domain: post.domain).any?
+
+      timeline_entries
+        .where(post_id: post.id)
+        .first_or_create!(from_friend: from_friend)
+    end
+  end
+
+  # Awww, friendship. Isn't it lovely? #pants defines a "friendship" as one user
+  # subscribing to another user's updates, which is different from what you may
+  # know from real life, but works exceedingly well in a computer context.
+  #
+  # In non-mutual friendships, if user A has user B in their friends list, A is
+  # a "follower" of B.
+  #
+  concerning :Friendships do
+    included do
+      has_many :friendships,
+        dependent: :destroy
+
+      # Please note that the following association only lists followings that are
+      # local to your #pants instance.
+      #
+      has_many :followings,
+        class_name: 'Friendship',
+        foreign_key: 'friend_id'
+
+      has_many :friends,
+        through: :friendships,
+        source: :friend
+
+      has_many :followers,
+        through: :followings,
+        source: :user
+    end
+
+    def add_friend(friend)
+      # Upsert friendship
+      friendships.where(friend_id: friend.id).first_or_create!
+
+      # Make existing timeline posts visible
+      timeline_entries.joins(:post).where(posts: { domain: friend.domain }).update_all(from_friend: true)
+    end
+
+    # Returns a list of locally known users that have posts waiting
+    # in this user's incoming timeline.
+    #
+    def incoming_followers
+      User.where(domain: timeline_entries.from_others.includes(:post).pluck('distinct domain'))
+    end
   end
 
   concerning :Images do
@@ -81,33 +131,19 @@ class User < ActiveRecord::Base
     end
   end
 
-  def add_to_timeline(post)
-    from_friend = (post.user == self) || friends.where(domain: post.domain).any?
-
-    timeline_entries
-      .where(post_id: post.id)
-      .first_or_create!(from_friend: from_friend)
+  concerning :Pinging do
+    # Ping this user with some information. Mostly a convenience method
+    # for asynchroneously invoking UserPinger.
+    #
+    def ping!(body)
+      UserPinger.perform_async(url, body)
+    end
   end
 
-  def add_friend(friend)
-    # Upsert friendship
-    friendships.where(friend_id: friend.id).first_or_create!
-
-    # Make existing timeline posts visible
-    timeline_entries.joins(:post).where(posts: { domain: friend.domain }).update_all(from_friend: true)
-  end
-
-  # Returns a list of locally known users that have posts waiting
-  # in this user's incoming timeline.
+  # If A is following B, B is remote (= on a different #pants server), and B doesn't have
+  # A in their friends list, B won't push updates to A, so we need to actively poll B for
+  # updates.
   #
-  def incoming_followers
-    User.where(domain: timeline_entries.from_others.includes(:post).pluck('distinct domain'))
-  end
-
-  def ping!(body)
-    UserPinger.perform_async(url, body)
-  end
-
   concerning :Polling do
     included do
       scope :can_be_polled, -> { remote.where("last_polled_at IS NULL OR last_polled_at < ?", 15.minutes.ago) }
