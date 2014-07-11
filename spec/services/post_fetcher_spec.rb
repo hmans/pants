@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe PostFetcher do
   let(:post) { create(:post, slug: 'foo123', domain: 'somehost') }
-  let(:url)  { "http://#{post.domain}/#{post.slug}" }
+  let(:url)  { "http://#{post.domain}/#{post.slug}.json" }
   let(:data) do
     {
       guid:             post.guid,
@@ -44,16 +44,11 @@ describe PostFetcher do
       expect(subject.expand_url("https://somehost/foo123.json"))
         .to eq("https://somehost/foo123.json")
     end
-
-    it "adds the .json extension if not given" do
-      expect(subject.expand_url("http://somehost/foo123"))
-        .to eq("http://somehost/foo123.json")
-    end
   end
 
   describe '#fetch_json' do
     before do
-      stub_request(:get, "#{url}.json")
+      stub_request(:get, url)
         .to_return(status: 200, body: data.to_json, headers: { content_type: 'application/json' })
     end
 

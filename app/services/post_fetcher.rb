@@ -45,12 +45,36 @@ class PostFetcher
   end
 
   def expand_url(url)
-    url = url.with_http
-    url.ends_with?(".json") ? url : "#{url}.json"
+    url.with_http
   end
 
   def fetch_json
-    HTTParty.get(@url)
+    response = HTTParty.get(@url)
+
+    case response.content_type
+    when 'application/json'
+      return response
+    when 'text/html'
+      if json_url = discover_json_url(response.body)
+        Rails.logger.info "Discovered JSON URL #{json_url} for #{@url}"
+        return HTTParty.get(json_url)
+      else
+        # try appending .json as a fallback; mostly to remain compatible
+        # with earlier versions of pants.
+        Rails.logger.info "Trying #{@url}.json as a fallback"
+        return HTTParty.get("#{@url}.json")
+      end
+    else
+      raise "Invalid content type #{response.content_type} for post #{@url}"
+    end
+  end
+
+  def discover_json_url(html)
+    if doc = Nokogiri::HTML(html)
+      if link_tag = doc.css('link[rel="alternate"][type="application/json"]').first
+        link_tag[:href]
+      end
+    end
   end
 
   def json_sane?
