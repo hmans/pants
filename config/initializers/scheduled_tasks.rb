@@ -1,10 +1,10 @@
-if true #Rails.env.production?
+if Rails.env.production?
   def fire_up_those_scheduled_tasks!
     Rails.logger.info "Firing up scheduled tasks..."
 
     Thread.new do
       timers = Timers.new
-      timers.every(3.minutes) { UserPoller.new.poll! }
+      timers.every(1.minute) { UserPoller.new.poll! }
       loop { timers.wait }
     end
   end
