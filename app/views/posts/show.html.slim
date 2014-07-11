@@ -3,6 +3,7 @@
   meta property="og:type" content="article"
   meta property="og:image" content=@post.user.try(:external_image_url)
   meta property="og:url" content=post_url(@post)
+  meta property="og:description" content=@post.to_summary
 
 = render @post
 
