@@ -19,6 +19,9 @@ html
       - if current_site.google_analytics_id.present?
         = render 'ga'
 
+    // webmention discovery
+    link rel="webmention" href=ping_url
+
     = auto_discovery_link_tag :atom, posts_url(format: 'atom'), title: "Latest Posts by #{current_site.display_name} (ATOM)"
 
   body data-no-transition-cache="true"

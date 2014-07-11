@@ -111,10 +111,6 @@ private
       if @post.referenced_guid.present?
         # Fetch referenced post
         PostFetcher.new(@post.referenced_guid.with_http).async.fetch!
-
-        # Ping referenced site with new post
-        domain, slug = @post.referenced_guid.split '/'
-        UserPinger.new(domain, url: @post.url).async.ping!
       end
     end
   end

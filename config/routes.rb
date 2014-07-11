@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get 'server' => 'server#dashboard'
   namespace :server do
     resources :users
+    resources :pings
   end
 
   # Legacy

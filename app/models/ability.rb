@@ -19,6 +19,7 @@ class Ability
       if user.admin?
         can :manage, :server
         can :manage, User
+        can :manage, Ping
       else
         can :manage, User, id: user.id
       end

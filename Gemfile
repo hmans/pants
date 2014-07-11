@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.0'
 
 # HTTP interactions
 gem 'httparty'
+gem 'webmention', github: 'indieweb/mention-client-ruby'
 
 # Monitoring
 gem 'appsignal'

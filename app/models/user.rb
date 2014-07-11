@@ -100,6 +100,15 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Send ONE ping.
+  #
+  concerning :Pings do
+    included do
+      has_many :pings,
+        dependent: :nullify
+    end
+  end
+
   concerning :Images do
     included do
       dragonfly_accessor :image
@@ -128,15 +137,6 @@ class User < ActiveRecord::Base
 
     def local_cropped_flair
       local_flair.try(:thumb, '800x250#')
-    end
-  end
-
-  concerning :Pinging do
-    # Ping this user with some information. Mostly a convenience method
-    # for asynchroneously invoking UserPinger.
-    #
-    def ping!(body)
-      UserPinger.new(url, body).ping!
     end
   end
 

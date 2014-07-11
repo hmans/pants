@@ -16,6 +16,11 @@ class PostPusher
 
     push_to_local_timelines
     ping_friends
+
+    # send webmentions for referenced links
+    extract_referenced_links.each do |link|
+      Webmentioner.new(@post.url, link).send!
+    end
   end
 
   def push_to_local_timelines
@@ -29,8 +34,22 @@ class PostPusher
   def ping_friends
     if @post.user.present?
       @post.user.friends.find_each do |friend|
-        friend.ping!(url: @post.url)
+        Webmentioner.new(@post.url, friend.url).send!
       end
     end
+  end
+
+private
+
+  def extract_referenced_links
+    # extract links from body
+    doc = Nokogiri::HTML.parse(@post.body_html)
+    links = doc.css('a').map { |link| link[:href] }
+
+    # add referenced guid
+    links << @post.referenced_guid.with_http if @post.referenced_guid.present?
+
+    # remove empty/duplicate elements
+    links.compact.uniq
   end
 end

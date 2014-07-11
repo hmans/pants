@@ -3,5 +3,6 @@
 - if can?(:manage, :server)
   nav role="secondary"
     ul
-      li = link_to 'Manage Users', :server_users
+      li = link_to 'Users', :server_users
       li = link_to 'New User', :new_server_user
+      li = link_to 'Pings', :server_pings
