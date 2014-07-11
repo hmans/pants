@@ -93,4 +93,15 @@ class ApplicationController < ActionController::Base
       @page_title ||= t(".page_title", default: '')
     end
   end
+
+  concerning :CanonicalUrls do
+    def with_canonical_url(url)
+      if request.url != url
+        flash.keep
+        redirect_to(url, status: 301)
+      else
+        yield
+      end
+    end
+  end
 end

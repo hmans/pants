@@ -52,15 +52,12 @@ class PostsController < ApplicationController
   end
 
   def show
-    canonical_path = post_path(@post, format: params[:format])
-    if request.path != canonical_path
-      redirect_to canonical_path, status: 301 and return
-    end
+    with_canonical_url(post_url(@post, format: params[:format])) do
+      @page_title = @post.to_title
 
-    @page_title = @post.to_title
-
-    respond_with @post do |format|
-      format.md { render text: @post.body }
+      respond_with @post do |format|
+        format.md { render text: @post.body }
+      end
     end
   end
 
