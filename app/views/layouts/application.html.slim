@@ -28,7 +28,7 @@ html
 
     = auto_discovery_link_tag :atom, posts_url(format: 'atom'), title: "Latest Posts by #{current_site.display_name} (ATOM)"
 
-  body data-no-transition-cache="true"
+  body
     = render 'header'
     = render 'navigation'
 
