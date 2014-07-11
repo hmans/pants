@@ -12,15 +12,24 @@ class PostPusher
       with_database do
         Rails.logger.info "Pushing post #{post.url}..."
 
-        if post.user.present?
-          # Add post to local followers' timelines
-          TimelineManager.new.add_post_to_local_timelines(post)
+        push_to_local_timelines(post)
+        ping_friends(post)
+      end
+    end
+  end
 
-          # Ping all of the author's friends
-          post.user.friends.find_each do |friend|
-            friend.ping!(url: post.url)
-          end
-        end
+  def push_to_local_timelines(post)
+    if post.user.present?
+      post.user.followers.hosted.find_each do |follower|
+        follower.add_to_timeline(post)
+      end
+    end
+  end
+
+  def ping_friends(post)
+    if post.user.present?
+      post.user.friends.find_each do |friend|
+        friend.ping!(url: post.url)
       end
     end
   end

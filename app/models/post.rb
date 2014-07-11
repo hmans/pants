@@ -89,6 +89,14 @@ class Post < ActiveRecord::Base
     (Array.new(3) { chars.sample } + Array.new(3) { numbers.sample }).join('')
   end
 
+  def push_to_local_followers
+    if user.present?
+      user.followers.hosted.find_each do |follower|
+        follower.add_to_timeline(post)
+      end
+    end
+  end
+
   concerning :Representation do
     def to_param
       slug
