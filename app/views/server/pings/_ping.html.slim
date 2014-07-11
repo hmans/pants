@@ -4,6 +4,6 @@ tr
   td = ping.user.domain
   td
     - if ping.post.present?
-      = link_to ping.post.guid, post_url(ping.post)
+      = link_to ping.post.guid, ping.post.guid.with_http
   td = link_to ping.source, ping.source, rel: 'nofollow'
   td = link_to ping.target, ping.target, rel: 'nofollow'
