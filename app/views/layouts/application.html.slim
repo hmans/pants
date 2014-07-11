@@ -22,6 +22,10 @@ html
     // webmention discovery
     link rel="webmention" href=ping_url
 
+    // indieauth links
+    - current_site.web_links.each do |url|
+      link rel="me" href=url
+
     = auto_discovery_link_tag :atom, posts_url(format: 'atom'), title: "Latest Posts by #{current_site.display_name} (ATOM)"
 
   body data-no-transition-cache="true"

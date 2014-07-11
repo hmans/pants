@@ -109,6 +109,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  concerning :WebLinks do
+    def web_links_text
+      web_links.join("\n")
+    end
+
+    def web_links_text=(text)
+      self.web_links = text.split.compact.map(&:with_http)
+    end
+  end
+
   concerning :Images do
     included do
       dragonfly_accessor :image
