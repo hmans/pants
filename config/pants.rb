@@ -7,5 +7,10 @@ Pants.configure do |config|
     # who's running the server, how they can contact you, and so on.
     #
     server.tagline "Hosting provided by <a href=\"http://pants.social\">pants.social</a>, the original #pants server.".html_safe
+
+    # Incoming requests with host names that your server instance is not
+    # hosting will be redirected to the following URL.
+    #
+    server.unknown_site_redirect_url 'http://hmans.io/lrn569'
   end
 end
