@@ -76,7 +76,8 @@ class Post < ActiveRecord::Base
   has_many :timeline_entries,
     dependent: :destroy
 
-
+  has_many :pings,
+    dependent: :nullify
 
   def calculate_sha
     Digest::SHA1.hexdigest("pants:#{guid}:#{referenced_guid}:#{body}")
