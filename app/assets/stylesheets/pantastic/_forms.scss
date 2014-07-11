@@ -30,6 +30,7 @@ input, textarea, select, option {
 
 input.string, input[type="text"], input[type="email"], input[type="password"], textarea {
   @extend %form-field-styling;
+  -webkit-appearance: none;
   &:focus {
     border-color: $color-theme;
   }
@@ -37,6 +38,7 @@ input.string, input[type="text"], input[type="email"], input[type="password"], t
 
 input[type="submit"], button {
   @extend %button;
+  -webkit-appearance: none;
 }
 
 input[type="submit"] {
