@@ -1,5 +1,5 @@
 class UserFetcher
-  include BackgroundJob
+  include Backgroundable
 
   # The following attributes will be copied from user JSON responses
   # into local Post instances.
@@ -11,45 +11,44 @@ class UserFetcher
     url
   }
 
-  def perform(url, force = false)
-    with_appsignal do
-      with_database do
-        User.transaction do
-          Rails.logger.info "Fetching user: #{url}"
+  def initialize(url, opts = {})
+    @url = expand_url(url)
+    @uri = URI.parse(@url)
+    @opts = opts
+  end
 
-          @url = expand_url(url)
-          @uri = URI.parse(@url)
-          @user = User.where(domain: @uri.host).first_or_initialize
-          @force = force
+  def fetch!
+    Rails.logger.info "Fetching user: #{@url}"
 
-          if should_fetch?
-            @json = fetch_json
+    User.transaction do
+      @user = User.where(domain: @uri.host).first_or_initialize
 
-            if json_sane?
-              # Transfer attributes from JSON.
-              @user.attributes = @json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
+      if should_fetch?
+        @json = fetch_json
 
-              # NOTE: We always set #updated_at because the previous operation may
-              # not have changed any attributes. In this case, the following #save!
-              # would essentially no-op.
-              @user.updated_at = Time.now
+        if json_sane?
+          # Transfer attributes from JSON.
+          @user.attributes = @json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
 
-              # Done!
-              @user.save!
-            end
-          else
-            Rails.logger.info "-> Skipping #{url}, recently fetched."
-          end
+          # NOTE: We always set #updated_at because the previous operation may
+          # not have changed any attributes. In this case, the following #save!
+          # would essentially no-op.
+          @user.updated_at = Time.now
 
-          # Return user.
-          @user
+          # Done!
+          @user.save!
         end
+      else
+        Rails.logger.info "-> Skipping #{@url}, recently fetched."
       end
+
+      # Return user.
+      @user
     end
   end
 
   def should_fetch?
-    @force || @user.new_record? || @user.updated_at < 30.minutes.ago
+    @opts[:force] || @user.new_record? || @user.updated_at < 30.minutes.ago
   end
 
   def expand_url(url)

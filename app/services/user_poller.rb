@@ -1,28 +1,21 @@
 class UserPoller
-  include BackgroundJob
-  include FistOfFury::Recurrent
+  include Backgroundable
 
-  recurs { minutely }
+  def poll!
+    Rails.logger.info "UserPoller running..."
 
-  def perform
-    with_appsignal do
-      with_database do
-        Rails.logger.info "UserPoller running..."
+    users_to_poll.each do |user|
+      Rails.logger.info "Polling #{user.domain}"
 
-        users_to_poll.each do |user|
-          Rails.logger.info "Polling #{user.domain}"
-
-          begin
-            UserFetcher.perform(user.url)
-            user.poll!
-          rescue StandardError => e
-            Rails.logger.error "Error while polling #{user.domain}: #{e.message}"
-          end
-        end
-
-        Rails.logger.info "UserPoller done."
+      begin
+        UserFetcher.new(user.url).fetch!
+        user.poll!
+      rescue StandardError => e
+        Rails.logger.error "Error while polling #{user.domain}: #{e.message}"
       end
     end
+
+    Rails.logger.info "UserPoller done."
   end
 
   private

@@ -3,12 +3,7 @@ class PingsController < ApplicationController
 
   def create
     url = params.require(:url)
-
-    # Fetch the references post asynchroneously.
-    # TODO: check if we really need to do this, since this server may
-    #       already have received multiple pings for the same post.
-    PostFetcher.perform_async(url, recipient: current_site)
-
+    PostFetcher.new(url, recipient: current_site).async.fetch!
     render nothing: true, status: :accepted
   end
 end

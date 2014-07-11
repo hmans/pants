@@ -110,16 +110,16 @@ private
     if @post.valid?
       if @post.referenced_guid.present?
         # Fetch referenced post
-        PostFetcher.new.async.perform(@post.referenced_guid.with_http)
+        PostFetcher.new(@post.referenced_guid.with_http).async.fetch!
 
         # Ping referenced site with new post
         domain, slug = @post.referenced_guid.split '/'
-        UserPinger.new.async.perform(domain, url: @post.url)
+        UserPinger.new(domain, url: @post.url).async.ping!
       end
     end
   end
 
   def push_post
-    PostPusher.perform_async(@post) if @post.valid?
+    PostPusher.new(@post).async.push! if @post.valid?
   end
 end

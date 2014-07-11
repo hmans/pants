@@ -190,7 +190,7 @@ class Post < ActiveRecord::Base
     end
 
     def [](v)
-      find_by(guid: v)
+      find_by(guid: v.without_http)
     end
   end
 end

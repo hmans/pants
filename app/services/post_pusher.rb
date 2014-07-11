@@ -5,31 +5,31 @@
 # - the author's local followers
 #
 class PostPusher
-  include BackgroundJob
+  include Backgroundable
 
-  def perform(post)
-    with_appsignal do
-      with_database do
-        Rails.logger.info "Pushing post #{post.url}..."
+  def initialize(post)
+    @post = post
+  end
 
-        push_to_local_timelines(post)
-        ping_friends(post)
+  def push!
+    Rails.logger.info "Pushing post #{@post.url}..."
+
+    push_to_local_timelines
+    ping_friends
+  end
+
+  def push_to_local_timelines
+    if @post.user.present?
+      @post.user.followers.hosted.find_each do |follower|
+        follower.add_to_timeline(@post)
       end
     end
   end
 
-  def push_to_local_timelines(post)
-    if post.user.present?
-      post.user.followers.hosted.find_each do |follower|
-        follower.add_to_timeline(post)
-      end
-    end
-  end
-
-  def ping_friends(post)
-    if post.user.present?
-      post.user.friends.find_each do |friend|
-        friend.ping!(url: post.url)
+  def ping_friends
+    if @post.user.present?
+      @post.user.friends.find_each do |friend|
+        friend.ping!(url: @post.url)
       end
     end
   end
