@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       format.css { }
       format.jpg do
         job = if @user.image.present?
-          @user.image.thumb('300x300#')
+          @user.local_thumbnail
         else
           Dragonfly.app.generate(:plain, 1, 1,
             'format' => 'png',
