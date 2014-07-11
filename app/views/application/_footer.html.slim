@@ -3,6 +3,8 @@ footer role="primary"
     <strong>#{link_to "#pants", "https://github.com/hmans/pants"}</strong>, the distributed social blogging network... thing.
 
   p
+    - if Pants.config.server.tagline.present?
+      ' #{Pants.config.server.tagline} &middot;
     - if can?(:manage, :server)
       ' #{link_to "Server Admin", :server} &middot;
     - if ENV['PANTS_VERSION']
