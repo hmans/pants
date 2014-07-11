@@ -8,7 +8,9 @@ module Backgroundable
       Thread.new do
         with_appsignal do
           with_database do
-            yield if block_given?
+            with_transaction do
+              yield if block_given?
+            end
           end
         end
       end
@@ -16,6 +18,10 @@ module Backgroundable
 
     def with_database(&blk)
       ActiveRecord::Base.connection_pool.with_connection(&blk)
+    end
+
+    def with_transaction(&blk)
+      ActiveRecord::Base.transaction(&blk)
     end
 
     def with_appsignal(&blk)
