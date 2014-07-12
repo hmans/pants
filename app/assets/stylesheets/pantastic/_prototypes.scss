@@ -1,7 +1,7 @@
 %collapse {
-  >*:first-child { margin-top: 0 }
-  >*:last-child  { margin-bottom: 0 }
-  >legend:first-child+* { margin-top: 0 }
+  >*:first-child { margin-top: 0 !important }
+  >*:last-child  { margin-bottom: 0 !important }
+  >legend:first-child+* { margin-top: 0 !important }
 }
 
 %container {
