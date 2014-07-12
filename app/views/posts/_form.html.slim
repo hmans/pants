@@ -9,7 +9,7 @@
   ul.actions
     li = f.submit
     - if post.persisted?
-      li or #{link_to 'delete', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}?
+      li #{link_to 'Delete Post', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}
 
   - if post.referenced_guid.present?
     .note This post is a reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
