@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   # Add a couple of additional response formats.
   #
-  respond_to :json, only: [:show, :index]
+  respond_to :json
   respond_to :atom, only: [:index, :tagged]
   respond_to :js, only: [:index]
 
