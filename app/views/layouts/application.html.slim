@@ -22,6 +22,9 @@ html
     // webmention discovery
     link rel="webmention" href=ping_url
 
+    // pants api discovery
+    link rel="pants.posts" href=posts_url(format: 'json') type="application/json"
+
     // indieauth links
     - current_site.web_links.each do |url|
       link rel="me" href=url
