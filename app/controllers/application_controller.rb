@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
       rescue_from CanCan::AccessDenied do |exception|
         @error = exception.message
         @page_title = "Error"
-        render 'error', status: 403, formats: [:html]
+
+        respond_to do |format|
+          format.html { render 'error', status: 403, formats: [:html] }
+          format.json { render json: { error: 'Unauthorized' }, status: 403 }
+        end
       end
     end
 
