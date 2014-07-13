@@ -1,24 +1,3 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   auth:
     login:
@@ -29,8 +8,14 @@ en:
     incoming:
       page_title: "Incoming"
   friendships:
+    create:
+      success: "You are now following %{domain}."
+    destroy:
+      success: "You are no longer following %{domain}."
     index:
-      page_title: "Friends"
+      page_title: "Following"
+      form_title: "Follow Someone New"
+      form_button: "Follow"
   users:
     edit:
       page_title: "Settings"
@@ -40,3 +25,35 @@ en:
   time:
     formats:
       time: '%H:%M'
+
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Please review the problems below:"
+    labels:
+      friend:
+        url: "URL of user to follow:"
+      user:
+        friends_visible: "Make your Following list public"
+        web_links_text: "Links to other profiles on the web"
+    # Labels and hints examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+

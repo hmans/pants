@@ -1,6 +1,47 @@
 de:
-  layouts:
-    application:
+  application:
+    navigation:
       network: 'Netzwerk'
-      friends: 'Freunde'
+      following: 'Folgt'
       settings: 'Einstellungen'
+  friendships:
+    create:
+      success: "Du folgst jetzt %{domain}."
+    destroy:
+      success: "Du folgst %{domain} nicht mehr."
+    index:
+      page_title: "Folgt"
+      form_title: "Folge Jemandem"
+      form_button: "Folgen"
+
+  simple_form:
+    "yes": 'Ja'
+    "no": 'Nein'
+    required:
+      text: 'Pflichtfeld'
+      mark: '*'
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Please review the problems below:"
+    labels:
+      friend:
+        url: "URL des Users, dem du folgen willst:"
+      user:
+        display_name: "Dein Name"
+        locale: "Sprache"
+        friends_visible: 'Deine "Folgt"-Seite ist öffentlich'
+        web_links_text: "Links zu anderen Profilen im Web"
+    # Labels and hints examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+

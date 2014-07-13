@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get 'user-flair' => 'users#flair', format: 'jpg'
 
   # Friendships
-  resources :friendships, path: 'friends'
+  resources :friendships, path: 'following'
 
   # Timeline
   get 'network' => 'timeline_entries#index', as: :network
@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   # Legacy
   get '/posts/:id' => 'posts#show'
   get ':year-:month-:day' => redirect("/%{year}/%{month}/%{day}")
+  get '/friends' => redirect("/following")
   get '/timeline' => redirect("/network")
   get '/timeline/incoming' => redirect("/network/incoming")
   get '/timeline/all' => redirect("/network/incoming")

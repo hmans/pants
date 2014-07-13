@@ -3,5 +3,4 @@
   - content_for :extra, flush: true do
     = link_to fa_icon('trash-o'), friendship, method: 'delete', data: { confirm: 'Are you sure?' }, class: 'unfriend-link'
 
-  = render user
-
+  = render user, rel: 'following'

@@ -1,7 +1,11 @@
 section.users
   = render @friendships
 
-= simple_form_for :friend do |f|
-  = field_set_tag "Add New Friend" do
-    = f.input :url, label: "URL of user to add as friend:", input_html: { value: params[:url] }
-  = f.submit 'Add Friend'
+- if current_user.blank? && @friendships.empty?
+  .note This user isn't following anyone.
+
+- if can? :create, Friendship
+  = simple_form_for :friend do |f|
+    = field_set_tag t('.form_title') do
+      = f.input :url, input_html: { value: params[:url] }
+    = f.submit t('.form_button')

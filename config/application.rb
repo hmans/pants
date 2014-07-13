@@ -35,5 +35,9 @@ module Pants
 
     # LIVE mode?
     config.live_mode = ENV['LIVE'].present?
+
+    # Configure i18n to fall back to :en strings
+    config.i18n.fallbacks = true
+    config.i18n.fallbacks = [:en]
   end
 end

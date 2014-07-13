@@ -104,4 +104,8 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def current_ability
+    @current_ability ||= Ability.new(current_user, current_site)
+  end
 end

@@ -57,6 +57,6 @@ private
   def user_params
     params.require(:user).permit(:display_name, :locale, :password, :password_confirmation,
       :image, :remove_image, :flair, :remove_flair,
-      :web_links_text)
+      :web_links_text, :friends_visible)
   end
 end

@@ -1,7 +1,8 @@
+- rel ||= nil
 = div_for user do
   = avatar user, class: 'user-image'
   .user-name
-    = link_to user.display_name, user.url
+    = link_to user.display_name, user.url, rel: rel
   .user-info
     =' link_to user.domain, user.url
     = yield(:extra) if content_for?(:extra)
