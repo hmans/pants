@@ -5,6 +5,10 @@ module ApiTokens
     verifier.generate(user: user.id, site: site.id, expires: 30.days.from_now)
   end
 
+  def verify(token)
+    verifier.verify(token)
+  end
+
 private
 
   def verifier

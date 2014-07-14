@@ -51,6 +51,13 @@ class ApplicationController < ActionController::Base
       @current_user ||= begin
         if session[:current_user].present?
           User.find_by!(domain: session[:current_user])
+        elsif params[:token].present?
+          data = ApiTokens.verify(params[:token])
+          if current_site.id == data[:site] && Time.now < data[:expires]
+            User.find(data[:user])
+          else
+            raise "Invalid API token"
+          end
         elsif cookies[:login_user].present? && cookies[:login_domain] == current_site.domain
           user = User.find_by!(domain: cookies[:login_user])
           session[:current_user] = user.domain
