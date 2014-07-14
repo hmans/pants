@@ -13,9 +13,9 @@
     h2 Replies
     = render @post.replies.order('published_at DESC'), hide_reply_references: true
 
-- if can?(:manage, @post) && @post.referenced_by.any?
+- if @post.referenced_by.any?
   .note
-    h4 URLs referencing this post
+    h4 Replies on the Web
     ul
       - @post.referenced_by.each do |url|
-        li = link_to url.without_http, url.with_http, rel: 'nofollow'
+        li = link_to url.without_http, url.with_http, rel: 'nofollow', class: 'u-comment'
