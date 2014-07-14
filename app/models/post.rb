@@ -16,7 +16,8 @@ class Post < ActiveRecord::Base
         Rails.logger.info "Rendering markdown for #{self}"
         # Resolve hashtag links
         body_with_hashtags = body.gsub(TagExtractor::REGEX) do
-          "<a href=\"#{user.try(:url)}/tag/#{$1.downcase}\" class=\"hashtag p-category\">##{$1}</a>"
+          tag_url = URI.join(user.url, "/tag/#{$1.downcase}")
+          "<a href=\"#{tag_url}\" class=\"hashtag p-category\">##{$1}</a>"
         end
 
         # Render body to HTML
