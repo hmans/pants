@@ -61,6 +61,20 @@ class PostsController < ApplicationController
     end
   end
 
+  def remote
+    @url = params[:url]
+
+    # First, try to load the post from the database
+    @post = Post[@url]
+
+    # If we haven't seen this post yet, or its last update was more than 1h ago, fetch it
+    if @post.nil? || @post.updated_at < 1.hour.ago
+      @post = PostFetcher.new(params[:url]).fetch!
+    end
+
+    render 'show'
+  end
+
   def new
     @post.referenced_guid = params[:referenced_guid]
     respond_with @post

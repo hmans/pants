@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   delete 'network/:id' => 'timeline_entries#destroy', as: :timeline_entry
   get 'network/incoming' => 'timeline_entries#incoming', as: :incoming_network
 
+  # Remote posts
+  get 'remote/:url' => 'posts#remote', as: :remote_post, constraints: { url: /.+/ }
+
   # Tag pages
   get 'tag/:tag' => 'posts#tagged', as: :tagged_posts
   get 'tag/all/:tag' => 'posts#tagged', as: :all_tagged_posts, all: 1
