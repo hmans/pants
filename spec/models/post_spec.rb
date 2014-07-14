@@ -1,46 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Post, :type => :model do
-  describe '#sha' do
-    it 'is automatically generated when validating a post instance' do
-      post = build(:post)
-      expect(post.sha).to be_blank
-      post.valid?
-      expect(post.sha).to_not be_blank
-    end
-  end
-
   context "when the author is a hosted user" do
     it "renders the Markdown in #body to #body_html"
   end
 
   context "when the author is a remote user" do
     it "ignores #body and runs #body_html through the HTML sanitizer"
-  end
-
-  context 'when body changes' do
-    subject { create(:post, body: 'One') }
-
-    it 'changes its #sha' do
-      expect { subject.update_attributes(body: 'Two') }
-        .to change { subject.sha }
-    end
-
-    it 'stores the previous #sha in #previous_shas' do
-      sha1 = subject.sha
-
-      expect { subject.update_attributes(body: 'Two') }
-        .to change { subject.previous_shas }
-        .from([])
-        .to([sha1])
-
-      sha2 = subject.sha
-
-      expect { subject.update_attributes(body: 'Three') }
-        .to change { subject.previous_shas }
-        .from([sha1])
-        .to([sha1, sha2])
-    end
   end
 
   context 'when body contains hashtags' do

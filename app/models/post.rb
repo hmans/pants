@@ -41,24 +41,14 @@ class Post < ActiveRecord::Base
     # Set GUID
     self.guid = "#{domain}/#{slug}"
 
-    # Publish post right away... for now
-    self.published_at ||= Time.now     # for the SHA
+    # Publish post right away
+    self.published_at ||= Time.now
 
     # Default editing timestamp to publishing timestamp
     self.edited_at ||= published_at
 
     # Default URL to http://<guid>
     self.url ||= "http://#{guid}"
-
-    # Update SHAs
-    self.sha = calculate_sha
-  end
-
-  before_update do
-    # Remember previous SHA
-    if sha_changed? && sha_was.present? && !sha_was.in?(previous_shas)
-      self.previous_shas += [sha_was]
-    end
   end
 
   validate(on: :update) do
@@ -72,7 +62,7 @@ class Post < ActiveRecord::Base
   validates :body,
     presence: true
 
-  validates :guid, :sha, :url,
+  validates :guid, :url,
     presence: true,
     uniqueness: true
 
@@ -86,10 +76,6 @@ class Post < ActiveRecord::Base
 
   has_many :timeline_entries,
     dependent: :destroy
-
-  def calculate_sha
-    Digest::SHA1.hexdigest("pants:#{guid}:#{referenced_guid}:#{body}")
-  end
 
   def generate_slug
     chars = ('a'..'z').to_a
@@ -194,8 +180,6 @@ class Post < ActiveRecord::Base
       body_html
       domain
       slug
-      sha
-      previous_shas
       tags
     }
 

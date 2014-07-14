@@ -14,8 +14,6 @@ describe PostFetcher do
       body_html:        post.body_html,
       domain:           post.domain,
       slug:             post.slug,
-      sha:              post.sha,
-      previous_shas:    post.previous_shas,
       tags:             post.tags
     }.with_indifferent_access
   end
