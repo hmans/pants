@@ -74,6 +74,11 @@ article.post>header {
 }
 
 
+// POST TITLE (is invisible because we really just want the p-name mf2 markup.)
+.post-title {
+  display: none;
+}
+
 // POST BODY
 
 .post-body {
