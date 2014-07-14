@@ -2,8 +2,8 @@ class TimelineEntriesController < ApplicationController
   load_and_authorize_resource :timeline_entry,
     through: :current_site
 
-  # Also respond to AJAX requests
-  respond_to :js
+  # Enable AJAX and JSON
+  respond_to :js, :json
 
   before_filter(only: [:index, :incoming]) do
     @timeline_entries = @timeline_entries

@@ -25,6 +25,7 @@ html
     // pants api discovery
     link rel="pants.login" href=login_url(format: 'json') type="application/json"
     link rel="pants.posts" href=posts_url(format: 'json') type="application/json"
+    link rel="pants.timeline" href=network_url(format: 'json') type="application/json"
 
     // indieauth links
     - current_site.web_links.each do |url|
