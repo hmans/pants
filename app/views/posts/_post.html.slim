@@ -1,11 +1,11 @@
 - hide_actions ||= false
 = content_tag_for(:article, post, class: 'h-entry') do
   header
-    .post-avatar
-      = avatar post.user
     ul.post-information
-      li.post-author
-        = link_to post.user.display_name, post.user.url, class: "p-author h-card"
+      li.post-author class="h-card"
+        .post-avatar
+          = avatar post.user
+        = link_to post.user.display_name, post.user.url, class: "p-author"
       li.post-time
         time class="dt-published" datetime=post.published_at.iso8601
           =' link_to l(post.published_at.to_date, format: :short),
