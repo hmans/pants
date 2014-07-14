@@ -188,6 +188,7 @@ class Post < ActiveRecord::Base
       published_at
       edited_at
       referenced_guid
+      title
       body
       body_html
       domain
