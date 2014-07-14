@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   #
   respond_to :json
   respond_to :atom, only: [:index, :tagged]
-  respond_to :js, only: [:index]
+  respond_to :js, only: [:index, :tagged]
 
   load_and_authorize_resource :post,
     find_by: :slug,
