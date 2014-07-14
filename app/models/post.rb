@@ -24,6 +24,9 @@ class Post < ActiveRecord::Base
     # Extract and save tags
     self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
 
+    # Extract and save title
+    self.title = to_title
+
     # Generate slug
     self.slug ||= generate_slug
 
@@ -122,6 +125,10 @@ class Post < ActiveRecord::Base
           v << " " << sentence
         end
       end.strip.html_safe
+    end
+
+    def title
+      read_attribute(:title) || to_title
     end
 
     def to_title

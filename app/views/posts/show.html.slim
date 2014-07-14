@@ -1,6 +1,6 @@
 - content_for :header do
   link rel="alternate" type="application/json" title="This post as JSON" href=post_url(@post, format: 'json')
-  meta property="og:title" content=@post.to_title
+  meta property="og:title" content=@post.title
   meta property="og:type" content="article"
   meta property="og:image" content=@post.user.try(:external_image_url)
   meta property="og:url" content=post_url(@post)

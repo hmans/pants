@@ -53,7 +53,7 @@ class PostsController < ApplicationController
 
   def show
     with_canonical_url(post_url(@post, format: params[:format])) do
-      @page_title = @post.to_title
+      @page_title = @post.title
 
       respond_with @post do |format|
         format.md { render text: @post.body }

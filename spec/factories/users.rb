@@ -5,5 +5,6 @@ FactoryGirl.define do
     domain       { Faker::Internet.domain_name }
     display_name { Faker::Name.name }
     password     { SecureRandom.hex }
+    hosted true
   end
 end
