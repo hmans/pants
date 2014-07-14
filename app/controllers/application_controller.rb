@@ -15,7 +15,11 @@ class ApplicationController < ActionController::Base
       rescue_from CanCan::AccessDenied do |exception|
         @error = exception.message
         @page_title = "Error"
-        render 'error', status: 403, formats: [:html]
+
+        respond_to do |format|
+          format.html { render 'error', status: 403, formats: [:html] }
+          format.json { render json: { error: 'Unauthorized' }, status: 403 }
+        end
       end
     end
 
@@ -38,6 +42,13 @@ class ApplicationController < ActionController::Base
     I18n.locale = current_site.locale || 'en'
   end
 
+  def discovery
+    # Renders some JSON with information relevant to API clients.
+    respond_to do |format|
+      format.json {}
+    end
+  end
+
   concerning :CurrentUser do
     included do
       helper_method :current_user
@@ -47,6 +58,13 @@ class ApplicationController < ActionController::Base
       @current_user ||= begin
         if session[:current_user].present?
           User.find_by!(domain: session[:current_user])
+        elsif params[:token].present?
+          data = ApiTokens.verify(params[:token])
+          if current_site.id == data[:site] && Time.now < data[:expires]
+            User.find(data[:user])
+          else
+            raise "Invalid API token"
+          end
         elsif cookies[:login_user].present? && cookies[:login_domain] == current_site.domain
           user = User.find_by!(domain: cookies[:login_user])
           session[:current_user] = user.domain

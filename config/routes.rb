@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     resources :pings
   end
 
+  # API Discovery
+  get 'pants' => 'application#discovery', format: [:json], as: :discovery
+
   # Legacy
   get '/posts/:id' => 'posts#show'
   get ':year-:month-:day' => redirect("/%{year}/%{month}/%{day}")
