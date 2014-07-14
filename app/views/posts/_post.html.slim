@@ -6,11 +6,12 @@
     ul.post-information
       li.post-author
         = link_to post.user.display_name, post.user.url, class: "p-author h-card"
-      li.post-time class="dt-published"
-        =' link_to l(post.published_at.to_date, format: :short),
-           day_url(year: post.published_at.year, month: post.published_at.month, day: post.published_at.day, host: post.user.domain)
-        ' &middot;
-        = link_to l(post.published_at, format: :time), post.url, class: "u-url"
+      li.post-time
+        time class="dt-published" datetime=post.published_at.iso8601
+          =' link_to l(post.published_at.to_date, format: :short),
+             day_url(year: post.published_at.year, month: post.published_at.month, day: post.published_at.day, host: post.user.domain)
+          ' &middot;
+          = link_to l(post.published_at, format: :time), post.url, class: "u-url"
       - if post.referenced_guid.present?
         li.post-referenced-url
           = link_to post.referenced_guid.without_http, post.referenced_guid.with_http, class: "u-in-reply-to"
