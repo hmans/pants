@@ -86,9 +86,6 @@ class Post < ActiveRecord::Base
   has_many :timeline_entries,
     dependent: :destroy
 
-  has_many :pings,
-    dependent: :nullify
-
   def calculate_sha
     Digest::SHA1.hexdigest("pants:#{guid}:#{referenced_guid}:#{body}")
   end
@@ -171,6 +168,13 @@ class Post < ActiveRecord::Base
     #
     def referenced_post
       Post.where(guid: referenced_guid).includes(:user).first if referenced_guid.present?
+    end
+  end
+
+  concerning :Pings do
+    included do
+      has_many :pings,
+        dependent: :nullify
     end
   end
 

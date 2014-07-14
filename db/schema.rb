@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714194840) do
+ActiveRecord::Schema.define(version: 20140714204326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20140714194840) do
     t.string   "url"
     t.string   "referenced_guid"
     t.string   "title"
+    t.text     "referenced_by",              default: [], array: true
   end
 
   add_index "posts", ["guid"], name: "index_posts_on_guid", unique: true, using: :btree
