@@ -1,12 +1,14 @@
 nav role="primary"
   ul
-    = navigation_entry t('.blog'), :root, controller: 'posts'
-    - if current_user.present?
+    - if can?(:read, Post)
+      = navigation_entry t('.blog'), :root, controller: 'posts'
+    - if can?(:read, TimelineEntry)
       = navigation_entry t('.network'), :network, controller: 'timeline_entries'
     - if can?(:read, Friendship, user_id: current_site.id)
       = navigation_entry t('.following'), :friendships, controller: 'friendships'
-    - if current_user.present?
+    - if can?(:update, current_site)
       = navigation_entry t('.settings'), [:edit, :user], controller: 'users'
+    - if current_user.present?
       = navigation_entry fa_icon('sign-out'), :login, method: :delete, controller: 'auth'
     - else
       = navigation_entry t('.login'), :login, controller: 'auth'
