@@ -11,14 +11,21 @@ class Post < ActiveRecord::Base
   # Validations
   #
   before_validation do
-    if body_changed?
-      # Resolve hashtag links
-      body_with_hashtags = body.gsub(TagExtractor::REGEX) do
-        "<a href=\"#{user.try(:url)}/tag/#{$1.downcase}\" class=\"hashtag\">##{$1}</a>"
-      end
+    if user.try(:hosted?)
+      if body_changed?
+        Rails.logger.info "Rendering markdown for #{self}"
+        # Resolve hashtag links
+        body_with_hashtags = body.gsub(TagExtractor::REGEX) do
+          "<a href=\"#{user.try(:url)}/tag/#{$1.downcase}\" class=\"hashtag\">##{$1}</a>"
+        end
 
-      # Render body to HTML
-      self.body_html = Formatter.new(body_with_hashtags).complete.to_s
+        # Render body to HTML
+        self.body_html = Formatter.new(body_with_hashtags).complete.to_s
+      end
+    else
+      # User is a remote user -- let's sanitize the HTML
+      Rails.logger.info "Sanitizing HTML for #{self}"
+      self.body_html = Formatter.new(body_html).sanitize.to_s
     end
 
     # Extract and save tags
@@ -102,6 +109,10 @@ class Post < ActiveRecord::Base
   end
 
   concerning :Representation do
+    def to_s
+      "[Post #{guid}]"
+    end
+
     def to_param
       slug
     end

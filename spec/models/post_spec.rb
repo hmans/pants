@@ -10,6 +10,14 @@ RSpec.describe Post, :type => :model do
     end
   end
 
+  context "when the author is a hosted user" do
+    it "renders the Markdown in #body to #body_html"
+  end
+
+  context "when the author is a remote user" do
+    it "ignores #body and runs #body_html through the HTML sanitizer"
+  end
+
   context 'when body changes' do
     subject { create(:post, body: 'One') }
 
