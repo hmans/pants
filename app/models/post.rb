@@ -33,7 +33,7 @@ class Post < ActiveRecord::Base
     self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
 
     # Extract and save title
-    self.title = to_title
+    self.title = to_title.try(:truncate, 200)
 
     # Generate slug
     self.slug ||= generate_slug
