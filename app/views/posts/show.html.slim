@@ -15,7 +15,7 @@
     h2 Replies
 
     - @post.ping_sources_with_times.each do |url, time|
-      - if post = Post[url]
+      - if (post = Post[url]).present? && post.referenced_guid == @post.guid
         = render post
       - else
         .ping
