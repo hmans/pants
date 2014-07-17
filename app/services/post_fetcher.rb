@@ -13,6 +13,8 @@
 class PostFetcher
   include Backgroundable
 
+  class InvalidData < RuntimeError ; end
+
   def initialize(url, opts = {})
     @url = expand_url(url)
     @opts = opts
@@ -80,9 +82,17 @@ class PostFetcher
   def json_sane?
     full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(@url).to_a
 
-    raise "Post JSON invalid: guid doesn't match"   if @json['guid'] != guid
-    raise "Post JSON invalid: domain doesn't match" if @json['domain'] != domain
-    raise "Post JSON invalid: slug doesn't match"   if @json['slug'] != slug
+    if @json['guid'] != guid
+      raise InvalidData, "Post JSON invalid: guid #{@json['guid']} doesn't match expected guid #{guid} (#{@url})"
+    end
+
+    if @json['domain'] != domain
+      raise InvalidData, "Post JSON invalid: domain #{@json['domain']} doesn't match expected domain #{domain} (#{@url})"
+    end
+
+    if @json['slug'] != slug
+      raise InvalidData, "Post JSON invalid: slug #{@json['slug']} doesn't match expected slug #{slug} (#{@url})"
+    end
 
     true
   end

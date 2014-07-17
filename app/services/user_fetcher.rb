@@ -1,6 +1,8 @@
 class UserFetcher
   include Backgroundable
 
+  class InvalidData < RuntimeError ; end
+
   # The following attributes will be copied from user JSON responses
   # into local Post instances.
   #
@@ -60,8 +62,14 @@ class UserFetcher
   end
 
   def json_sane?
-    raise "User JSON invalid: domain doesn't match" if @json['domain'] != @uri.host
-    raise "User JSON invalid: URL doesn't match" if @json['url'].without_http != URI.join(@uri, '/').to_s.without_http
+    if @json['domain'] != @uri.host
+      raise InvalidData, "Domain #{@json['domain']} doesn't match expected domain #{@uri.host} (#{@url})"
+    end
+
+    expected_url = URI.join(@uri, '/').to_s
+    if @json['url'].without_http != expected_url.without_http
+      raise InvalidData, "URL #{@json['url']} doesn't match expected URL #{expected_url} (#{@url})"
+    end
 
     true
   end
