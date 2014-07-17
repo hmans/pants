@@ -6,16 +6,20 @@
   meta property="og:url" content=post_url(@post)
   meta property="og:description" content=@post.to_summary
 
+// The actual post
 = render @post
 
-- if @post.replies.any?
+// Replies (received through incoming Pings)
+- if @post.pings.any?
   section.post-replies
     h2 Replies
-    = render @post.replies.order('published_at DESC'), hide_reply_references: true
 
-- if @post.referenced_by.any?
-  .note
-    h4 Replies on the Web
-    ul
-      - @post.referenced_by.each do |url|
-        li = link_to url.without_http, url.with_http, rel: 'nofollow', class: 'u-comment'
+    - @post.ping_sources_with_times.each do |url, time|
+      - if post = Post[url]
+        = render post
+      - else
+        .ping
+          .ping-time #{l time, format: :long} (via webmention)
+          .ping-url = link_to url.without_http, url.with_http, rel: 'nofollow'
+
+.light-note This document is <a href="http://webmention.org">webmention</a> enabled.

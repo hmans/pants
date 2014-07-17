@@ -163,6 +163,10 @@ class Post < ActiveRecord::Base
       has_many :pings,
         dependent: :nullify
     end
+
+    def ping_sources_with_times
+      pings.group('source').order('time').pluck('DISTINCT source, min(created_at) AS time')
+    end
   end
 
   class << self
