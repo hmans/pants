@@ -14,7 +14,7 @@
           = link_to l(post.published_at, format: :time), post.url, class: "u-url"
       - if post.referenced_guid.present?
         li.post-referenced-url
-          = link_to post.referenced_guid.without_http, post.referenced_guid.with_http, class: "u-in-reply-to"
+          = link_to post.referenced_guid.without_http.truncate(35), post.referenced_guid.with_http, class: "u-in-reply-to"
 
   // show referenced post if available
   - if post.referenced_post.present? && (@post.blank? || @post == post)
