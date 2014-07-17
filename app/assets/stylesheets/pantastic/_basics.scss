@@ -90,6 +90,12 @@ nav[role="pagination"] {
   @extend %note;
 }
 
+.light-note {
+  @extend p;
+  @extend %light;
+  a { color: inherit }
+}
+
 
 // ACTIONS
 

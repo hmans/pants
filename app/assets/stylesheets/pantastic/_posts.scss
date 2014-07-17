@@ -174,3 +174,21 @@ li.post-hide-link a {
 li.post-add-friend-link a {
   @extend .fa-heart;
 }
+
+
+
+// PINGS & REPLIES
+
+.post-replies {
+  .light-note:last-child {
+    margin-top: 3em;
+  }
+}
+
+.ping {
+  margin: 1em 0;
+}
+
+.ping-time {
+  @extend %light;
+}
