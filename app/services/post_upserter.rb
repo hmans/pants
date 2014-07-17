@@ -7,6 +7,7 @@ class PostUpserter
   # into local Post instances.
   #
   ACCESSIBLE_JSON_ATTRIBUTES = %w{
+    guid
     url
     published_at
     edited_at
@@ -61,6 +62,13 @@ class PostUpserter
     #
     if post_uri.host != source_uri.host
       raise InvalidData, "#{post_uri.host} doesn't match expected host #{source_uri.host} (#{source_url})"
+    end
+
+    # Actually, let's check the provided GUID anyway. For now, we're happy if it, too,
+    # uses the same host as the source URL.
+    guid_host = json['guid'].split('/').first
+    if guid_host != source_uri.host
+      raise InvalidData, "#{json['guid']} doesn't match expected host #{source_uri.host} (#{source_url})"
     end
 
     true
