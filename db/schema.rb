@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714224815) do
+ActiveRecord::Schema.define(version: 20140717183939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,14 +45,15 @@ ActiveRecord::Schema.define(version: 20140714224815) do
     t.text     "body_html"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "tags",            default: [], array: true
+    t.text     "tags",              default: [],              array: true
     t.datetime "published_at"
     t.string   "guid"
     t.datetime "edited_at"
     t.string   "url"
     t.string   "referenced_guid"
     t.string   "title"
-    t.text     "referenced_by",   default: [], array: true
+    t.text     "referenced_by",     default: [],              array: true
+    t.integer  "number_of_replies", default: 0,  null: false
   end
 
   add_index "posts", ["guid"], name: "index_posts_on_guid", unique: true, using: :btree

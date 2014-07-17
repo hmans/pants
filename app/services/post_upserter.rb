@@ -16,6 +16,7 @@ class PostUpserter
     body
     body_html
     tags
+    number_of_replies
   }
 
   class InvalidData < RuntimeError ; end

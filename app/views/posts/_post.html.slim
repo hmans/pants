@@ -28,10 +28,13 @@
   .post-body class="e-content"
     == post.body_html
 
-  - if current_user.present? && !hide_actions
+  - unless hide_actions
     ul.post-actions
       - if can?(:edit, post)
         li.post-edit-link = link_to 'edit', [:edit, post]
+      - if post.number_of_replies > 0
+        li.post-number-of-replies
+          = link_to pluralize(post.number_of_replies, "reply"), post.url
       - if can?(:create, Post)
         li.post-reply-link = link_to 'reply', new_post_path(referenced_guid: post.guid)
       - if content_for?(:extra_post_actions)

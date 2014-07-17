@@ -138,6 +138,8 @@ article.post>header {
 ul.post-actions {
   @extend %reset-links;
   margin-top: 20px;
+  text-transform: uppercase;
+  color: #999;
 
   li {
     display: inline;
@@ -151,12 +153,15 @@ ul.post-actions {
   }
 
   a {
-    text-transform: uppercase;
-    color: #999;
+    colo: inherit;
   }
   a:hover {
     color: inherit;
   }
+}
+
+li.post-number-of-replies a {
+  @extend .fa-reply;
 }
 
 li.post-reply-link a {

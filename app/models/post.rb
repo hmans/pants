@@ -51,6 +51,22 @@ class Post < ActiveRecord::Base
     self.url ||= "http://#{guid}"
   end
 
+  # Stuff we need to do before saving, but can safely run after validations.
+  #
+  before_save do
+    # Only for posts by hosted users
+
+    if user.try(:hosted?)
+      # Count replies
+      self.number_of_replies = pings.count('DISTINCT source')
+
+      # Update edited_at if any of these attributes have changed
+      if (changed & ['body', 'body_html', 'tags', 'number_of_replies']).any?
+        self.edited_at = Time.now
+      end
+    end
+  end
+
   validate(on: :update) do
     if guid_changed?
       errors.add(:guid, "can not be changed.")
@@ -70,6 +86,11 @@ class Post < ActiveRecord::Base
     presence: true,
     uniqueness: { scope: :domain }
 
+  # Post#user links this post to its author. Note that it's perfectly possible to
+  # have a post _without_ a user; eg. if the post has been pulled into your local
+  # database, but the user, for some reason, has not. It's important that if you
+  # hack around in the code, you'll take into account that #user may be nil.
+  #
   belongs_to :user,
     foreign_key: 'domain',
     primary_key: 'domain'
