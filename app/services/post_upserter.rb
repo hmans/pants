@@ -7,6 +7,7 @@ class PostUpserter
   # into local Post instances.
   #
   ACCESSIBLE_JSON_ATTRIBUTES = %w{
+    type
     guid
     url
     published_at
@@ -15,6 +16,7 @@ class PostUpserter
     title
     body
     body_html
+    data
     tags
     number_of_replies
   }

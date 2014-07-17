@@ -1,6 +1,10 @@
 require 'html/sanitizer'
 
 class Post < ActiveRecord::Base
+  # Disable STI
+  #
+  self.inheritance_column = nil
+
   # Scopes
   #
   scope :on_date, ->(date) { where(published_at: (date.at_beginning_of_day)..(date.at_end_of_day)) }
@@ -61,7 +65,7 @@ class Post < ActiveRecord::Base
       self.number_of_replies = pings.count('DISTINCT source')
 
       # Update edited_at if any of these attributes have changed
-      if (changed & ['body', 'body_html', 'tags', 'number_of_replies']).any?
+      if (changed & ['body', 'body_html', 'data', 'tags', 'number_of_replies']).any?
         self.edited_at = Time.now
       end
     end
@@ -110,6 +114,12 @@ class Post < ActiveRecord::Base
       user.followers.hosted.find_each do |follower|
         follower.add_to_timeline(post)
       end
+    end
+  end
+
+  concerning :Types do
+    included do
+      scope :of_type, ->(type) { where(type: type) }
     end
   end
 

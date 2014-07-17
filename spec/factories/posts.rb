@@ -5,5 +5,6 @@ FactoryGirl.define do
     user
     body { Faker::Lorem.paragraphs.join("\n\n") }
     published_at { rand(300000).minutes.ago }
+    type 'pants.post'
   end
 end
