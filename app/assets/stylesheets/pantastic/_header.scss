@@ -2,13 +2,8 @@
 
 header[role="primary"] {
   height: 85px;
-  margin-bottom: 30px;
   width: 100%;
   overflow: hidden;
-
-  @include on-mobile {
-    margin-bottom: 0;
-  }
 }
 
 .header-container {
