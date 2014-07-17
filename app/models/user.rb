@@ -174,7 +174,7 @@ class User < ActiveRecord::Base
     def poll!
       # Never poll for hosted users.
       unless hosted? || followings.empty?
-        posts_url = URI.join(url, '/posts.json')
+        posts_url = URI.join(url, '/posts.json').to_s
         posts_json = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
 
         # upsert posts in the database
@@ -185,7 +185,7 @@ class User < ActiveRecord::Base
           end
 
           # upsert post in local database
-          Post.from_json!(json)
+          PostUpserter.upsert!(json, posts_url)
         end
 
         # add posts to local followers' timelines

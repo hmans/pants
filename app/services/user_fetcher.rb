@@ -73,4 +73,12 @@ class UserFetcher
 
     true
   end
+
+  class << self
+    # Convenience method
+    #
+    def fetch!(*args)
+      new(*args).fetch!
+    end
+  end
 end

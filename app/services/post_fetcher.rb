@@ -29,12 +29,9 @@ class PostFetcher
 
     @json = fetch_json
 
-    if json_sane?
-      # fetch/update user first
-      UserFetcher.new(@uri.host).fetch!
-
-      # deal with post
-      @post = Post.from_json!(@json)
+    Post.transaction do
+      UserFetcher.fetch!(@uri.host)
+      @post = PostUpserter.upsert!(@json, @url)
 
       PostPusher.new(@post).push_to_local_timelines
 
@@ -77,23 +74,5 @@ class PostFetcher
         link_tag[:href]
       end
     end
-  end
-
-  def json_sane?
-    full, guid, domain, slug = %r{^https?://((.+)/(.+?))(\.json)?$}.match(@url).to_a
-
-    if @json['guid'] != guid
-      raise InvalidData, "Post JSON invalid: guid #{@json['guid']} doesn't match expected guid #{guid} (#{@url})"
-    end
-
-    if @json['domain'] != domain
-      raise InvalidData, "Post JSON invalid: domain #{@json['domain']} doesn't match expected domain #{domain} (#{@url})"
-    end
-
-    if @json['slug'] != slug
-      raise InvalidData, "Post JSON invalid: slug #{@json['slug']} doesn't match expected slug #{slug} (#{@url})"
-    end
-
-    true
   end
 end

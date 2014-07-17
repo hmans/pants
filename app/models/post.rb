@@ -38,7 +38,7 @@ class Post < ActiveRecord::Base
     # Generate slug
     self.slug ||= generate_slug
 
-    # Set GUID
+    # Set/update GUID (a validation will check that this never changes)
     self.guid = "#{domain}/#{slug}"
 
     # Publish post right away
@@ -166,38 +166,6 @@ class Post < ActiveRecord::Base
   end
 
   class << self
-    # The following attributes will be copied from post JSON responses
-    # into local Post instances.
-    #
-    ACCESSIBLE_JSON_ATTRIBUTES = %w{
-      guid
-      url
-      published_at
-      edited_at
-      referenced_guid
-      title
-      body
-      body_html
-      domain
-      slug
-      tags
-    }
-
-    def from_json!(json)
-      # Upsert post
-      post = transaction do
-        post = where(guid: json['guid']).first_or_initialize
-        if post.new_record? || post.edited_at < json['edited_at']
-          post.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
-          post.save!
-        end
-
-        post
-      end
-
-      post
-    end
-
     def [](v)
       find_by(guid: v.without_http)
     end
