@@ -117,7 +117,7 @@ class PostsController < ApplicationController
 private
 
   def post_params
-    params.require(:post).permit(:body, :referenced_guid)
+    params.require(:post).permit(:type, :body, :body_html, :referenced_guid)
   end
 
   def fetch_referenced_posts
