@@ -10,4 +10,8 @@ class String
   def with_http?
     !(%r{^https?://} =~ self).nil?
   end
+
+  def to_guid
+    without_http.sub(%r{/+$}, '')
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140719154548) do
+ActiveRecord::Schema.define(version: 20140719203726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,14 +28,15 @@ ActiveRecord::Schema.define(version: 20140719154548) do
 
   create_table "pings", force: true do |t|
     t.integer  "user_id"
-    t.integer  "post_id"
     t.string   "source"
     t.string   "target"
     t.datetime "created_at"
+    t.string   "source_guid"
+    t.string   "target_guid"
   end
 
   add_index "pings", ["created_at"], name: "index_pings_on_created_at", using: :btree
-  add_index "pings", ["post_id", "created_at"], name: "index_pings_on_post_id_and_created_at", using: :btree
+  add_index "pings", ["target_guid", "created_at"], name: "index_pings_on_target_guid_and_created_at", using: :btree
   add_index "pings", ["user_id", "created_at"], name: "index_pings_on_user_id_and_created_at", using: :btree
 
   create_table "posts", force: true do |t|

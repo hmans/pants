@@ -10,7 +10,7 @@
 = render @post
 
 // Replies (received through incoming Pings)
-- if @post.pings.any?
+- if @post.received_pings.any?
   section.post-replies
     h2 Replies
 

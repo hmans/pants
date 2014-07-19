@@ -3,7 +3,7 @@ tr
   td = link_to ping.source, ping.source, rel: 'nofollow'
   td = link_to ping.target, ping.target, rel: 'nofollow'
   td
-    - if ping.post.present?
-      = link_to ping.post.guid, ping.post.guid.with_http
+    - if ping.target_post.present?
+      = link_to ping.target_post.guid, ping.target_post.url
     - else
       = link_to ping.user.domain, ping.user.url

@@ -68,7 +68,7 @@ class Post < ActiveRecord::Base
 
     if user.try(:hosted?)
       # Count replies
-      self.number_of_replies = pings.count('DISTINCT source')
+      self.number_of_replies = received_pings.count('DISTINCT source')
 
       # Update edited_at if any of these attributes have changed
       if (changed & ['body', 'body_html', 'data', 'tags', 'number_of_replies']).any?
@@ -201,18 +201,25 @@ class Post < ActiveRecord::Base
 
   concerning :Pings do
     included do
-      has_many :pings,
-        dependent: :nullify
+      has_many :received_pings,
+        class_name: 'Ping',
+        foreign_key: 'target_guid',
+        primary_key: 'guid'
+
+      has_many :sent_pings,
+        class_name: 'Ping',
+        foreign_key: 'source_guid',
+        primary_key: 'guid'
     end
 
     def ping_sources_with_times
-      pings.group('source').order('time').pluck('DISTINCT source, min(created_at) AS time')
+      received_pings.group('source').order('time').pluck('DISTINCT source, min(created_at) AS time')
     end
   end
 
   class << self
     def [](v)
-      find_by(guid: v.without_http)
+      find_by(guid: v.to_guid)
     end
   end
 end
