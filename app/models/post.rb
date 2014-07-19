@@ -76,6 +76,10 @@ class Post < ActiveRecord::Base
       errors.add(:guid, "can not be changed.")
     end
 
+    if type_changed?
+      errors.add(:type, "can not be changed.")
+    end
+
     # TODO: check that URL matches GUID
   end
 
