@@ -42,18 +42,33 @@ class PostFetcher
       # The post was found, so let's fetch its author's data and upsert it!
       #
       Post.transaction do
+        # Fetch associated user
         UserFetcher.fetch!(@uri.host)
+
+        # Upsert post in database
         @post = PostUpserter.upsert!(@json, @url)
 
+        # Push post to local timelines
         PostPusher.new(@post).push_to_local_timelines
 
+        # If a recipient was specified, add this post to their timeline
         if @opts[:recipient].present?
           @opts[:recipient].add_to_timeline(@post)
         end
 
+        # Done! Return the post.
         @post
       end
     end
+
+    # If we have a post now and it's referencing another post, give that post a chance
+    # to update its like/reply counts.
+    if op = @post.try(:reference)
+      op.save!
+    end
+
+    # Done. Return wherever post is at now.
+    @post
   end
 
   def expand_url(url)
