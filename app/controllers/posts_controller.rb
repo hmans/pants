@@ -18,6 +18,14 @@ class PostsController < ApplicationController
     @posts = @posts.latest.includes(:user)
 
     respond_with @posts do |format|
+      format.html do
+        @posts = @posts.blogged
+      end
+
+      format.atom do
+        @posts = @posts.blogged
+      end
+
       format.json do
         # updated_since parameter
         if params[:updated_since].present?

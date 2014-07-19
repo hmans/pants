@@ -12,6 +12,12 @@ class Post < ActiveRecord::Base
   scope :tagged_with, ->(tag) { where("tags @> ARRAY[?]", tag) }
   scope :referencing, ->(guid) { where("? = ANY(posts.references)", guid) }
 
+  # The `blogged` scope defines the posts that should be rendered in the user's
+  # blog and its corresponding ATOM feed. At a later point, we may make this
+  # configurable on a per-user basis.
+  #
+  scope :blogged, -> { where(type: ['pants.post']) }
+
   # Validations
   #
   before_validation do
