@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140719203726) do
+ActiveRecord::Schema.define(version: 20140725190039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 20140719203726) do
     t.string   "url"
     t.string   "referenced_guid"
     t.string   "title"
-    t.text     "referenced_by",     default: [],                        array: true
     t.integer  "number_of_replies", default: 0,            null: false
     t.string   "type",              default: "pants.post", null: false
     t.json     "data"

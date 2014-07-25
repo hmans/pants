@@ -197,6 +197,13 @@ class Post < ActiveRecord::Base
     def referenced_post
       Post.where(guid: referenced_guid).includes(:user).first if referenced_guid.present?
     end
+
+    # Returns a list of URLs referencing this post, sourced by the pings
+    # this post has received.
+    #
+    def referenced_by
+      received_pings.pluck('DISTINCT source')
+    end
   end
 
   concerning :Pings do

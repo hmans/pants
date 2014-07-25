@@ -18,14 +18,4 @@ class Ping < ActiveRecord::Base
     self.source_guid = source.try(:to_guid)
     self.target_guid = target.try(:to_guid)
   end
-
-  after_create do
-    # If this ping is attached to a post, add the source URL
-    # to the post's list of referencing URLs.
-    #
-    if target_post.present? && !target_post.referenced_by.include?(source)
-      target_post.referenced_by += [source]
-      target_post.save!
-    end
-  end
 end
