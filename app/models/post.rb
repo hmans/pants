@@ -33,8 +33,12 @@ class Post < ActiveRecord::Base
             .autolink_hashtags_and_mentions(user)
             .sanitize.to_s
         rescue Exception => e
-          Appsignal.send_exception(e) if defined?(Appsignal)
-          errors.add(:body, "could not be rendered to HTML. Sorry!")
+          if Rails.env.production?
+            Appsignal.send_exception(e) if defined?(Appsignal)
+            errors.add(:body, "could not be rendered to HTML. Sorry!")
+          else
+            raise
+          end
         end
       end
     else
