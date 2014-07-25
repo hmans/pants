@@ -28,6 +28,7 @@ class Post < ActiveRecord::Base
         # Render body to HTML
         self.body_html = Formatter.new(body)
           .autolink_hashtags(user)
+          .autolink_mentions
           .complete.to_s
       end
     else

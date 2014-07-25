@@ -81,6 +81,10 @@ h2 {
     @include border-radius(3px);
   }
 
+  a.mention {
+    @extend a.hashtag;
+  }
+
   img {
     max-width: 100%;
   }

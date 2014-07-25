@@ -5,9 +5,18 @@ class Formatter < Slodown::Formatter
 
   def autolink_hashtags(user)
     base_url = user.try(:url)
-    @current.gsub!(TagExtractor::REGEX) do
+    @current = @current.gsub(TagExtractor::REGEX) do
       tag_url = URI.join(base_url, "/tag/#{$1.downcase}")
       "<a href=\"#{tag_url}\" class=\"hashtag p-category\">##{$1}</a>"
+    end
+
+    self
+  end
+
+  def autolink_mentions
+    @current = @current.gsub(/@([\w\-_]+\.[\w.\-_]+)/) do
+      user_url = URI.join($1.with_http, '/').to_s
+      "<a href=\"#{user_url}\" class=\"mention\">@#{$1}</a>"
     end
 
     self
