@@ -179,14 +179,20 @@ class User < ActiveRecord::Base
 
         # upsert posts in the database
         posts = posts_json.reverse.map do |json|
-          # Sanity checks
-          if json['domain'] != domain
-            raise "#{posts_url} contained an invalid domain."
-          end
+          begin
+            # Sanity checks
+            if json['domain'] != domain
+              raise "#{posts_url} contained an invalid domain."
+            end
 
-          # upsert post in local database
-          PostUpserter.upsert!(json, posts_url)
-        end
+            # upsert post in local database
+            PostUpserter.upsert!(json, posts_url)
+          rescue StandardError => e
+            Appsignal.send_exception(e) if defined?(Appsignal)
+            Rails.logger.warn "While polling #{domain}, a post raised: #{e}"
+            nil
+          end
+        end.compact
 
         # add posts to local followers' timelines
         followings.includes(:user).each do |friendship|
