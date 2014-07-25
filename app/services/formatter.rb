@@ -36,7 +36,7 @@ private
     else
       # WE MUST GO DEEPER
       element.children.each do |child|
-        if %w(text p li blockquote).include?(child.name)
+        if %w(text p li blockquote h1 h2 h3 h4 h5 h6).include?(child.name)
           dat_autolinking(child)
         end
       end
