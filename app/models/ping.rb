@@ -1,5 +1,5 @@
 class Ping < ActiveRecord::Base
-  validates :user_id, :source_guid, :target_guid,
+  validates :user_id,
     presence: true
 
   belongs_to :user
