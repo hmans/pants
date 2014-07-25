@@ -27,9 +27,10 @@ class Post < ActiveRecord::Base
 
         # Render body to HTML
         self.body_html = Formatter.new(body)
-          .autolink_hashtags(user)
-          .autolink_mentions
-          .complete.to_s
+          .markdown
+          .autolink
+          .autolink_hashtags_and_mentions(user)
+          .sanitize.to_s
       end
     else
       # User is a remote user -- let's sanitize the HTML
