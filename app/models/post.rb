@@ -24,14 +24,11 @@ class Post < ActiveRecord::Base
     if user.try(:hosted?)
       if body_changed?
         Rails.logger.info "Rendering markdown for #{self}"
-        # Resolve hashtag links
-        body_with_hashtags = body.gsub(TagExtractor::REGEX) do
-          tag_url = URI.join(user.url, "/tag/#{$1.downcase}")
-          "<a href=\"#{tag_url}\" class=\"hashtag p-category\">##{$1}</a>"
-        end
 
         # Render body to HTML
-        self.body_html = Formatter.new(body_with_hashtags).complete.to_s
+        self.body_html = Formatter.new(body)
+          .autolink_hashtags(user)
+          .complete.to_s
       end
     else
       # User is a remote user -- let's sanitize the HTML
