@@ -26,11 +26,16 @@ class Post < ActiveRecord::Base
         Rails.logger.info "Rendering markdown for #{self}"
 
         # Render body to HTML
-        self.body_html = Formatter.new(body)
-          .markdown
-          .autolink
-          .autolink_hashtags_and_mentions(user)
-          .sanitize.to_s
+        begin
+          self.body_html = Formatter.new(body)
+            .markdown
+            .autolink
+            .autolink_hashtags_and_mentions(user)
+            .sanitize.to_s
+        rescue Exception => e
+          Appsignal.send_exception(e) if defined?(Appsignal)
+          errors.add(:body, "could not be rendered to HTML. Sorry!")
+        end
       end
     else
       # User is a remote user -- let's sanitize the HTML
