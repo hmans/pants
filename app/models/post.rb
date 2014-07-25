@@ -192,7 +192,7 @@ class Post < ActiveRecord::Base
     # Make sure referenced GUID is stored without protocol
     #
     def referenced_guid=(v)
-      write_attribute(:referenced_guid, v.present? ? v.strip.without_http : nil)
+      write_attribute(:referenced_guid, v.present? ? v.strip.to_guid : nil)
     end
 
     # Returns the referenced post IF it's available in the local

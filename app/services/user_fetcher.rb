@@ -67,7 +67,7 @@ class UserFetcher
     end
 
     expected_url = URI.join(@uri, '/').to_s
-    if @json['url'].without_http != expected_url.without_http
+    if @json['url'].to_guid != expected_url.to_guid
       raise InvalidData, "URL #{@json['url']} doesn't match expected URL #{expected_url} (#{@url})"
     end
 

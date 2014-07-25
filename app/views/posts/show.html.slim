@@ -20,6 +20,6 @@
       - else
         .ping
           .ping-time #{l time, format: :long} (via webmention)
-          .ping-url = link_to url.without_http, url.with_http, rel: 'nofollow'
+          .ping-url = link_to url.to_guid, url.with_http, rel: 'nofollow'
 
 .light-note This document is <a href="http://webmention.org">webmention</a> enabled.
