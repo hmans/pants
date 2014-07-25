@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 if Rails.env.development?
-  andy = FactoryGirl.create(:user, hosted: true, domain: 'andy.pants.dev', display_name: 'Andy', password: 'secret')
+  andy = FactoryGirl.create(:user, hosted: true, domain: 'andy.pants.dev', display_name: 'Andy', password: 'secret', admin: true)
   ben = FactoryGirl.create(:user, hosted: true, domain: 'ben.pants.dev', display_name: 'Ben', password: 'secret')
 
   FactoryGirl.create_list(:post, 40, user: andy)
