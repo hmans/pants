@@ -14,7 +14,7 @@ class Formatter < Slodown::Formatter
   end
 
   def autolink_mentions
-    @current = @current.gsub(/@([\w\-_]+\.[\w.\-_]+)/) do
+    @current = @current.gsub(/\B@([\w\-_]+\.[\w.\-_]+)/) do
       user_url = URI.join($1.with_http, '/').to_s
       "<a href=\"#{user_url}\" class=\"mention\">@#{$1}</a>"
     end
