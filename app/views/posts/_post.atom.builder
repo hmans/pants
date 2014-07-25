@@ -3,7 +3,7 @@ feed.entry(post, id: "tag:#{post.domain},2005:#{post.slug}") do |entry|
   entry.title   post.title
 
   # content
-  entry.content post.body_html, type: 'html'
+  entry.content render(partial: 'post_for_feed', locals: { post: post }, formats: ['html']), type: 'html'
 
   # author
   entry.author do |author|

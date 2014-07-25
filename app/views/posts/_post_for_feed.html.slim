@@ -1,0 +1,4 @@
+- if (guid = post.referenced_guid).present?
+  p: em This post is in reference to #{link_to guid, guid.with_http}.
+
+= raw post.body_html
