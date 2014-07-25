@@ -15,7 +15,6 @@ class PostPusher
     Rails.logger.info "Pushing post #{@post.url}..."
 
     push_to_local_timelines
-    ping_friends
 
     # send webmentions for referenced links
     extract_referenced_links.each do |link|
