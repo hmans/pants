@@ -72,6 +72,7 @@ end
 group :production do
   # .env loading for production
   gem 'dotenv-deployment'
+  gem 'rails_12factor'
 end
 
 # Gems that should be installed, but will not be loaded automatically.
