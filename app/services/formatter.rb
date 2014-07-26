@@ -5,7 +5,7 @@ class Formatter < Slodown::Formatter
 
   def autolink_hashtags_and_mentions(user)
     @base_url = user.try(:url)
-    document = Nokogiri::HTML.fragment(@current)
+    document = Nokogiri::HTML.fragment(@current, 'utf-8')
 
     dat_autolinking(document)
 
@@ -32,7 +32,8 @@ private
         "<a href=\"#{tag_url}\" class=\"hashtag p-category\">##{$1}</a>"
       end
 
-      element.replace(text)
+      # Nokogiri hates me
+      element.replace Nokogiri::HTML.fragment(text, 'utf-8')
     else
       # WE MUST GO DEEPER
       element.children.each do |child|
