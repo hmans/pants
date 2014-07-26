@@ -180,12 +180,6 @@ class User < ActiveRecord::Base
         # upsert posts in the database
         posts = posts_json.reverse.map do |json|
           begin
-            # Sanity checks
-            if json['domain'] != domain
-              raise "#{posts_url} contained an invalid domain."
-            end
-
-            # upsert post in local database
             PostUpserter.upsert!(json, posts_url)
           rescue StandardError => e
             Appsignal.send_exception(e) if defined?(Appsignal)
