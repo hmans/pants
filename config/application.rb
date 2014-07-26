@@ -39,5 +39,8 @@ module Pants
     # Configure i18n to fall back to :en strings
     config.i18n.fallbacks = true
     config.i18n.fallbacks = [:en]
+
+    # utf-8
+    config.encoding = "utf-8"
   end
 end
