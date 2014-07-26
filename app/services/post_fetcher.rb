@@ -41,24 +41,21 @@ class PostFetcher
     else
       # The post was found, so let's fetch its author's data and upsert it!
       #
-      Post.transaction do
-        # Fetch associated user
-        UserFetcher.fetch!(@uri.host)
+      UserFetcher.fetch!(@uri.host)
 
-        # Upsert post in database
-        @post = PostUpserter.upsert!(@json, @url)
+      # Upsert post in database
+      @post = PostUpserter.upsert!(@json, @url)
 
-        # Push post to local timelines
-        PostPusher.new(@post).push_to_local_timelines
+      # Push post to local timelines
+      PostPusher.new(@post).push_to_local_timelines
 
-        # If a recipient was specified, add this post to their timeline
-        if @opts[:recipient].present?
-          @opts[:recipient].add_to_timeline(@post)
-        end
-
-        # Done! Return the post.
-        @post
+      # If a recipient was specified, add this post to their timeline
+      if @opts[:recipient].present?
+        @opts[:recipient].add_to_timeline(@post)
       end
+
+      # Done! Return the post.
+      @post
     end
 
     # If we have a post now and it's referencing another post, give that post a chance
