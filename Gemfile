@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Make sure we're running on Ruby 2.1
+ruby '2.1.2'
+
 # Core
 gem 'rails', '4.1.4'
 gem 'pg'
