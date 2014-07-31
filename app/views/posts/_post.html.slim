@@ -18,6 +18,8 @@
   - if post.referenced_url.present? && (@post.blank? || @post == post)
     .post-reference
       | In reply to: #{link_to post.referenced_guid, post.referenced_url, class: "u-in-reply-to"}
+      - if show_referenced_post?(post)
+        blockquote = raw post.referenced_post.body_html
 
   // show actual post
   .post-title class="p-name"

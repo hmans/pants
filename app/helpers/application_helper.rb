@@ -23,4 +23,8 @@ module ApplicationHelper
       link_to(title, url, opts)
     end
   end
+
+  def show_referenced_post?(post)
+    post.referenced_post.present? && !post.body_html.include?('<blockquote>')
+  end
 end
