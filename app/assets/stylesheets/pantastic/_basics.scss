@@ -11,6 +11,10 @@ body {
   @include on-desktop {
     padding-bottom: 100px;
   }
+
+  @include on-mobile {
+    font-size: 90%;
+  }
 }
 
 section#main {

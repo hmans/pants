@@ -23,7 +23,7 @@ article.post>header {
   @extend %reset-links;
   @extend %light;
   @extend %small;
-  li { line-height: 25px; }
+  li { line-height: 20px; }
   a:hover { color: $color-text; }
 }
 
