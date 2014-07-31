@@ -85,6 +85,7 @@ article.post>header {
 .post-reference {
   @extend %light;
   @extend p;
+  @extend %text-formatting;
   a { color: #999; }
 }
 

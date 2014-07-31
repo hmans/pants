@@ -90,8 +90,12 @@ h2 {
   }
 
   blockquote {
-    padding-left: 20px;
-    color: $color-light;
+    @extend %collapse;
+    @extend p;
+    background-color: $color-very-light;
+    color: #999;
+    border-left: 3px solid $color-light;
+    padding: 10px;
   }
 
   sup {
