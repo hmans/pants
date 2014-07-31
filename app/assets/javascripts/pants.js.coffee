@@ -16,6 +16,12 @@ initPage = ->
   _gs('track') if (_gs?)
   ga('send', 'pageview') if (ga?)
 
+expandElement = (e) ->
+  el = $(this).data('expand')
+  $(el).toggleClass('expanded')
+  e.preventDefault()
+
 $(document)
   .on 'page:load', initPage
   .on 'ready', initPage
+  .on 'click', 'a[data-expand]', expandElement
