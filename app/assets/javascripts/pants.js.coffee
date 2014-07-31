@@ -22,7 +22,6 @@ initPage = ->
   ga('send', 'pageview') if (ga?)
 
 
-$(document).on 'page:change', initPage
-
-$ ->
-  initPage()
+$(document)
+  .on 'page:load', initPage
+  .on 'ready', initPage
