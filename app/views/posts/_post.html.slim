@@ -36,6 +36,6 @@
         li.post-number-of-replies
           = link_to pluralize(post.number_of_replies, "reply"), post.url
       - if can?(:create, Post)
-        li.post-reply-link = link_to 'reply', new_post_path(referenced_guid: post.guid)
+        li.post-reply-link = link_to 'reply', new_post_path(referenced_url: post.url)
       - if content_for?(:extra_post_actions)
         = yield :extra_post_actions

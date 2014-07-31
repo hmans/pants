@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725190039) do
+ActiveRecord::Schema.define(version: 20140731122124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20140725190039) do
     t.integer  "number_of_replies", default: 0,            null: false
     t.string   "type",              default: "pants.post", null: false
     t.json     "data"
+    t.string   "referenced_url"
   end
 
   add_index "posts", ["domain", "type", "published_at"], name: "index_posts_on_domain_and_type_and_published_at", using: :btree

@@ -84,7 +84,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post.referenced_guid = params[:referenced_guid]
+    @post.referenced_url = params[:referenced_url]
     respond_with @post
   end
 
@@ -125,7 +125,7 @@ class PostsController < ApplicationController
 private
 
   def post_params
-    params.require(:post).permit(:type, :body, :body_html, :referenced_guid)
+    params.require(:post).permit(:type, :body, :body_html, :referenced_url)
   end
 
   def fetch_referenced_posts

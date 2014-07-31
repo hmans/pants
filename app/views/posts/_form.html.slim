@@ -1,7 +1,7 @@
 - rows ||= 10
 - full ||= false
 = simple_form_for post do |f|
-  = f.hidden_field :referenced_guid
+  = f.hidden_field :referenced_url
 
   = field_set_tag do
     = f.input :body, label: false, input_html: { rows: rows }, autofocus: true
@@ -11,8 +11,7 @@
     - if post.persisted?
       li #{link_to 'Delete Post', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}
 
-  - if post.referenced_guid.present?
-    .note This post is a reply to: #{link_to post.referenced_guid, post.referenced_guid.with_http}
+  - if post.referenced_url.present?
+    .note This post is a reply to: #{link_to post.referenced_guid, post.referenced_url}
     - if post.referenced_post.present?
       = render post.referenced_post, hide_actions: true
-

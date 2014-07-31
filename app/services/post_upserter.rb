@@ -13,6 +13,7 @@ class PostUpserter
     published_at
     edited_at
     referenced_guid
+    referenced_url
     title
     body
     body_html

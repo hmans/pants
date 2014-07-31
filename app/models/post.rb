@@ -65,6 +65,11 @@ class Post < ActiveRecord::Base
     # Default editing timestamp to publishing timestamp
     self.edited_at ||= published_at
 
+    # LEGCAY: Copy referenced_guid to referenced_url
+    if read_attribute(:referenced_url).nil? && referenced_guid.present?
+      write_attribute(:referenced_url, referenced_guid.with_http)
+    end
+
     # Default URL to http://<guid>
     self.url ||= "http://#{guid}"
   end
@@ -197,6 +202,19 @@ class Post < ActiveRecord::Base
     #
     def referenced_guid=(v)
       write_attribute(:referenced_guid, v.present? ? v.strip.to_guid : nil)
+    end
+
+    # When setting the referenced URL, also set the GUID.
+    #
+    def referenced_url=(v)
+      self.referenced_guid = v.try(:to_guid)
+      write_attribute(:referenced_url, v)
+    end
+
+    # Legacy support: When no referenced_url is stored, return the guid with http.
+    #
+    def referenced_url
+      read_attribute(:referenced_url) || referenced_guid.try(:with_http)
     end
 
     # Returns the referenced post IF it's available in the local
