@@ -28,13 +28,11 @@ article.post>header {
 }
 
 .post-author {
-  @include float-left;
-  margin-right: 20px;
   color: $color-text;
-  font-weight: 700;
+  font-weight: bold;
 }
 
-.post-author, .post-permalink, .post-referenced-url, .post-time {
+.post-author, .post-time {
   &:before {
     @extend .fa;
     width: 20px;
@@ -44,14 +42,6 @@ article.post>header {
 
 .post-author:before {
   content: "\f007";
-}
-
-.post-permalink:before {
-  content: "\f0f6";
-}
-
-.post-referenced-url:before {
-  content: "\f112";
 }
 
 .post-time:before {
