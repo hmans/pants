@@ -17,8 +17,7 @@
   // show referenced post if available
   - if post.referenced_url.present? && (@post.blank? || @post == post)
     .post-reference
-      .post-reference-info
-        | In reply to: #{link_to post.referenced_guid, post.referenced_url, class: "u-in-reply-to"}
+      | In reply to: #{link_to post.referenced_guid, post.referenced_url, class: "u-in-reply-to"}
 
   // show actual post
   .post-title class="p-name"

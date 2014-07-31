@@ -83,16 +83,9 @@ article.post>header {
 // POST REFERENCE
 
 .post-reference {
-  margin-bottom: 25px;
-  position: relative;
-  @extend %collapse;
-  padding: 10px;
-  background-color: $color-very-light;
-  a { color: #999; }
-}
-
-.post-reference-info {
   @extend %light;
+  @extend p;
+  a { color: #999; }
 }
 
 
