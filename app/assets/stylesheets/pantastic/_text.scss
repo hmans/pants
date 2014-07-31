@@ -142,10 +142,48 @@ h2 {
     padding: 10px;
   }
 
-// code blocks without coderay
+  // code blocks without coderay
   pre>code {
     @extend .CodeRay;
     display: block;
     padding: 10px;
+  }
+
+  // embeds
+  .embedded-fullsize {
+    iframe, object, embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .embedded {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-left: 0;
+
+    &.video {
+      @extend .embedded-fullsize;
+
+      height: 0 !important;
+      padding-top: 30px;
+      &.youtube {
+        padding-bottom: 56.25%;
+      }
+      &.vimeo {
+        padding-bottom: 52%;
+      }
+    }
+
+    // soundcloud needs a fixed height
+    &.soundcloud {
+      @extend .embedded-fullsize;
+
+      height: 250px !important;
+    }
   }
 }
