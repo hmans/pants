@@ -1,7 +1,4 @@
 footer role="primary"
-  p <strong>#{link_to current_site.display_name, :root}</strong> is running on
-    <strong>#{link_to "#pants", "https://github.com/hmans/pants"}</strong>, the distributed social blogging network... thing.
-
   p
     - if Pants.config.server.tagline.present?
       ' #{Pants.config.server.tagline} &middot;
