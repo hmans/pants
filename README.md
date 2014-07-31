@@ -1,6 +1,4 @@
-# Get some #pants on!
-
-#### A couple of weeks ago, my Twitter timeline stopped updating. They never fixed it, so I built my own decentrlized (micro|macro)blogging platform.
+#### A couple of weeks ago, my Twitter timeline stopped updating. They never fixed it, so I built my own decentrlized (micro|macro)blogging platform. Those bastards! Time to get some #pants on.
 
 ----
 
