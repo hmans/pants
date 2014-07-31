@@ -12,15 +12,12 @@
              day_url(year: post.published_at.year, month: post.published_at.month, day: post.published_at.day, host: post.user.domain)
           ' &middot;
           = link_to l(post.published_at, format: :time), post.url, class: "u-url"
-      - if post.referenced_guid.present?
-        li.post-referenced-url
-          = link_to post.referenced_guid.truncate(35), post.referenced_guid.with_http, class: "u-in-reply-to"
 
   // show referenced post if available
-  - if post.referenced_post.present? && (@post.blank? || @post == post)
+  - if post.referenced_url.present? && (@post.blank? || @post == post)
     .post-reference
-      .post-reference-body
-        == post.referenced_post.body_html
+      .post-reference-info
+        | In reply to: #{link_to post.referenced_guid, post.referenced_url, class: "u-in-reply-to"}
 
   // show actual post
   .post-title class="p-name"

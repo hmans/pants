@@ -91,45 +91,14 @@ article.post>header {
 .post-reference {
   margin-bottom: 25px;
   position: relative;
-
-  &:before {
-    @extend .fa;
-    content: "\f10d";
-    position: absolute;
-    left: -3px;
-    top: -8px;
-    color: #ccc;
-    font-size: 20px;
-    z-index: 1;
-
-    visibility: hidden;
-    @include on-desktop {
-      visibility: visible;
-    }
-  }
+  @extend %collapse;
+  padding: 10px;
+  background-color: $color-very-light;
+  a { color: #999; }
 }
 
 .post-reference-info {
-  @extend p;
   @extend %light;
-}
-
-.post-reference-body {
-  @extend %collapse;
-  @extend %text-formatting;
-  @extend %small;
-
-  max-height: 240px;
-  overflow: auto;
-  // natural scrolling for ios devices
-  -webkit-overflow-scrolling: touch;
-  position: relative;
-  padding: 15px 20px;
-
-  // background
-  $c: #f8f8f8;
-  background-color: $c;
-  @include background(linear-gradient(top, $c, $c 220px, darken($c, 5%) 238px, darken($c, 10%)));
 }
 
 
