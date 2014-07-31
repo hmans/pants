@@ -32,7 +32,12 @@ class ApplicationController < ActionController::Base
 
   before_filter do
     if current_site.blank?
-      redirect_to Pants.config.server.unknown_site_redirect_url
+      if Rails.env.production?
+        redirect_to Pants.config.server.unknown_site_redirect_url
+      else
+        # Enable host-less development access
+        @current_site = User.first
+      end
     elsif current_site.domain != request.host
       redirect_to(host: current_site.domain, status: 302)
     end
