@@ -23,7 +23,7 @@ article.post>header {
   @extend %reset-links;
   @extend %light;
   @extend %small;
-  li { line-height: 30px; }
+  li { line-height: 25px; }
   a:hover { color: $color-text; }
 }
 
@@ -32,7 +32,7 @@ article.post>header {
   font-weight: bold;
 }
 
-.post-author, .post-time {
+.post-author, .post-time, .post-number-of-replies a {
   &:before {
     @extend .fa;
     width: 20px;
@@ -46,6 +46,10 @@ article.post>header {
 
 .post-time:before {
   content: "\f017";
+}
+
+.post-number-of-replies a:before {
+  @extend .fa-reply;
 }
 
 @media only screen and (min-width: 1000px) {
@@ -96,18 +100,21 @@ article.post>header {
 
 ul.post-actions {
   @extend %reset-links;
+  @extend %small;
   margin-top: 20px;
-  text-transform: uppercase;
   color: #999;
+  text-align: right;
+  opacity: 0.4;
+  font-weight: bold;
 
   li {
     display: inline;
-    margin-right: 20px;
+    margin-right: 10px;
 
     a:before {
       @extend .fa;
-      width: 25px;
-      opacity: 0.5;
+      width: 20px;
+      margin-right: 5px;
     }
   }
 
@@ -115,12 +122,8 @@ ul.post-actions {
     colo: inherit;
   }
   a:hover {
-    color: inherit;
+    color: $color-text;
   }
-}
-
-li.post-number-of-replies a {
-  @extend .fa-reply;
 }
 
 li.post-reply-link a {
@@ -136,9 +139,14 @@ li.post-hide-link a {
 }
 
 li.post-add-friend-link a {
-  @extend .fa-heart;
+  @extend .fa-plus-square;
 }
 
+.post:hover {
+  .post-actions {
+    opacity: 1;
+  }
+}
 
 
 // PINGS & REPLIES

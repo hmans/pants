@@ -9,6 +9,10 @@
       li.post-time
         time class="dt-published" datetime=post.published_at.iso8601
           = link_to l(post.published_at, format: :post), post.url, class: "u-url"
+      - if post.number_of_replies > 0
+        li.post-number-of-replies
+          = link_to post.number_of_replies, post.url
+
 
   // show referenced post if available
   - if post.referenced_url.present? && (@post.blank? || @post == post)
@@ -25,11 +29,8 @@
   - unless hide_actions
     ul.post-actions
       - if can?(:edit, post)
-        li.post-edit-link = link_to 'edit', [:edit, post]
-      - if post.number_of_replies > 0
-        li.post-number-of-replies
-          = link_to pluralize(post.number_of_replies, "reply"), post.url
+        li.post-edit-link = link_to 'Edit', [:edit, post]
       - if can?(:create, Post)
-        li.post-reply-link = link_to 'reply', new_post_path(referenced_url: post.url)
+        li.post-reply-link = link_to 'Reply', new_post_path(referenced_url: post.url)
       - if content_for?(:extra_post_actions)
         = yield :extra_post_actions
