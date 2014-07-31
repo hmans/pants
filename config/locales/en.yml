@@ -25,6 +25,7 @@ en:
   time:
     formats:
       time: '%H:%M'
+      post: '%b %e %Y · %H:%M'
 
   simple_form:
     "yes": 'Yes'

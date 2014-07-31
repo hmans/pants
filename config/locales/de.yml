@@ -45,3 +45,7 @@ de:
     #     username: 'User name to sign in.'
     #     password: 'No special characters, please.'
 
+  time:
+    formats:
+      time: '%H:%M Uhr'
+      post: '%e. %b %Y · %H:%M Uhr'
