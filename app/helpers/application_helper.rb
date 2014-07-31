@@ -10,7 +10,9 @@ module ApplicationHelper
   end
 
   def avatar_image_tag(user, opts = {})
-    image_tag(user.local_thumbnail.present? ? user.local_thumbnail.url : '1x1.png', class: "u-photo")
+    image_tag(user.local_thumbnail.present? ? user.local_thumbnail.url : '1x1.png',
+      alt: user.domain,
+      class: "u-photo")
   end
 
   def navigation_entry(title, url, opts = {})
