@@ -7,4 +7,4 @@ footer role="primary"
       ' #{Pants.config.server.tagline} &middot;
     - if can?(:manage, :server)
       ' #{link_to "Server Admin", :server} &middot;
-    ' #{Pants::VERSION}
+    =' link_to Pants::VERSION, "https://github.com/hmans/pants/releases/tag/#{Pants::VERSION}"
