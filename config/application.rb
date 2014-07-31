@@ -44,3 +44,5 @@ module Pants
     config.encoding = "utf-8"
   end
 end
+
+require 'pants/version'

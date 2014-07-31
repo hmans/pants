@@ -7,5 +7,4 @@ footer role="primary"
       ' #{Pants.config.server.tagline} &middot;
     - if can?(:manage, :server)
       ' #{link_to "Server Admin", :server} &middot;
-    - if ENV['PANTS_VERSION']
-      ' Version: #{link_to ENV['PANTS_VERSION'], "https://github.com/hmans/pants/commits/#{ENV['PANTS_VERSION']}"}
+    ' #{Pants::VERSION}
