@@ -33,10 +33,6 @@ module Pants
 
     # utf-8
     config.encoding = "utf-8"
-
-    # Custom #pants configuration settings
-    config.tagline = ENV['PANTS_TAGLINE']
-    config.fallback_url = ENV['PANTS_FALLBACK_URL']
   end
 end
 
