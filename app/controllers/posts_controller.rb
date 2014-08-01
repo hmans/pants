@@ -84,11 +84,18 @@ class PostsController < ApplicationController
   end
 
   def new
+    # Deal with referenced URL/GUID parameters
     if params[:referenced_url]
       @post.referenced_url = params[:referenced_url]
     elsif params[:referenced_guid]
       # LEGACY: handle referenced_guid parameter that may be sent by existing bookmarklets
       @post.referenced_url = params[:referenced_guid].with_http
+    end
+
+    # If referenced post is available locally, quote its markdown body
+    if (op = @post.reference) && op.body.present?
+      @post.body = op.body.split("\n").map { |line| "> #{line}" }.join("\n")
+      @post.body << "\n"
     end
 
     respond_with @post

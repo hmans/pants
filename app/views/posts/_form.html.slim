@@ -1,5 +1,10 @@
 - rows ||= 10
 - full ||= false
+
+
+- if post.referenced_url.present?
+  .post-reference Replying to: #{link_to post.referenced_guid, post.referenced_url}
+
 = simple_form_for post do |f|
   = f.hidden_field :referenced_url
 
@@ -11,7 +16,3 @@
     - if post.persisted?
       li #{link_to 'Delete Post', post, method: 'delete', data: { confirm: 'Are you sure? There is no Undo.'}}
 
-  - if post.referenced_url.present?
-    .note This post is a reply to: #{link_to post.referenced_guid, post.referenced_url}
-    - if post.referenced_post.present?
-      = render post.referenced_post, hide_actions: true
