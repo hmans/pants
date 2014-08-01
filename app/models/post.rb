@@ -23,15 +23,21 @@ class Post < ActiveRecord::Base
   before_validation do
     if user.try(:hosted?)
       if body_changed?
-        Rails.logger.info "Rendering markdown for #{self}"
-
         # Render body to HTML
         begin
+          Rails.logger.info "Rendering markdown for #{self}"
+
           self.body_html = Formatter.new(body)
             .markdown
             .autolink
             .autolink_hashtags_and_mentions(user)
             .sanitize.to_s
+
+          # Extract and save title
+          self.title = to_title.try(:truncate, 200)
+
+          # Extract and save tags
+          self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
         rescue Exception => e
           if Rails.env.production?
             Appsignal.send_exception(e) if defined?(Appsignal)
@@ -41,20 +47,14 @@ class Post < ActiveRecord::Base
           end
         end
       end
+
+      # Generate slug
+      self.slug ||= generate_slug
     else
       # User is a remote user -- let's sanitize the HTML
       Rails.logger.info "Sanitizing HTML for #{self}"
       self.body_html = Formatter.new(body_html).sanitize.to_s
     end
-
-    # Extract and save tags
-    self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
-
-    # Extract and save title
-    self.title = to_title.try(:truncate, 200)
-
-    # Generate slug
-    self.slug ||= generate_slug
 
     # Set/update GUID (a validation will check that this never changes)
     self.guid = "#{domain}/#{slug}"
@@ -102,7 +102,7 @@ class Post < ActiveRecord::Base
     # TODO: check that URL matches GUID
   end
 
-  validates :body,
+  validates :body_html,
     presence: true
 
   validates :guid, :url,

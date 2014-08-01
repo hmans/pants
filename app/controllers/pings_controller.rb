@@ -3,14 +3,14 @@ class PingsController < ApplicationController
 
   def create
     # :source is from webmention, :url is legacy pants-style
-    url = params[:source] || params[:url]
+    source = params[:source] || params[:url]
     target = params[:target]
 
     # Create Ping instance
-    current_site.pings.create!(source: url, target: target)
+    current_site.pings.create!(source: source, target: target)
 
-    # Fetch that post!
-    PostFetcher.new(url, recipient: current_site).async.fetch!
+    # Defer to WebmentionHandler
+    WebmentionHandler.new(current_site, source, target).async.handle!
 
     # Pretend like nothing happened
     render nothing: true, status: :accepted

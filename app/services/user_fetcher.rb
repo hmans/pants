@@ -1,6 +1,8 @@
 class UserFetcher
   include Backgroundable
 
+  attr_reader :url, :uri, :opts, :response, :data
+
   class InvalidData < RuntimeError ; end
 
   # The following attributes will be copied from user JSON responses
@@ -14,7 +16,7 @@ class UserFetcher
   }
 
   def initialize(url, opts = {})
-    @url = expand_url(url)
+    @url = url.with_http
     @uri = URI.parse(@url)
     @opts = opts
   end
@@ -26,11 +28,15 @@ class UserFetcher
       @user = User.where(domain: @uri.host).first_or_initialize
 
       if should_fetch?
-        @json = fetch_json
+        @response = HTTParty.get(url)
 
-        if json_sane?
+        # @data = extract_mf2 || fetch_pants_json
+        @data = fetch_pants_json
+        return nil if @data.blank?
+
+        if data_sane?
           # Transfer attributes from JSON.
-          @user.attributes = @json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
+          @user.attributes = @data.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
 
           # NOTE: We always set #updated_at because the previous operation may
           # not have changed any attributes. In this case, the following #save!
@@ -53,22 +59,31 @@ class UserFetcher
     @opts[:force] || @user.new_record? || @user.updated_at < 30.minutes.ago
   end
 
-  def expand_url(url)
-    URI.join(url.with_http, '/user.json').to_s
+  def extract_mf2
+    if mf2 = Microformats2.parse(@response.body)
+      if (card = mf2.try(:card)).present?
+        {
+          "display_name" => card.name.to_s,
+          "domain" => uri.host,
+          "url" => url
+        }
+      end
+    end
   end
 
-  def fetch_json
-    HTTParty.get(@url)
+  def fetch_pants_json
+    response = HTTParty.get(URI.join(uri, '/user.json'))
+    response.to_hash if response.success?
   end
 
-  def json_sane?
-    if @json['domain'] != @uri.host
-      raise InvalidData, "Domain #{@json['domain']} doesn't match expected domain #{@uri.host} (#{@url})"
+  def data_sane?
+    if @data['domain'] != @uri.host
+      raise InvalidData, "Domain #{@data['domain']} doesn't match expected domain #{@uri.host} (#{@url})"
     end
 
     expected_url = URI.join(@uri, '/').to_s
-    if @json['url'].to_guid != expected_url.to_guid
-      raise InvalidData, "URL #{@json['url']} doesn't match expected URL #{expected_url} (#{@url})"
+    if @data['url'].to_guid != expected_url.to_guid
+      raise InvalidData, "URL #{@data['url']} doesn't match expected URL #{expected_url} (#{@url})"
     end
 
     true

@@ -32,29 +32,6 @@ describe PostFetcher do
     end
   end
 
-  describe '#expand_url' do
-    it "adds a protocol if none is given" do
-      expect(subject.expand_url("somehost/foo123.json"))
-        .to eq("http://somehost/foo123.json")
-    end
-
-    it "doesn't change the exisiting protocol" do
-      expect(subject.expand_url("https://somehost/foo123.json"))
-        .to eq("https://somehost/foo123.json")
-    end
-  end
-
-  describe '#fetch_json' do
-    before do
-      stub_request(:get, url)
-        .to_return(status: 200, body: data.to_json, headers: { content_type: 'application/json' })
-    end
-
-    it "executes a HTTP request against the specified URL" do
-      subject.fetch_json
-    end
-  end
-
   describe '#json_sane?' do
     xit "returns true if JSON data matches URL" do
       expect(subject.json_sane?).to eq(true)

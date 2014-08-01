@@ -30,14 +30,6 @@ class PostPusher
     end
   end
 
-  def ping_friends
-    if @post.user.present?
-      @post.user.friends.find_each do |friend|
-        Webmentioner.new(@post.url, friend.url).send!
-      end
-    end
-  end
-
 private
 
   def extract_referenced_links

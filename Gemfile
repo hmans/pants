@@ -23,6 +23,7 @@ gem 'simple_form'
 gem 'slodown', github: 'hmans/slodown'
 gem 'font-awesome-rails'
 gem 'kaminari'
+gem 'microformats2'
 
 # Binary asset handling
 gem 'dragonfly'

@@ -13,52 +13,27 @@
 class PostFetcher
   include Backgroundable
 
+  attr_reader :url, :opts, :response
+
   class InvalidData < RuntimeError ; end
 
   def initialize(url, opts = {})
-    @url = expand_url(url)
+    @url = url.with_http
     @opts = opts
-    @uri = URI.parse(@url)
+    @response = opts[:response]
   end
 
   def fetch!
     Rails.logger.info "Fetching post: #{@url}"
 
-    # TODO: determine if we should _really_ fetch the post, as it may not
-    #       always be necessary.
+    # Upsert the post's user
+    UserFetcher.fetch!(URI.parse(url).host)
 
-    @json = fetch_json
+    # Try loading the post
+    @response ||= HTTParty.get(url)
+    @post = check_for_4xx || check_for_linked_json || import_json # || import_mf2
 
-    if @json.not_found?
-      Rails.logger.info "No post found at #{@url}"
-      # The post was not found -- if we already have a post with the given
-      # URL, we need to delete it.
-      #
-      if @post = Post[@url]
-        Rails.logger.info "Deleting existing post found for #{@url}"
-        @post.destroy
-      end
-    else
-      # The post was found, so let's fetch its author's data and upsert it!
-      #
-      UserFetcher.fetch!(@uri.host)
-
-      # Upsert post in database
-      @post = PostUpserter.upsert!(@json, @url)
-
-      # Push post to local timelines
-      PostPusher.new(@post).push_to_local_timelines
-
-      # If a recipient was specified, add this post to their timeline
-      if @opts[:recipient].present?
-        @opts[:recipient].add_to_timeline(@post)
-      end
-
-      # Done! Return the post.
-      @post
-    end
-
-    # If we have a post now and it's referencing another post, give that post a chance
+    # If the post we have now is referencing another post, give that post a chance
     # to update its like/reply counts.
     if op = @post.try(:reference)
       op.save!
@@ -68,35 +43,57 @@ class PostFetcher
     @post
   end
 
-  def expand_url(url)
-    url.with_http
-  end
+  def check_for_4xx
+    if response.not_found?
+      Rails.logger.info "No post found at #{@url}"
 
-  def fetch_json
-    response = HTTParty.get(@url)
+      if post = Post[url]
+        Rails.logger.info "Deleting existing post found for #{@url}"
 
-    case response.content_type
-    when 'application/json'
-      return response
-    when 'text/html'
-      if json_url = discover_json_url(response.body)
-        Rails.logger.info "Discovered JSON URL #{json_url} for #{@url}"
-        return HTTParty.get(json_url)
-      else
-        # try appending .json as a fallback; mostly to remain compatible
-        # with earlier versions of pants.
-        Rails.logger.info "Trying #{@url}.json as a fallback"
-        return HTTParty.get("#{@url}.json")
+        post.destroy
+        post
       end
-    else
-      raise "Invalid content type #{response.content_type} for post #{@url}"
     end
   end
 
-  def discover_json_url(html)
-    if doc = Nokogiri::HTML(html)
-      if link_tag = doc.css('link[rel="alternate"][type="application/json"]').first
-        link_tag[:href]
+  def check_for_linked_json
+    if response.content_type == 'text/html'
+      document = Nokogiri::HTML(@response.body)
+
+      if link_tag = document.css('link[rel="alternate"][type="application/json"]').first
+        # Overwrite response with fetched JSON
+        @response = HTTParty.get(link_tag[:href])
+
+        # Return false to continue processing
+        false
+      end
+    end
+  end
+
+  def import_json
+    # If the response is JSON, assume it's a #pants post and import it.
+    if response.content_type == 'application/json'
+      PostUpserter.upsert!(response.to_hash, url)
+    end
+  end
+
+  def import_mf2
+    if mf2 = Microformats2.parse(response.body)
+      if mf2.entry.present?
+        # build #pants data structure
+        data = {
+          'type' => 'pants.post',
+          'guid' => url.to_guid,
+          'url' => url,
+          'published_at' => (mf2.entry.published.to_s if mf2.entry.respond_to?(:published)),
+          'edited_at' => (mf2.entry.updated.to_s if mf2.entry.respond_to?(:updated)),
+          'referenced_guid' => nil,
+          'referenced_url' => nil, # FIXME
+          'title' => (mf2.entry.name.to_s if mf2.entry.respond_to?(:name)),
+          'body_html' => mf2.entry.content.to_s
+        }
+
+        PostUpserter.upsert!(data, url)
       end
     end
   end
