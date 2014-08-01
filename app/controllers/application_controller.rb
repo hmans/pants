@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   before_filter do
     if current_site.blank?
       if Rails.env.production?
-        redirect_to Pants.config.server.unknown_site_redirect_url
+        redirect_to Rails.application.config.fallback_url || User.first.domain.with_http
       else
         # Enable host-less development access
         @current_site = User.first

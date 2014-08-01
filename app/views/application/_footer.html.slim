@@ -1,7 +1,7 @@
 footer role="primary"
   p
-    - if Pants.config.server.tagline.present?
-      ' #{Pants.config.server.tagline} &middot;
+    - if Rails.application.config.tagline.present?
+      ' #{raw Rails.application.config.tagline} &middot;
     - if can?(:manage, :server)
       ' #{link_to "Server Admin", :server} &middot;
-    =' link_to Pants::VERSION, "https://github.com/hmans/pants/releases/tag/#{Pants::VERSION}"
+    =' link_to "#pants #{Pants::VERSION}", "https://github.com/hmans/pants/releases/tag/#{Pants::VERSION}"
