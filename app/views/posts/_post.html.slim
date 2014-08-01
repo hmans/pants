@@ -3,9 +3,12 @@
   header
     ul.post-information
       li.post-author class="p-author h-card"
-        .post-avatar
-          = avatar post.user
-        = link_to post.user.display_name, post.user.url, class: "p-name u-url"
+        - if post.user.present?
+          .post-avatar
+            = avatar post.user
+          = link_to post.user.display_name, post.user.url, class: "p-name u-url"
+        - else
+          = link_to post.domain, post.domain.with_http, class: "p-name u-url"
       li.post-time
         time class="dt-published" datetime=post.published_at.iso8601
           = link_to l(post.published_at, format: :post), post.url, class: "u-url"
