@@ -17,8 +17,10 @@ class PostPusher
     push_to_local_timelines
 
     # send webmentions for referenced links
-    extract_referenced_links.each do |link|
-      Webmentioner.new(@post.url, link).send!
+    urls = extract_referenced_links
+    Rails.logger.info "Sending webmentions to the following URLs: #{urls.to_sentence}"
+    urls.each do |url|
+      Webmentioner.new(@post.url, url).send!
     end
   end
 
@@ -38,7 +40,7 @@ private
     links = doc.css('a').map { |link| link[:href] }
 
     # add referenced guid
-    links << @post.referenced_guid.with_http if @post.referenced_guid.present?
+    links << @post.referenced_url if @post.referenced_url.present?
 
     # remove empty/duplicate elements
     links.compact.uniq
