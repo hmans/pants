@@ -24,6 +24,7 @@ html
 
     // pants api discovery
     link rel="pants" href=discovery_url(format: 'json') type="application/json"
+    link rel="pants.user" href=user_url(format: 'json') type="application/json"
 
     // indieauth links
     - current_site.web_links.each do |url|
