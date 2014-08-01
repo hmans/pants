@@ -87,6 +87,11 @@ nav[role="pagination"] {
   }
 }
 
+// kaminari built-in pagination
+nav.pagination {
+  @extend p;
+  text-align: center;
+}
 
 // NOTES
 

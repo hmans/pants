@@ -1,3 +1,5 @@
+- pings = @pings.page(params[:page]).per(50)
+
 table
   thead
     tr
@@ -6,4 +8,6 @@ table
       th Target
       th Recipient/Post
   tbody
-    = render @pings
+    = render pings
+
+= paginate pings
