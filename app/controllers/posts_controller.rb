@@ -84,7 +84,13 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post.referenced_url = params[:referenced_url]
+    if params[:referenced_url]
+      @post.referenced_url = params[:referenced_url]
+    elsif params[:referenced_guid]
+      # LEGACY: handle referenced_guid parameter that may be sent by existing bookmarklets
+      @post.referenced_url = params[:referenced_guid].with_http
+    end
+
     respond_with @post
   end
 
