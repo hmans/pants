@@ -7,7 +7,7 @@ module Backgroundable
 
     def run(*args, &blk)
       Thread.new do
-        with_appsignal do
+        with_exception_notifications do
           with_database do
             with_transaction do
               yield if block_given?
@@ -25,31 +25,14 @@ module Backgroundable
       ActiveRecord::Base.transaction(&blk)
     end
 
-    def with_appsignal(&blk)
+    def with_exception_notifications(&blk)
       yield
-
-      # if defined?(Appsignal) && Appsignal::Transaction.current.nil?
-      #   begin
-      #     Appsignal::Transaction.create(SecureRandom.uuid, ENV.to_hash)
-
-      #     ActiveSupport::Notifications.instrument('perform_job.backgroundable',
-      #       :class      => (@opts[:klass] || self.class).to_s,
-      #       :method     => (@opts[:method] || 'run').to_s,
-      #       :queue_time => (Time.now - @time_created).to_f
-      #     ) do
-      #       yield
-      #     end
-      #   rescue Exception => exception
-      #     unless Appsignal.is_ignored_exception?(exception)
-      #       Appsignal::Transaction.current.add_exception(exception)
-      #     end
-      #     raise exception
-      #   ensure
-      #     Appsignal::Transaction.current.complete!
-      #   end
-      # else
-      #   yield
-      # end
+    rescue => e
+      ExceptionNotifier.notify_exception(e, data: {
+        :class      => (@opts[:klass] || self.class).to_s,
+        :method     => (@opts[:method] || 'run').to_s,
+        :queue_time => (Time.now - @time_created).to_f
+      })
     end
   end
 

@@ -1,3 +1,7 @@
+# This is the Capistrano configuration file I'm using to deploy to http://pants.social/.
+# It will likely not work out of the box for you. If you want to use Capistrano
+# to deploy #pants, please modify this file first.
+#
 require 'dotenv'
 Dotenv.load
 
@@ -28,7 +32,7 @@ set :log_level, :info
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{.env.production}
+set :linked_files, %w{.env.production config/initializers/action_mailer.rb}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}

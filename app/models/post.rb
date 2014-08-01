@@ -40,7 +40,7 @@ class Post < ActiveRecord::Base
           self.tags = TagExtractor.extract_tags(HTML::FullSanitizer.new.sanitize(body_html)).map(&:downcase)
         rescue Exception => e
           if Rails.env.production?
-            # Appsignal.send_exception(e) if defined?(Appsignal)
+            ExceptionNotifier.notify_exception(e)
             errors.add(:body, "could not be rendered to HTML. Sorry!")
           else
             raise
