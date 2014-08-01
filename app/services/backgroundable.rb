@@ -26,28 +26,30 @@ module Backgroundable
     end
 
     def with_appsignal(&blk)
-      if defined?(Appsignal) && Appsignal::Transaction.current.nil?
-        begin
-          Appsignal::Transaction.create(SecureRandom.uuid, ENV.to_hash)
+      yield
 
-          ActiveSupport::Notifications.instrument('perform_job.backgroundable',
-            :class      => (@opts[:klass] || self.class).to_s,
-            :method     => (@opts[:method] || 'run').to_s,
-            :queue_time => (Time.now - @time_created).to_f
-          ) do
-            yield
-          end
-        rescue Exception => exception
-          unless Appsignal.is_ignored_exception?(exception)
-            Appsignal::Transaction.current.add_exception(exception)
-          end
-          raise exception
-        ensure
-          Appsignal::Transaction.current.complete!
-        end
-      else
-        yield
-      end
+      # if defined?(Appsignal) && Appsignal::Transaction.current.nil?
+      #   begin
+      #     Appsignal::Transaction.create(SecureRandom.uuid, ENV.to_hash)
+
+      #     ActiveSupport::Notifications.instrument('perform_job.backgroundable',
+      #       :class      => (@opts[:klass] || self.class).to_s,
+      #       :method     => (@opts[:method] || 'run').to_s,
+      #       :queue_time => (Time.now - @time_created).to_f
+      #     ) do
+      #       yield
+      #     end
+      #   rescue Exception => exception
+      #     unless Appsignal.is_ignored_exception?(exception)
+      #       Appsignal::Transaction.current.add_exception(exception)
+      #     end
+      #     raise exception
+      #   ensure
+      #     Appsignal::Transaction.current.complete!
+      #   end
+      # else
+      #   yield
+      # end
     end
   end
 

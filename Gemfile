@@ -40,9 +40,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'httparty'
 gem 'webmention', github: 'indieweb/mention-client-ruby'
 
-# Monitoring
-gem 'appsignal'
-
 # Development & Testing only
 #
 group :test, :development do

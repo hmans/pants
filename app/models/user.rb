@@ -184,7 +184,7 @@ class User < ActiveRecord::Base
           begin
             PostUpserter.upsert!(json, posts_url)
           rescue StandardError => e
-            Appsignal.send_exception(e) if defined?(Appsignal)
+            # Appsignal.send_exception(e) if defined?(Appsignal)
             Rails.logger.warn "While polling #{domain}, a post raised: #{e}"
             nil
           end
