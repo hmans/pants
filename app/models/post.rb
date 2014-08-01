@@ -65,7 +65,7 @@ class Post < ActiveRecord::Base
     # Default editing timestamp to publishing timestamp
     self.edited_at ||= published_at
 
-    # LEGCAY: Copy referenced_guid to referenced_url
+    # LEGACY: Copy referenced_guid to referenced_url
     if read_attribute(:referenced_url).nil? && referenced_guid.present?
       write_attribute(:referenced_url, referenced_guid.with_http)
     end
