@@ -1,9 +1,9 @@
 header role="primary" class=(current_site.flair_uid.present? ? 'with-flair' : nil)
-  .header-container
+  .header-container.h-card
     - if current_site.image_uid.present?
-      = link_to image_tag(current_site.local_thumbnail.url), :root, class: 'header-site-image'
+      = link_to image_tag(current_site.local_thumbnail.url, class: 'u-photo'), :root, class: 'header-site-image'
     .header-site-info
       .header-site-name
-        = link_to current_site.display_name, :root
+        = link_to current_site.display_name, root_url, class: 'p-name u-url'
       .header-site-domain
         = link_to current_site.domain, :root
