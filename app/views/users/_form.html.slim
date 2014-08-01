@@ -32,6 +32,6 @@
   = field_set_tag "Bookmarklets" do
     p Drag the following bookmarklet to quickly reply to a post on another #pants site.
     .bookmarklets
-      a href="javascript:location.href='#{new_post_url}?referenced_guid='+encodeURIComponent(location.href)" Reply on #{current_site.domain}
+      a href="javascript:location.href='#{new_post_url}?referenced_url='+encodeURIComponent(location.href)" Reply on #{current_site.domain}
 
   = f.submit "Save Settings"
