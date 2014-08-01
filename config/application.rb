@@ -27,15 +27,6 @@ module Pants
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Disable some generators we don't need.
-    #
-    config.generators.stylesheets = false
-    config.generators.javascripts = false
-    config.generators.helper      = false
-
-    # LIVE mode?
-    config.live_mode = ENV['LIVE'].present?
-
     # Configure i18n to fall back to :en strings
     config.i18n.fallbacks = true
     config.i18n.fallbacks = [:en]

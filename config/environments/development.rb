@@ -1,6 +1,14 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Disable some generators we don't need.
+  #
+  config.generators.stylesheets = false
+  config.generators.javascripts = false
+  config.generators.helper      = false
+
+  # Cache stuff for multi-threading if LIVE is set
+  #
   if ENV['LIVE'].present?
     config.cache_classes = true
     config.eager_load = true
