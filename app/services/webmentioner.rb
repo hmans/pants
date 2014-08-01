@@ -12,6 +12,7 @@ class Webmentioner
     # fallback to legacy /ping implementation.
     #
     Rails.logger.info "Sending webmention/ping for #{@source} (target: #{@target})"
+
     if endpoint = client.supports_webmention?(@target)
       Rails.logger.info "Sending webmention to #{endpoint}"
       client.send_mention(endpoint, @source, @target)
@@ -20,6 +21,14 @@ class Webmentioner
       Rails.logger.info "Falling back to legacy ping on #{ping_url}"
       HTTParty.post(ping_url, body: { url: @source })
     end
+  rescue => e
+    ExceptionNotifier.notify_exception(e, data: {
+      source: @source,
+      target: @target,
+      opts: @opts
+    })
+
+    Rails.logger.error "Failed: #{e}"
   end
 
 private
