@@ -17,7 +17,7 @@ Rails.application.configure do
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
-  config.action_dispatch.rack_cache = true
+  config.action_dispatch.rack_cache = { metastore: "rails:/", entitystore: "rails:/", verbose: false }
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
   config.serve_static_assets = true
@@ -81,4 +81,10 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Enable lograge
+  config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    { host: event.payload[:host] }
+  end
 end

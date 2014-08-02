@@ -8,6 +8,13 @@ class ApplicationController < ActionController::Base
   #
   respond_to :html
 
+  # Note some extra data to be recorded by lograge.
+  #
+  def append_info_to_payload(payload)
+    super
+    payload[:host] = request.host
+  end
+
   concerning :ErrorHandling do
     included do
       rescue_from ActiveRecord::RecordNotFound, with: :render_404
