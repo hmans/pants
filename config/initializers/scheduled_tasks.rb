@@ -4,7 +4,7 @@ if Rails.env.production?
 
     Thread.new do
       timers = Timers::Group.new
-      timers.every(1.minute) { UserPoller.new.async.poll! }
+      timers.every(1.minute) { UserPoller.async }
       loop { timers.wait }
     end
   end

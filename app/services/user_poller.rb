@@ -1,21 +1,19 @@
-class UserPoller
-  include Backgroundable
-
-  def poll!
-    Rails.logger.info "UserPoller running..."
+class UserPoller < Service
+  def perform
+    logger.info "UserPoller running..."
 
     users_to_poll.each do |user|
-      Rails.logger.info "Polling #{user.domain}"
+      logger.info "Polling #{user.domain}"
 
       begin
-        UserFetcher.new(user.url).fetch!
+        UserFetcher.perform(user.url)
         user.poll!
       rescue StandardError => e
-        Rails.logger.error "Error while polling #{user.domain}: #{e.message}"
+        logger.error "Error while polling #{user.domain}: #{e.message}"
       end
     end
 
-    Rails.logger.info "UserPoller done."
+    logger.info "UserPoller done."
   end
 
   private

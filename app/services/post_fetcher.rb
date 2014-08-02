@@ -10,24 +10,20 @@
 # In addition to fetching the post, `PostFetcher` will add the post to the timelines
 # of local followers of the post's author.
 #
-class PostFetcher
-  include Backgroundable
-
+class PostFetcher < Service
   attr_reader :url, :opts, :response
 
   class InvalidData < RuntimeError ; end
 
-  def initialize(url, opts = {})
+  def perform(url, opts = {})
     @url = url.with_http
     @opts = opts
     @response = opts[:response]
-  end
 
-  def fetch!
-    Rails.logger.info "Fetching post: #{@url}"
+    logger.info "Fetching post: #{@url}"
 
     # Upsert the post's user
-    UserFetcher.fetch!(URI.parse(url).host)
+    UserFetcher.perform(URI.parse(url).host)
 
     # Try loading the post
     @response ||= HTTParty.get(url)
@@ -45,10 +41,10 @@ class PostFetcher
 
   def check_for_4xx
     if response.not_found?
-      Rails.logger.info "No post found at #{@url}"
+      logger.info "No post found at #{@url}"
 
       if post = Post[url]
-        Rails.logger.info "Deleting existing post found for #{@url}"
+        logger.info "Deleting existing post found for #{@url}"
 
         post.destroy
         post
@@ -73,7 +69,7 @@ class PostFetcher
   def import_json
     # If the response is JSON, assume it's a #pants post and import it.
     if response.content_type == 'application/json'
-      PostUpserter.upsert!(response.to_hash, url)
+      PostUpserter.perform(response.to_hash, url)
     end
   end
 
@@ -93,14 +89,8 @@ class PostFetcher
           'body_html' => mf2.entry.content.to_s
         }
 
-        PostUpserter.upsert!(data, url)
+        PostUpserter.perform(data, url)
       end
-    end
-  end
-
-  class << self
-    def fetch!(*args)
-      new(*args).fetch!
     end
   end
 end

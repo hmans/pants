@@ -1,15 +1,11 @@
-class WebmentionHandler
-  include Backgroundable
-
+class WebmentionHandler < Service
   attr_reader :site, :source, :target, :response
 
-  def initialize(site, source, target)
+  def perform(site, source, target)
     @site = site
     @source = source
     @target = target
-  end
 
-  def handle!
     # Basic sanity checks.
     return false if source.blank?
     return false if target.blank?
@@ -33,16 +29,10 @@ class WebmentionHandler
 private
 
   def fetch_post
-    PostFetcher.fetch!(source, response: response)
+    PostFetcher.perform(source, response: response)
   end
 
   def fetch_user
     # Coming soon...
-  end
-
-  class << self
-    def handle!(*args)
-      new(*args).handle!
-    end
   end
 end

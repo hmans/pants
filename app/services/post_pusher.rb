@@ -4,23 +4,19 @@
 # - the author's local & remote friends
 # - the author's local followers
 #
-class PostPusher
-  include Backgroundable
-
-  def initialize(post)
+class PostPusher < Service
+  def perform(post)
     @post = post
-  end
 
-  def push!
-    Rails.logger.info "Pushing post #{@post.url}..."
+    logger.info "Pushing post #{@post.url}..."
 
     push_to_local_timelines
 
     # send webmentions for referenced links
     urls = extract_referenced_links
-    Rails.logger.info "Sending webmentions to the following URLs: #{urls.to_sentence}"
+    logger.info "Sending webmentions to the following URLs: #{urls.to_sentence}"
     urls.each do |url|
-      Webmentioner.new(@post.url, url).send!
+      Webmentioner.perform(@post.url, url)
     end
   end
 

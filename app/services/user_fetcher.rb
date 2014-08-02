@@ -1,6 +1,4 @@
-class UserFetcher
-  include Backgroundable
-
+class UserFetcher < Service
   attr_reader :url, :uri, :opts, :response, :data
 
   class InvalidData < RuntimeError ; end
@@ -15,14 +13,12 @@ class UserFetcher
     url
   }
 
-  def initialize(url, opts = {})
+  def perform(url, opts = {})
     @url = url.with_http
     @uri = URI.parse(@url)
     @opts = opts
-  end
 
-  def fetch!
-    Rails.logger.info "Fetching user: #{@url}"
+    logger.info "Fetching user: #{@url}"
 
     User.transaction do
       @user = User.where(domain: @uri.host).first_or_initialize
@@ -47,13 +43,15 @@ class UserFetcher
           @user.save!
         end
       else
-        Rails.logger.info "-> Skipping #{@url}, recently fetched."
+        logger.info "-> Skipping #{@url}, recently fetched."
       end
 
       # Return user.
       @user
     end
   end
+
+  private
 
   def should_fetch?
     @opts[:force] || @user.new_record? || @user.updated_at < 30.minutes.ago
@@ -87,13 +85,5 @@ class UserFetcher
     end
 
     true
-  end
-
-  class << self
-    # Convenience method
-    #
-    def fetch!(*args)
-      new(*args).fetch!
-    end
   end
 end

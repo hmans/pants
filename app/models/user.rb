@@ -182,7 +182,7 @@ class User < ActiveRecord::Base
         # upsert posts in the database
         posts = posts_json.reverse.map do |json|
           begin
-            PostUpserter.upsert!(json, posts_url)
+            PostUpserter.perform(json, posts_url)
           rescue StandardError => e
             ExceptionNotifier.notify_exception(e)
             Rails.logger.warn "While polling #{domain}, a post raised: #{e}"

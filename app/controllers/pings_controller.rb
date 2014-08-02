@@ -10,7 +10,7 @@ class PingsController < ApplicationController
     current_site.pings.create!(source: source, target: target)
 
     # Defer to WebmentionHandler
-    WebmentionHandler.new(current_site, source, target).async.handle!
+    WebmentionHandler.async(current_site, source, target)
 
     # Pretend like nothing happened
     render nothing: true, status: :accepted

@@ -2,7 +2,7 @@
 # the JSON's source URL and updates inserts a post using this data
 # after performing some sanity checks.
 #
-class PostUpserter
+class PostUpserter < Service
   # The following attributes will be copied from post JSON responses
   # into local Post instances.
   #
@@ -26,12 +26,10 @@ class PostUpserter
 
   attr_accessor :json, :source_url
 
-  def initialize(json, source_url)
+  def perform(json, source_url)
     @json = json
     @source_url = source_url
-  end
 
-  def upsert!
     if json_sane?
       Post.transaction do
         post = Post.where(guid: json['guid']).first_or_initialize
@@ -76,13 +74,5 @@ class PostUpserter
     end
 
     true
-  end
-
-  class << self
-    # Convenience method
-    #
-    def upsert!(*args)
-      new(*args).upsert!
-    end
   end
 end

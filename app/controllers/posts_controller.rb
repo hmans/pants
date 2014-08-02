@@ -77,7 +77,7 @@ class PostsController < ApplicationController
 
     # If we haven't seen this post yet, or its last update was more than 1h ago, fetch it
     if @post.nil? || @post.updated_at < 1.hour.ago
-      @post = PostFetcher.new(params[:url]).fetch!
+      @post = PostFetcher.perform(params[:url])
     end
 
     render 'show'
@@ -145,12 +145,12 @@ private
     if @post.valid?
       if @post.referenced_guid.present?
         # Fetch referenced post
-        PostFetcher.new(@post.referenced_guid.with_http).async.fetch!
+        PostFetcher.async(@post.referenced_guid.with_http)
       end
     end
   end
 
   def push_post
-    PostPusher.new(@post).async.push! if @post.valid?
+    PostPusher.async(@post) if @post.valid?
   end
 end
