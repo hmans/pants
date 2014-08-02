@@ -3,7 +3,7 @@
   - if action_name == 'incoming'
     - content_for :extra_post_actions, flush: true do
       li.post-hide-link = link_to 'Hide', timeline_entry, method: 'delete', remote: true
-      li.post-add-friend-link = link_to 'Follow', friendships_path(friend: { url: timeline_entry.post.user.domain}), method: 'post'
+      - if timeline_entry.post.user.present?
+        li.post-add-friend-link = link_to 'Follow', friendships_path(friend: { url: timeline_entry.post.user.domain}), method: 'post'
 
   = render timeline_entry.post
-
