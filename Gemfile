@@ -67,6 +67,10 @@ end
 
 # Development only.
 group :development do
+  # Capistrano
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-chruby', require: false
+  gem 'capistrano-bundler', require: false
 end
 
 # Testing only.
@@ -78,13 +82,4 @@ end
 # Production only
 #
 group :production do
-end
-
-group :tools do
-  gem 'terminal-notifier'
-
-  # Capistrano
-  gem 'capistrano-rails'
-  gem 'capistrano-chruby'
-  gem 'capistrano-bundler'
 end
