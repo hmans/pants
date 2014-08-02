@@ -25,6 +25,8 @@ gem 'slodown', github: 'hmans/slodown'
 gem 'font-awesome-rails'
 gem 'kaminari'
 gem 'microformats2'
+gem 'dotenv'
+gem 'dotenv-rails'
 gem 'dotenv-deployment'
 
 # Binary asset handling
@@ -59,10 +61,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'
-
-  # .env loading
-  gem 'dotenv'
-  gem 'dotenv-rails'
 end
 
 # Development only.
