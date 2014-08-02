@@ -10,20 +10,23 @@ class WebmentionHandler
   end
 
   def handle!
+    # Basic sanity checks.
+    return false if source.blank?
+    return false if target.blank?
+    return false if site.blank?
+    return false unless URI.parse(target).host == site.domain
+
     # fetch the document
     @response = HTTParty.get(source)
 
-    # check if target is site's domain.
-    return false unless URI.parse(target).host == site.domain
-
     if post = fetch_post
-      # check if post actually contains a link to the target.
-      return false unless Nokogiri::HTML(post.body_html).css("a[href=\"#{target}\"]").any?
+      # check if post actually contains a link to the target (or references it).
+      return false unless post.referenced_url == target || Nokogiri::HTML(post.body_html).css("a[href=\"#{target}\"]").any?
 
       # Add the post to this user's timeline.
       site.add_to_timeline(post)
     elsif user = fetch_user
-      # track as follower
+      # TODO: track as follower
     end
   end
 
