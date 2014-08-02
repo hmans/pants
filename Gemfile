@@ -51,13 +51,11 @@ gem 'webmention', github: 'indieweb/mention-client-ruby'
 group :test, :development do
   # Spring application reloader
   gem 'spring'
-  gem "spring-commands-rspec"
+  gem 'spring-commands-rspec'
 
   # Debugging
   gem 'pry-rails'
   gem 'awesome_print'
-  gem 'better_errors'
-  gem 'binding_of_caller'
 
   # RSpec & friends
   gem 'rspec-rails'
@@ -71,6 +69,10 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-chruby', require: false
   gem 'capistrano-bundler', require: false
+
+  # Nicer error messages
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Testing only.
