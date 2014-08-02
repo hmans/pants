@@ -84,4 +84,7 @@ Rails.application.configure do
 
   # Enable lograge
   config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    { host: event.payload[:host] }
+  end
 end
