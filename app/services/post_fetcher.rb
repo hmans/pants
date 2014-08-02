@@ -23,10 +23,10 @@ class PostFetcher < Service
     logger.info "Fetching post: #{@url}"
 
     # Upsert the post's user
-    UserFetcher.perform(URI.parse(url).host)
+    UserFetcher.perform(URI.parse(@url).host)
 
     # Try loading the post
-    @response ||= HTTParty.get(url)
+    @response ||= HTTParty.get(@url)
     @post = check_for_4xx || check_for_linked_json || import_json # || import_mf2
 
     # If the post we have now is referencing another post, give that post a chance
