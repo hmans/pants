@@ -24,7 +24,7 @@ class UserFetcher < Service
       @user = User.where(domain: @uri.host).first_or_initialize
 
       if should_fetch?
-        @response = HTTParty.get(url)
+        @response = HTTParty.get(@url)
 
         # @data = extract_mf2 || fetch_pants_json
         @data = fetch_pants_json
