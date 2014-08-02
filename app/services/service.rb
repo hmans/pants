@@ -29,8 +29,9 @@ class Service
 
   def with_exception_notifications(*original_args, &blk)
     original_args = original_args.dup
-    yield
+    r = yield
     logger.info "SUCCESS"
+    r
   rescue => e
     logger.error "FAILED: #{e}"
 
