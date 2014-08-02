@@ -84,4 +84,5 @@ end
 # Production only
 #
 group :production do
+  gem 'lograge'
 end
