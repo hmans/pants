@@ -12,6 +12,11 @@ gem 'rack-cache', :require => 'rack/cache'
 gem 'timers'
 gem 'exception_notification'
 
+# .env configuration loading
+gem 'dotenv'
+gem 'dotenv-rails'
+gem 'dotenv-deployment'
+
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
@@ -25,9 +30,6 @@ gem 'slodown', github: 'hmans/slodown'
 gem 'font-awesome-rails'
 gem 'kaminari'
 gem 'microformats2'
-gem 'dotenv'
-gem 'dotenv-rails'
-gem 'dotenv-deployment'
 
 # Binary asset handling
 gem 'dragonfly'
