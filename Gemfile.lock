@@ -302,6 +302,7 @@ DEPENDENCIES
   capistrano-rails
   coffee-rails (~> 4.0.0)
   compass-rails
+  dotenv
   dotenv-deployment
   dotenv-rails
   dragonfly

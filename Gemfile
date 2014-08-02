@@ -25,6 +25,7 @@ gem 'slodown', github: 'hmans/slodown'
 gem 'font-awesome-rails'
 gem 'kaminari'
 gem 'microformats2'
+gem 'dotenv-deployment'
 
 # Binary asset handling
 gem 'dragonfly'
@@ -60,6 +61,7 @@ group :test, :development do
   gem 'ffaker'
 
   # .env loading
+  gem 'dotenv'
   gem 'dotenv-rails'
 end
 
@@ -76,8 +78,6 @@ end
 # Production only
 #
 group :production do
-  # .env loading for production
-  gem 'dotenv-deployment'
 end
 
 group :tools do
