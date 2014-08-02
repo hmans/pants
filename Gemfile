@@ -11,6 +11,7 @@ gem 'puma'
 gem 'rack-cache', :require => 'rack/cache'
 gem 'timers'
 gem 'exception_notification'
+gem 'lograge'
 
 # .env configuration loading
 gem 'dotenv'
@@ -84,5 +85,4 @@ end
 # Production only
 #
 group :production do
-  gem 'lograge'
 end
