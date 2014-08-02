@@ -12,6 +12,11 @@ gem 'rack-cache', :require => 'rack/cache'
 gem 'timers'
 gem 'exception_notification'
 
+# .env configuration loading
+gem 'dotenv'
+gem 'dotenv-rails'
+gem 'dotenv-deployment'
+
 # Frontend
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'
@@ -46,25 +51,28 @@ gem 'webmention', github: 'indieweb/mention-client-ruby'
 group :test, :development do
   # Spring application reloader
   gem 'spring'
-  gem "spring-commands-rspec"
+  gem 'spring-commands-rspec'
 
   # Debugging
   gem 'pry-rails'
   gem 'awesome_print'
-  gem 'better_errors'
-  gem 'binding_of_caller'
 
   # RSpec & friends
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'
-
-  # .env loading
-  gem 'dotenv-rails'
 end
 
 # Development only.
 group :development do
+  # Capistrano
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-chruby', require: false
+  gem 'capistrano-bundler', require: false
+
+  # Nicer error messages
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Testing only.
@@ -76,16 +84,4 @@ end
 # Production only
 #
 group :production do
-  # .env loading for production
-  gem 'dotenv-deployment'
-end
-
-group :tools do
-  gem 'invoker'
-  gem 'terminal-notifier'
-
-  # Capistrano
-  gem 'capistrano-rails'
-  gem 'capistrano-chruby'
-  gem 'capistrano-bundler'
 end
