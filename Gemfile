@@ -63,6 +63,14 @@ group :test, :development do
   gem 'dotenv-rails'
 end
 
+# Development only.
+group :development do
+  # Capistrano
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-chruby', require: false
+  gem 'capistrano-bundler', require: false
+end
+
 # Testing only.
 #
 group :test do
@@ -74,16 +82,4 @@ end
 group :production do
   # .env loading for production
   gem 'dotenv-deployment'
-end
-
-# Gems that should be installed, but will not be loaded automatically.
-#
-group :tools do
-  gem 'invoker'
-  gem 'terminal-notifier'
-
-  # Capistrano
-  gem 'capistrano-rails'
-  gem 'capistrano-chruby'
-  gem 'capistrano-bundler'
 end
