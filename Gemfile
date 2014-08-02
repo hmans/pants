@@ -66,9 +66,9 @@ end
 # Development only.
 group :development do
   # Capistrano
-  gem 'capistrano-rails'
-  gem 'capistrano-chruby'
-  gem 'capistrano-bundler'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-chruby', require: false
+  gem 'capistrano-bundler', require: false
 end
 
 # Testing only.
