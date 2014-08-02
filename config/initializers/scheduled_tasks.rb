@@ -3,7 +3,7 @@ if Rails.env.production?
     Rails.logger.info "Firing up scheduled tasks..."
 
     Thread.new do
-      timers = Timers.new
+      timers = Timers::Group.new
       timers.every(1.minute) { UserPoller.new.async.poll! }
       loop { timers.wait }
     end
