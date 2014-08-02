@@ -65,10 +65,6 @@ end
 
 # Development only.
 group :development do
-  # Capistrano
-  gem 'capistrano-rails'
-  gem 'capistrano-chruby'
-  gem 'capistrano-bundler'
 end
 
 # Testing only.
@@ -82,4 +78,14 @@ end
 group :production do
   # .env loading for production
   gem 'dotenv-deployment'
+end
+
+group :tools do
+  gem 'invoker'
+  gem 'terminal-notifier'
+
+  # Capistrano
+  gem 'capistrano-rails'
+  gem 'capistrano-chruby'
+  gem 'capistrano-bundler'
 end
