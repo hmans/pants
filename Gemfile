@@ -81,7 +81,6 @@ group :production do
 end
 
 group :tools do
-  gem 'invoker'
   gem 'terminal-notifier'
 
   # Capistrano
