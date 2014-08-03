@@ -1,10 +1,14 @@
 class BatchUserPoller < Service
   def perform
     domains = domains_to_poll
-    logger.info "About to poll the following domains: #{domains.to_sentence}"
+    if domains.any?
+      logger.info "About to poll the following domains: #{domains.to_sentence}"
 
-    domains.each do |domain|
-      UserPoller.perform(domain)
+      domains.each do |domain|
+        UserPoller.perform(domain)
+      end
+    else
+      logger.info "Nothing to be polled."
     end
   end
 

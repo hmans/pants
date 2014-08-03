@@ -18,8 +18,6 @@ class UserFetcher < Service
     @uri = URI.parse(@url)
     @opts = opts
 
-    logger.info "Fetching user: #{@url}"
-
     @user = User.where(domain: @uri.host).first_or_initialize
 
     if should_fetch?
