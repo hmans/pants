@@ -3,13 +3,9 @@ class UserPoller < Service
     users_to_poll.each do |user|
       logger.info "Polling #{user.domain}"
 
-      begin
-        UserFetcher.perform(user.url)
-        posts = user.poll!
-        logger.info "Received #{posts.size} post(s) from #{user.domain}."
-      rescue StandardError => e
-        logger.error "Error while polling #{user.domain}: #{e.message}"
-      end
+      UserFetcher.perform(user.url)
+      posts = user.poll!
+      logger.info "Received #{posts.size} post(s) from #{user.domain}."
     end
   end
 
