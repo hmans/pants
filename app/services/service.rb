@@ -14,8 +14,8 @@ class Service
   end
 
   def perform!(*args)
-    with_exception_notifications(*args) do
-      with_database do
+    with_database do
+      with_exception_notifications(*args) do
         with_transaction do
           perform(*args)
         end
