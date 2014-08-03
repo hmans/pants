@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
-  database: pants_production
-  username: pants
+  host: <%= ENV['PANTS_DATABASE_HOSTNAME'] %>
+  database: <%= ENV['PANTS_DATABASE_DB'] %>
+  username: <%= ENV['PANTS_DATABASE_USERNAME'] %>
   password: <%= ENV['PANTS_DATABASE_PASSWORD'] %>
