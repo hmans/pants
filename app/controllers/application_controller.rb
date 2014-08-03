@@ -15,6 +15,15 @@ class ApplicationController < ActionController::Base
     payload[:host] = request.host
   end
 
+  # Fun with threads! Check if this process' worker thread for scheduled
+  # tasks is alive.
+  #
+  if Rails.env.production?
+    before_filter do
+      ScheduledTasks.keepalive!
+    end
+  end
+
   concerning :ErrorHandling do
     included do
       rescue_from ActiveRecord::RecordNotFound, with: :render_404

@@ -1,28 +1,39 @@
-if Rails.env.production?
-  def fire_up_those_scheduled_tasks!
-    Rails.logger.info "Firing up scheduled tasks..."
+module ScheduledTasks
+  @mutex = Mutex.new
 
-    Thread.new do
+  extend self
+
+  def thread_running?
+    @thread && @thread.alive?
+  end
+
+  def keepalive!
+    return if thread_running?
+
+    @mutex.synchronize do
+      return if thread_running?
+      start_worker!
+    end
+  end
+
+  def start_worker!
+    logger.info "Starting worker thread for scheduled tasks."
+
+    @thread = Thread.new do
       timers = Timers::Group.new
-      timers.every(1.minute) { BatchUserPoller.perform }
+
+      # Actual tasks to perform. Yay! We're randomizing times a bit because in
+      # multi-process environments, we'll get more than one of these threads
+      # running at the same time, and this is a cheap way to keep stuff
+      # out of sync. I like pie.
+      #
+      timers.every(rand(50..70).seconds) { BatchUserPoller.perform }
+
       loop { timers.wait }
     end
   end
 
-  # First of all, look for Passenger
-  if defined?(PhusionPassenger)
-    Rails.logger.info "Passenger detected."
-    PhusionPassenger.on_event(:starting_worker_process) do |forked|
-      fire_up_those_scheduled_tasks!
-    end
-
-  # Check for Rack::Server (we don't want these running in our console.)
-  elsif defined?(Rack::Server)
-    Rails.logger.info "Rack::Server detected."
-    fire_up_those_scheduled_tasks!
-
-  # When we get here, we couldn't start up the background task. Shit!
-  elsif
-    Rails.logger.error "Failed to start scheduler thread. Polling disabled."
+  def logger
+    Rails.logger
   end
 end
