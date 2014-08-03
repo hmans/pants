@@ -20,6 +20,7 @@ module ScheduledTasks
     logger.info "Starting worker thread for scheduled tasks."
 
     @thread = Thread.new do
+      ActiveRecord::Base.establish_connection
       timers = Timers::Group.new
 
       # Actual tasks to perform. Yay! We're randomizing times a bit because in
