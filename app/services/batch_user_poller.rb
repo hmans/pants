@@ -14,8 +14,8 @@ class BatchUserPoller < Service
     User.remote
       .joins(:followings)
       .where("last_polled_at IS NULL OR last_polled_at < ?", 15.minutes.ago)
-      .order('Random()')
       .limit(10)
-      .pluck('domain')
+      .uniq
+      .pluck(:domain)
   end
 end
