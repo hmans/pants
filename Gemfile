@@ -9,7 +9,7 @@ gem 'pg'
 gem 'quiet_assets'
 gem 'puma'
 gem 'rack-cache', :require => 'rack/cache'
-gem 'timers'
+# gem 'timers'
 gem 'exception_notification'
 gem 'lograge'
 

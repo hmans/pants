@@ -144,7 +144,6 @@ GEM
     formatador (0.2.5)
     fssm (0.2.10)
     hike (1.2.3)
-    hitimes (1.2.2)
     httparty (0.13.1)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -281,8 +280,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    timers (4.0.0)
-      hitimes
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -339,7 +336,6 @@ DEPENDENCIES
   slodown!
   spring
   spring-commands-rspec
-  timers
   turbolinks
   uglifier (>= 1.3.0)
   webmention!
