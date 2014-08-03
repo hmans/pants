@@ -161,51 +161,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  # If A is following B, B is remote (= on a different #pants server), and B doesn't have
-  # A in their friends list, B won't push updates to A, so we need to actively poll B for
-  # updates.
-  #
-  concerning :Polling do
-    included do
-      scope :can_be_polled, -> { remote.where("last_polled_at IS NULL OR last_polled_at < ?", 15.minutes.ago) }
-    end
-
-    # Poll this user's posts via HTTP and place their posts in the
-    # timelines of followers (aka incoming friends.)
-    #
-    def poll!
-      # Never poll for hosted users.
-      unless hosted? || followings.empty?
-        posts_url = URI.join(url, '/posts.json').to_s
-        posts_json = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
-
-        # upsert posts in the database
-        posts = posts_json.reverse.map do |json|
-          begin
-            PostUpserter.perform(json, posts_url)
-          rescue StandardError => e
-            ExceptionNotifier.notify_exception(e)
-            Rails.logger.warn "While polling #{domain}, a post raised: #{e}"
-            nil
-          end
-        end.compact
-
-        # add posts to local followers' timelines
-        followings.includes(:user).each do |friendship|
-          posts.each do |post|
-            if friendship.created_at <= post.edited_at
-              friendship.user.add_to_timeline(post)
-            end
-          end
-        end
-
-        posts
-      end
-    ensure
-      touch(:last_polled_at)
-    end
-  end
-
   class << self
     def [](url)
       host = URI.parse(url.with_http).host
