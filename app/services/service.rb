@@ -44,6 +44,9 @@ class Service
     # Send exception notification
     ExceptionNotifier.notify_exception(e, data: data)
 
+    # Re-raise exception in development
+    raise if Rails.env.development?
+
     # Done with this grim task.
     nil
   end
