@@ -18,5 +18,9 @@ if Rails.env.production?
     PhusionPassenger.on_event(:starting_worker_process) do |forked|
       fire_up_those_scheduled_tasks!
     end
+
+  # When we get here, we couldn't start up the background task. Shit!
+  elsif
+    Rails.logger.error "Failed to start scheduler thread. Polling disabled."
   end
 end
