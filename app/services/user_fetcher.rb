@@ -20,35 +20,33 @@ class UserFetcher < Service
 
     logger.info "Fetching user: #{@url}"
 
-    User.transaction do
-      @user = User.where(domain: @uri.host).first_or_initialize
+    @user = User.where(domain: @uri.host).first_or_initialize
 
-      if should_fetch?
-        @response = HTTParty.get(@url)
+    if should_fetch?
+      @response = HTTParty.get(@url)
 
-        # @data = extract_mf2 || fetch_pants_json
-        @data = fetch_pants_json
-        return nil if @data.blank?
+      # @data = extract_mf2 || fetch_pants_json
+      @data = fetch_pants_json
+      return nil if @data.blank?
 
-        if data_sane?
-          # Transfer attributes from JSON.
-          @user.attributes = @data.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
+      if data_sane?
+        # Transfer attributes from JSON.
+        @user.attributes = @data.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
 
-          # NOTE: We always set #updated_at because the previous operation may
-          # not have changed any attributes. In this case, the following #save!
-          # would essentially no-op.
-          @user.updated_at = Time.now
+        # NOTE: We always set #updated_at because the previous operation may
+        # not have changed any attributes. In this case, the following #save!
+        # would essentially no-op.
+        @user.updated_at = Time.now
 
-          # Done!
-          @user.save!
-        end
-      else
-        logger.info "-> Skipping #{@url}, recently fetched."
+        # Done!
+        @user.save!
       end
-
-      # Return user.
-      @user
+    else
+      logger.info "-> Skipping #{@url}, recently fetched."
     end
+
+    # Return user.
+    @user
   end
 
   private

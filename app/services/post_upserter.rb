@@ -31,22 +31,20 @@ class PostUpserter < Service
     @source_url = source_url
 
     if json_sane?
-      Post.transaction do
-        post = Post.where(guid: json['guid']).first_or_initialize
+      post = Post.where(guid: json['guid']).first_or_initialize
 
-        if post.new_record? || post.edited_at < json['edited_at']
-          # Transfer whitelisted attributes
-          post.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
+      if post.new_record? || post.edited_at < json['edited_at']
+        # Transfer whitelisted attributes
+        post.attributes = json.slice(*ACCESSIBLE_JSON_ATTRIBUTES)
 
-          # Extract #domain and #slug from #url
-          post.domain = @post_uri.host
-          post.slug   = @post_uri.path.sub(/^\//, '')
+        # Extract #domain and #slug from #url
+        post.domain = @post_uri.host
+        post.slug   = @post_uri.path.sub(/^\//, '')
 
-          post.save!
-        end
-
-        post
+        post.save!
       end
+
+      post
     end
   end
 
