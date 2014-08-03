@@ -9,15 +9,17 @@ if Rails.env.production?
     end
   end
 
-  # Ensure the jobs run only in a web server.
-  if defined?(Rack::Server)
-    fire_up_those_scheduled_tasks!
-
-  # Make this thing work in Passenger, too.
-  elsif defined?(PhusionPassenger)
+  # First of all, look for Passenger
+  if defined?(PhusionPassenger)
+    Rails.logger.info "Passenger detected."
     PhusionPassenger.on_event(:starting_worker_process) do |forked|
       fire_up_those_scheduled_tasks!
     end
+
+  # Check for Rack::Server (we don't want these running in our console.)
+  elsif defined?(Rack::Server)
+    Rails.logger.info "Rack::Server detected."
+    fire_up_those_scheduled_tasks!
 
   # When we get here, we couldn't start up the background task. Shit!
   elsif
