@@ -10,12 +10,11 @@ if Rails.env.production?
   end
 
   # Ensure the jobs run only in a web server.
-  if defined?(Rails::Server)
+  if defined?(Rack::Server)
     fire_up_those_scheduled_tasks!
-  end
 
   # Make this thing work in Passenger, too.
-  if defined?(PhusionPassenger)
+  elsif defined?(PhusionPassenger)
     PhusionPassenger.on_event(:starting_worker_process) do |forked|
       fire_up_those_scheduled_tasks!
     end
