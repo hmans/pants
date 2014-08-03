@@ -16,6 +16,6 @@ class UserPoller < Service
   private
 
   def users_to_poll
-    User.can_be_polled.order('Random()').first(5)
+    User.can_be_polled.order('Random()').first(10)
   end
 end
