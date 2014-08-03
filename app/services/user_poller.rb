@@ -4,8 +4,11 @@ class UserPoller < Service
       logger.info "Polling #{user.domain}"
 
       UserFetcher.perform(user.url)
-      posts = user.poll!
-      logger.info "Received #{posts.size} post(s) from #{user.domain}."
+      if posts = user.poll!
+        logger.info "Received #{posts.size} post(s) from #{user.domain}."
+      else
+        logger.warn "Polling #{user.domain} failed. :("
+      end
     end
   end
 
