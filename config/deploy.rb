@@ -14,7 +14,10 @@ set :repo_url, 'git@github.com:hmans/pants.git'
 set :deploy_via, :remote_cache
 
 # Default branch is :master
-ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+current_branch = proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+if current_branch != 'master'
+  ask :branch, current_branch
+end
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/home/pants'
