@@ -2,7 +2,7 @@ json.pants do
   json.user do
     json.url current_site.url
     json.display_name current_site.display_name
-    json.image URI.join(current_site.url, current_site.local_image.url).to_s
+    json.image URI.join(current_site.url, '/user.jpg').to_s
     json.counts do
       json.posts current_site.posts.count
       json.following current_site.friends.count
