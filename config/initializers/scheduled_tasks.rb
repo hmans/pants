@@ -28,6 +28,7 @@ module ScheduledTasks
       # out of sync. I like pie.
       #
       timers.every(rand(50..70).seconds) { BatchUserPoller.perform }
+      timers.every(rand(50..70).seconds) { FriendshipChecker.perform }
 
       loop { timers.wait }
     end

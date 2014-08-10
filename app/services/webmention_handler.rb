@@ -15,12 +15,19 @@ class WebmentionHandler < Service
     # fetch the document
     @response = HTTParty.get(source)
 
+    # Process new followers
+    if @response.success? && (target.to_guid == site.domain)
+      logger.info "Target is user's homepage, so checking for rel-following"
+      RelFollowingChecker.perform(source, response: @response)
+    end
+
     if post = fetch_post
       # check if post actually contains a link to the target (or references it).
       return false unless post.referenced_url == target || Nokogiri::HTML(post.body_html).css("a[href=\"#{target}\"]").any?
 
       # Add the post to this user's timeline.
       site.add_to_timeline(post)
+
     elsif user = fetch_user
       # TODO: track as follower
     end

@@ -9,3 +9,9 @@ section.users
     = field_set_tag t('.form_title') do
       = f.input :url, input_html: { value: params[:url] }
     = f.submit t('.form_button')
+
+- if params[:d].blank?
+  - if (followers = current_site.followers)
+    h2 Followers
+    section.users
+      = render followers, rel: 'follower'

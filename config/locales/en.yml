@@ -42,7 +42,7 @@ en:
       friend:
         url: "URL of user to follow:"
       user:
-        friends_visible: "Make your Following list public"
+        friends_visible: "Make your Following page public"
         web_links_text: "Links to other profiles on the web"
     # Labels and hints examples
     # labels:

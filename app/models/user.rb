@@ -26,6 +26,12 @@ class User < ActiveRecord::Base
     self.url ||= domain.try(:with_http)
   end
 
+  # Users are either hosted or remote.
+  #
+  def remote?
+    !hosted?
+  end
+
   # Users can have posts. Which is kind of convenient considering we're dealing
   # with a distributed social _blogging_ platform.
   #
@@ -97,10 +103,17 @@ class User < ActiveRecord::Base
 
     def add_friend(friend)
       # Upsert friendship
-      friendships.where(friend_id: friend.id).first_or_create!
+      friendship = friendships.where(friend_id: friend.id).first_or_initialize
+      if friendship.new_record?
+        friendship.save!
+      else
+        friendship.touch
+      end
 
-      # Make existing timeline posts visible
-      timeline_entries.joins(:post).where(posts: { domain: friend.domain }).update_all(from_friend: true)
+      if hosted?
+        # Make existing timeline posts visible
+        timeline_entries.joins(:post).where(posts: { domain: friend.domain }).update_all(from_friend: true)
+      end
     end
 
     # Returns a list of locally known users that have posts waiting

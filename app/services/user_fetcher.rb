@@ -40,7 +40,7 @@ class UserFetcher < Service
         @user.save!
       end
     else
-      logger.info "-> Skipping #{@url}, recently fetched."
+      logger.info "-> Skipping #{@url}, recently fetched or local."
     end
 
     # Return user.
@@ -50,7 +50,7 @@ class UserFetcher < Service
   private
 
   def should_fetch?
-    @opts[:force] || @user.new_record? || @user.updated_at < 30.minutes.ago
+    @user.remote? && (@opts[:force] || @user.new_record? || @user.updated_at < 30.minutes.ago)
   end
 
   def extract_mf2
