@@ -5,4 +5,4 @@
     = link_to user.display_name, user.url, rel: rel
   .user-info
     =' link_to user.domain, user.url
-    = yield(:extra) if content_for?(:extra)
+    = content_for :extra
