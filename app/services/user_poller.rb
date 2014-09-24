@@ -40,5 +40,9 @@ class UserPoller < Service
         posts
       end
     end
+
+  rescue SocketError => e
+    logger.error "Could not poll user: #{e}"
+    nil
   end
 end
