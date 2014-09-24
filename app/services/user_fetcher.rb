@@ -45,6 +45,9 @@ class UserFetcher < Service
 
     # Return user.
     @user
+  rescue SocketError => e
+    logger.error "Could not fetch user: #{e}"
+    nil
   end
 
   private
