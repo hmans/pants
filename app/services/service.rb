@@ -1,7 +1,9 @@
 class Service
   class ServiceLogger < Logger
+    attr_accessor :klass
+
     def format_message(severity, timestamp, progname, msg)
-      "#{timestamp.to_formatted_s(:db)} #{severity} #{msg}\n"
+      "#{timestamp.to_formatted_s(:db)} #{severity} #{klass.to_s} #{msg}\n"
     end
   end
 
@@ -75,9 +77,11 @@ class Service
 
     def logger
       @logger ||= begin
-        log = File.open("#{Rails.root}/log/#{self.to_s.underscore}.log", 'a')
+        log = File.open("#{Rails.root}/log/services.log", 'a')
         log.sync = true
-        ServiceLogger.new(log)
+        logger = ServiceLogger.new(log)
+        logger.klass = self
+        logger
       end
     end
   end
