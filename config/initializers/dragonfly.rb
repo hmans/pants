@@ -8,7 +8,7 @@ Dragonfly.app.configure do
 
   plugin :imagemagick
 
-  protect_from_dos_attacks true
+  verify_urls true
   secret Rails.application.secrets.dragonfly_secret
 
   url_format "/media/:job/:name"
