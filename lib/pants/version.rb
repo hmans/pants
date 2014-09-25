@@ -1,3 +1,3 @@
 module Pants
-  VERSION = "r104"
+  VERSION = "r105"
 end
