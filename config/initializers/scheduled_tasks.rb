@@ -29,6 +29,7 @@ module ScheduledTasks
       #
       timers.every(rand(50..70).seconds) { BatchUserPoller.perform }
       timers.every(rand(50..70).seconds) { FriendshipChecker.perform }
+      timers.every(rand(50..70).seconds) { FriendshipReminder.perform }
 
       loop { timers.wait }
     end
