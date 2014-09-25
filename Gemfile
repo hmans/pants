@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 
 # Core
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.6'
 gem 'pg'
 gem 'quiet_assets'
 gem 'puma'
