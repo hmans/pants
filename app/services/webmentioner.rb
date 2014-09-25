@@ -3,10 +3,10 @@ class Webmentioner < Service
     # If we can find a webmention endpoint, send a webmention; otherwise,
     # fallback to legacy /ping implementation.
     #
-    logger.info "Sending webmention/ping for #{source} (target: #{target})"
+    logger.info "Sending webmention. Source: \"#{source}\" Target: \"#{target}\""
 
     if endpoint = client.supports_webmention?(target)
-      logger.info "Sending webmention to #{endpoint}"
+      logger.info "Sending webmention to endpoint #{endpoint}"
       client.send_mention(endpoint, source, target)
     else
       ping_url = URI.join(target, '/ping')
