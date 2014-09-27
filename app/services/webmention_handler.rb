@@ -27,9 +27,6 @@ class WebmentionHandler < Service
 
       # Add the post to this user's timeline.
       site.add_to_timeline(post)
-
-    elsif user = fetch_user
-      # TODO: track as follower
     end
   end
 
@@ -37,9 +34,5 @@ private
 
   def fetch_post
     PostFetcher.perform(source, response: response)
-  end
-
-  def fetch_user
-    # Coming soon...
   end
 end
