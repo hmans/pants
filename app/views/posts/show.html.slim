@@ -9,14 +9,6 @@
 // The actual post
 = render @post
 
-// Render received likes
-- if (likes = @post.likes.includes(:user)).any?
-  section.post-likes
-    h2 Likes
-    ul.post-likes
-      - likes.each do |like|
-        li = link_to like.guid, like.url
-
 // Replies (received through incoming Pings)
 - if @post.received_pings.any?
   section.post-replies
