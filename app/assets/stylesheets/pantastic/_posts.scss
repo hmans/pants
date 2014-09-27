@@ -124,6 +124,10 @@ li.post-reply-link a {
   @extend .fa-reply;
 }
 
+li.post-like-link a {
+  @extend .fa-heart;
+}
+
 li.post-edit-link a {
   @extend .fa-edit;
 }
