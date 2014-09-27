@@ -1,0 +1,41 @@
+header
+  ul.post-information
+    li.post-author class="p-author h-card"
+      - if post.user.present?
+        .post-avatar
+          = avatar post.user
+        = link_to post.user.display_name, post.user.url, class: "p-name u-url"
+      - else
+        = link_to post.domain, post.domain.with_http, class: "p-name u-url"
+    li.post-time
+      time class="dt-published" datetime=post.published_at.iso8601
+        = link_to l(post.published_at, format: :post), post.url, class: "u-url"
+    - if post.number_of_replies > 0
+      li.post-number-of-replies
+        = link_to post.number_of_replies, post.url
+
+// show referenced post if available
+- if post.referenced_url.present? && (@post.blank? || @post == post)
+  .post-reference
+    | In reply to: #{link_to post.referenced_guid, post.referenced_url, class: "u-in-reply-to"}
+    - if show_referenced_post?(post)
+      blockquote = raw post.referenced_post.body_html
+
+// show actual post
+.post-title class="p-name"
+  = post.title
+.post-body class="e-content"
+  == post.body_html
+
+// post actions
+ul.post-actions
+  - if can?(:edit, post)
+    li.post-edit-link = link_to 'Edit', [:edit, post]
+  - if can?(:create, Post)
+    li.post-reply-link = link_to 'Reply', new_post_path(referenced_url: post.url)
+    - if like = post.likes.where(domain: current_user.domain).first
+      li.post-like-link = link_to 'Unlike', post_path(like), method: 'delete'
+    - else
+      li.post-like-link = link_to 'Like', posts_path(post: { type: 'pants.like', referenced_url: post.url, body: "I like this!" }), method: 'post'
+  - if content_for?(:extra_post_actions)
+    = yield :extra_post_actions

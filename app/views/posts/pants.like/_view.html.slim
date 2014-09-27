@@ -1,0 +1,6 @@
+p
+  ' #{link_to post.user.domain, post.user.url} liked
+  - if current_page?(post.referenced_url)
+    | this post.
+  - else
+    ' #{link_to post.referenced_guid, post.referenced_url}
