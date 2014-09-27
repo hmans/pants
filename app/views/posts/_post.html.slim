@@ -35,6 +35,9 @@
       li.post-edit-link = link_to 'Edit', [:edit, post]
     - if can?(:create, Post)
       li.post-reply-link = link_to 'Reply', new_post_path(referenced_url: post.url)
-      li.post-like-link = link_to 'Like', posts_path(post: { type: 'pants.like', referenced_url: post.url, body: "I like this!" }), method: 'post'
+      - if like = post.likes.where(domain: current_user.domain).first
+        li.post-like-link = link_to 'Unlike', post_path(like), method: 'delete'
+      - else
+        li.post-like-link = link_to 'Like', posts_path(post: { type: 'pants.like', referenced_url: post.url, body: "I like this!" }), method: 'post'
     - if content_for?(:extra_post_actions)
       = yield :extra_post_actions
