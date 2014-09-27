@@ -1,6 +1,12 @@
 article.post {
-  margin: 40px 0 70px 0;
   position: relative;
+
+  &.pants-post {
+    margin: 40px 0;
+  }
+  &.pants-like {
+    @extend %light;
+  }
 }
 
 article.post>header {
