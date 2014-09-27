@@ -20,6 +20,7 @@ class PostUpserter < Service
     data
     tags
     number_of_replies
+    number_of_likes
   }
 
   class InvalidData < RuntimeError ; end
