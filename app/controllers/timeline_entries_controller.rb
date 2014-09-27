@@ -9,7 +9,7 @@ class TimelineEntriesController < ApplicationController
     @timeline_entries = @timeline_entries
       .visible
       .includes(:post)
-      .order('created_at DESC')
+      .order('timeline_entries.created_at DESC')
       .limit(20)
   end
 
