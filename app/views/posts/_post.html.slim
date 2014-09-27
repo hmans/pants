@@ -1,4 +1,3 @@
-- hide_actions ||= false
 = content_tag_for(:article, post, class: 'h-entry') do
   header
     ul.post-information
@@ -30,11 +29,11 @@
   .post-body class="e-content"
     == post.body_html
 
-  - unless hide_actions
-    ul.post-actions
-      - if can?(:edit, post)
-        li.post-edit-link = link_to 'Edit', [:edit, post]
-      - if can?(:create, Post)
-        li.post-reply-link = link_to 'Reply', new_post_path(referenced_url: post.url)
-      - if content_for?(:extra_post_actions)
-        = yield :extra_post_actions
+  // post actions
+  ul.post-actions
+    - if can?(:edit, post)
+      li.post-edit-link = link_to 'Edit', [:edit, post]
+    - if can?(:create, Post)
+      li.post-reply-link = link_to 'Reply', new_post_path(referenced_url: post.url)
+    - if content_for?(:extra_post_actions)
+      = yield :extra_post_actions
