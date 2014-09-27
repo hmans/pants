@@ -250,6 +250,15 @@ class Post < ActiveRecord::Base
     end
   end
 
+  concerning :Likes do
+    included do
+      has_many :likes, -> { where(type: 'pants.like') },
+        class_name: 'Post',
+        foreign_key: 'referenced_guid',
+        primary_key: 'guid'
+    end
+  end
+
   class << self
     def [](v)
       find_by(guid: v.to_guid)
