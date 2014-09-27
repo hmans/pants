@@ -78,13 +78,15 @@ class Post < ActiveRecord::Base
   #
   before_save do
     # Only for posts by hosted users
-
     if user.try(:hosted?)
       # Count replies
       self.number_of_replies = received_pings.count('DISTINCT source')
 
+      # Count likes
+      self.number_of_likes = likes.count('DISTINCT domain')
+
       # Update edited_at if any of these attributes have changed
-      if (changed & ['body', 'body_html', 'data', 'tags', 'number_of_replies']).any?
+      if (changed & ['body', 'body_html', 'data', 'tags', 'number_of_replies', 'number_of_likes']).any?
         self.edited_at = Time.now
       end
     end
