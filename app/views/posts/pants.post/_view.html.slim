@@ -13,6 +13,9 @@ header
     - if post.number_of_replies > 0
       li.post-number-of-replies
         = link_to post.number_of_replies, post.url
+    - if post.number_of_likes > 0
+      li.post-number-of-likes
+        = link_to post.number_of_likes, post.url
 
 // show referenced post if available
 - if post.referenced_url.present? && (@post.blank? || @post == post)
