@@ -10,13 +10,15 @@ class PostPusher < Service
 
     logger.info "Pushing post #{@post.url}..."
 
-    push_to_local_timelines
+    push_to_local_timelines unless @post.destroyed?
 
     # send webmentions for referenced links
     urls = extract_referenced_links
-    logger.info "Sending webmentions to the following URLs: #{urls.to_sentence}"
-    urls.each do |url|
-      Webmentioner.perform(@post.url, url)
+    if urls.any?
+      logger.info "Sending webmentions to the following URLs: #{urls.to_sentence}"
+      urls.each do |url|
+        Webmentioner.perform(@post.url, url)
+      end
     end
   end
 

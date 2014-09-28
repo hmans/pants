@@ -11,8 +11,9 @@ class PostsController < ApplicationController
 
   # Hook up background processors to specific actions.
   #
-  after_filter :fetch_referenced_posts, only: [:create, :update]
-  after_filter :push_post, only: [:create, :update]
+  after_filter :fetch_referenced_posts,       only: [:create, :update]
+  after_filter :update_local_referenced_post, only: [:create, :update, :destroy]
+  after_filter :push_post,                    only: [:create, :update, :destroy]
 
   def index
     @posts = @posts.latest.includes(:user)
@@ -150,7 +151,11 @@ private
     end
   end
 
+  def update_local_referenced_post
+    @post.reference.try(:save!)
+  end
+
   def push_post
-    PostPusher.async(@post) if @post.valid?
+    PostPusher.async(@post) if @post.destroyed? || @post.valid?
   end
 end
