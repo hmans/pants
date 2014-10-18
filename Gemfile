@@ -6,9 +6,8 @@ ruby '2.1.2'
 # Core
 gem 'rails', '4.1.6'
 gem 'pg'
-gem 'quiet_assets'
-gem 'puma'
-gem 'rack-cache', :require => 'rack/cache'
+gem 'puma', require: false
+gem 'rack-cache', require: 'rack/cache'
 gem 'timers'
 gem 'exception_notification'
 gem 'lograge'
@@ -74,6 +73,9 @@ group :development do
   # Nicer error messages
   gem 'better_errors'
   gem 'binding_of_caller'
+
+  # Log cleanup
+  gem 'quiet_assets'
 end
 
 # Testing only.
