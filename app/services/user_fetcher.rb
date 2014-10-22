@@ -21,7 +21,7 @@ class UserFetcher < Service
     @user = User.where(domain: @uri.host).first_or_initialize
 
     if should_fetch?
-      @response = HTTParty.get(@url)
+      @response = HTTP.get(@url, verify: false)
 
       # @data = extract_mf2 || fetch_pants_json
       @data = fetch_pants_json
@@ -69,7 +69,7 @@ class UserFetcher < Service
   end
 
   def fetch_pants_json
-    response = HTTParty.get(URI.join(uri, '/user.json'))
+    response = HTTP.get(URI.join(uri, '/user.json'))
     response.to_hash if response.success?
   end
 

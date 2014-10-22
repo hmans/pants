@@ -12,7 +12,7 @@ describe UserPoller do
       allow(subject).to receive(:logger)
         .and_return(logger)
 
-      expect(HTTParty).to receive(:get)
+      expect(HTTP).to receive(:get)
         .with('http://notreachable.com/posts.json', anything)
         .and_raise(SocketError)
     end

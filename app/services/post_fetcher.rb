@@ -26,7 +26,7 @@ class PostFetcher < Service
     UserFetcher.perform(URI.parse(@url).host)
 
     # Try loading the post
-    @response ||= HTTParty.get(@url)
+    @response ||= HTTP.get(@url)
     @post = check_for_4xx || check_for_linked_json || import_json # || import_mf2
 
     # If the post we have now is referencing another post, give that post a chance
@@ -58,7 +58,7 @@ class PostFetcher < Service
 
       if link_tag = document.css('link[rel="alternate"][type="application/json"]').first
         # Overwrite response with fetched JSON
-        @response = HTTParty.get(link_tag[:href])
+        @response = HTTP.get(link_tag[:href])
 
         # Return false to continue processing
         false

@@ -15,7 +15,9 @@ class UserPoller < Service
       user.update_column(:last_polled_at, Time.now)  # `touch` would update updated_at :(
 
       posts_url = URI.join(user.url, '/posts.json').to_s
-      posts_json = HTTParty.get(posts_url, query: { updated_since: last_polled_at.try(:to_i) })
+      posts_json = HTTP.get(posts_url,
+        query: { updated_since: last_polled_at.try(:to_i) },
+        verify: false)
 
       if posts_json.content_type != 'application/json'
         logger.warn "#{user.domain} didn't correctly serve /posts.json"

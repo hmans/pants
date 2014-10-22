@@ -9,7 +9,7 @@ class Webmentioner < Service
     else
       ping_url = URI.join(target, '/ping')
       logger.info "Using legacy ping: #{ping_url}"
-      HTTParty.post(ping_url, body: { url: source })
+      HTTP.post(ping_url, body: { url: source })
     end
   end
 

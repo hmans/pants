@@ -13,7 +13,7 @@ class WebmentionHandler < Service
     return false unless URI.parse(target).host == site.domain
 
     # fetch the document
-    @response = HTTParty.get(source)
+    @response = HTTP.get(source)
 
     # Process new followers
     if @response.success? && (target.to_guid == site.domain)

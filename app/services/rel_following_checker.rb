@@ -1,6 +1,6 @@
 class RelFollowingChecker < Service
   def perform(url, opts = {})
-    response = opts[:response] || HTTParty.get(url)
+    response = opts[:response] || HTTP.get(url)
 
     if response.success?
       mf2 = Microformats2.parse(response.body).to_hash

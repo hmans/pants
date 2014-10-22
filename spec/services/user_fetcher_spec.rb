@@ -8,8 +8,8 @@ describe UserFetcher do
       allow(subject).to receive(:logger)
         .and_return(logger)
 
-      expect(HTTParty).to receive(:get)
-        .with('http://notreachable.com')
+      expect(HTTP).to receive(:get)
+        .with('http://notreachable.com', verify: false)
         .and_raise(SocketError)
     end
 
