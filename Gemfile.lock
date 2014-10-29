@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/hmans/slodown.git
-  revision: a6966570fc5f51f3bfc6cd1f71ef2169aeae6a7d
+  revision: 3d4c560a5a6df6fb5b5fe11fcb6ef8f7303568d1
+  branch: master
   specs:
     slodown (0.1.3)
       coderay (>= 1.0.0)
@@ -163,7 +164,7 @@ GEM
     kaminari (0.16.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    kramdown (1.4.2)
+    kramdown (1.5.0)
     link_header (0.0.8)
     lograge (0.3.0)
       actionpack (>= 3)
