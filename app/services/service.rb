@@ -18,8 +18,10 @@ class Service
   def perform!(*args)
     with_database do
       with_exception_notifications(*args) do
-        with_transaction do
-          perform(*args)
+        with_network_failure_handling do
+          with_transaction do
+            perform(*args)
+          end
         end
       end
     end
@@ -27,6 +29,12 @@ class Service
 
   def perform_async(*args)
     perform_sync(*args)
+  end
+
+  def with_network_failure_handling
+    yield
+  rescue OpenSSL::SSL::SSLError => e
+    logger.error "NETWORK FAILURE: #{e}"
   end
 
   def with_exception_notifications(*original_args, &blk)
