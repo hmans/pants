@@ -33,7 +33,7 @@ class Service
 
   def with_network_failure_handling
     yield
-  rescue SocketError, OpenSSL::SSL::SSLError => e
+  rescue Timeout::Error, SocketError, OpenSSL::SSL::SSLError => e
     logger.error "NETWORK FAILURE: #{e}"
   end
 
