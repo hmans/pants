@@ -33,7 +33,9 @@ class PostsController < ApplicationController
         end
 
         # always limit posts to a maximum of 100
-        @posts = @posts.limit(100)
+        unless params[:limit] == "all"
+          @posts = @posts.limit(params[:limit].presence || 100)
+        end
       end
     end
   end
